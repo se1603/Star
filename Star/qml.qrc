@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TopArea/TopArea.qml</file>
+        <file>MiddleArea/MiddleArea.qml</file>
+        <file>TopArea/TopSearch.qml</file>
+        <file>TopArea/RightButton.qml</file>
+        <file>image/TopArea/ac0.png</file>
+        <file>image/TopArea/back.jpg</file>
+        <file>image/TopArea/list.png</file>
+        <file>image/TopArea/search.png</file>
+        <file>image/TopArea/setting1.png</file>
+        <file>image/TopArea/skin.png</file>
+        <file>image/TopArea/timg.jpg</file>
+        <file>image/TopArea/user.png</file>
+        <file>image/TopArea/renew.jpg</file>
+        <file>image/TopArea/skin.jpg</file>
+    </qresource>
+</RCC>
