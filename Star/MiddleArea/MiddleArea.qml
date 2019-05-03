@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 
-import "../PlayArea"
+//import "../PlayArea"
 
 Rectangle {
     id:middlearea

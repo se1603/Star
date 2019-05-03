@@ -11,11 +11,12 @@ Rectangle {
 //    border.color: "grey"
 
     ListView{
+        id:category
         anchors.top:parent.top
         anchors.topMargin: 20
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 20
-        model: mainModel
+        model: JSON.parse(client.showCategory(0))
         delegate: mainDelegate
     }
 
@@ -27,7 +28,7 @@ Rectangle {
             anchors.left: parent.left
 //            anchors.leftMargin: 5
             Text {
-                text:toolBar
+                text: modelData.category
                 opacity: 0.5
                 font.pixelSize: 15
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -51,25 +52,25 @@ Rectangle {
         }
     }
 
-    ListModel{
-        id:mainModel
-        ListElement{
-            toolBar:"精选"
-        }
-        ListElement{
-            toolBar:"动漫"
-        }
-        ListElement{
-            toolBar:"电影"
-        }
-        ListElement{
-            toolBar:"剧集"
-        }
-        ListElement{
-            toolBar:"综艺"
-        }
+//    ListModel{
+//        id:mainModel
+//        ListElement{
+//            toolBar:"精选"
+//        }
+//        ListElement{
+//            toolBar:"动漫"
+//        }
+//        ListElement{
+//            toolBar:"电影"
+//        }
+//        ListElement{
+//            toolBar:"剧集"
+//        }
+//        ListElement{
+//            toolBar:"综艺"
+//        }
 
-    }
+//    }
 
     function load_page(page){
         switch(page){

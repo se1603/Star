@@ -123,6 +123,26 @@ Rectangle {
                 }
             ]
         }
+        ListElement{
+            name:"剧集精选"
+            attributes:[
+                ListElement{
+                    url:"剧集精选1"
+                },
+                ListElement{
+                    url:"剧集精选2"
+                },
+                ListElement{
+                    url:"剧集精选3"
+                },
+                ListElement{
+                    url:"剧集精选4"
+                },
+                ListElement{
+                    url:"剧集精选5"
+                }
+            ]
+        }
     }
 
     //    Component {
