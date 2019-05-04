@@ -31,7 +31,6 @@ public:
     std::string receive(boost::asio::ip::udp::endpoint &sender_ep);
 
     long int sendFile(FILE *fp, endpoint ep);
-
 private:
     socket_ptr sock;
 };

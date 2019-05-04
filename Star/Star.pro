@@ -15,7 +15,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     client.cpp \
-    network.cpp
+    network.cpp \
+    audience.cpp \
+    collection.cpp \
+    record.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,6 +35,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     client.h \
-    network.h
+    network.h \
+    audience.h \
+    collection.h \
+    record.h
 
 LIBS += -lboost_system -ljsoncpp

@@ -176,7 +176,7 @@ std::string NetWork::receive()
                     sock->send_to(boost::asio::buffer((char *)&pack_info,sizeof(pack_info)),sender_ep);
                     memcpy(buffer + read,data.buff,sizeof (data.buff));
                     read += len;
-                    std::cout << buffer << std::endl;
+//                    std::cout << buffer << std::endl;
                 }
                 else {
                     //错误包，重发

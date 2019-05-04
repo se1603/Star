@@ -1,5 +1,35 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>Audience/AudienceCollection.qml</file>
+        <file>Audience/AudienceInterface.qml</file>
+        <file>Audience/AudienceMenu.qml</file>
+        <file>Audience/AudienceMessage.qml</file>
+        <file>Audience/AudiencePoupItem.qml</file>
+        <file>Audience/AudienceRecord.qml</file>
+        <file>Audience/AudienceVideoRec.qml</file>
+        <file>Audience/LoginItem.qml</file>
+        <file>Audience/MessageReceiveView.qml</file>
+        <file>Audience/MessageSendView.qml</file>
+        <file>Audience/RegisterItem.qml</file>
+        <file>image/audience/popup_background.jpg</file>
+        <file>image/audience/popup_background2.jpg</file>
+        <file>image/audience/头像.jpg</file>
+        <file>image/TopArea/ac0.png</file>
+        <file>image/TopArea/back.jpg</file>
+        <file>image/TopArea/list.png</file>
+        <file>image/TopArea/renew.jpg</file>
+        <file>image/TopArea/search.png</file>
+        <file>image/TopArea/setting1.png</file>
+        <file>image/TopArea/skin.jpg</file>
+        <file>image/TopArea/skin.png</file>
+        <file>image/TopArea/timg.jpg</file>
+        <file>image/TopArea/user.png</file>
+        <file>MiddleArea/MiddleArea.qml</file>
+        <file>TopArea/RightButton.qml</file>
+        <file>TopArea/TopArea.qml</file>
+        <file>TopArea/TopSearch.qml</file>
+        <file>MainItem.qml</file>
+        <file>Audience/Dir.qml</file>
     </qresource>
 </RCC>

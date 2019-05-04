@@ -3,18 +3,34 @@
 #include <qdebug.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.141"),8001);
-boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7788));
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.103.248"),8001);
+boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
+boost::asio::ip::udp::endpoint ep(boost::asio::ip::udp::v4(),6666);
 
 
-Client::Client()
+Client::Client(QObject *parent):QObject(parent)
 {
 
 }
 
+void Client::splictString(std::string &s, std::vector<std::string> &v, const std::string &c)
+{
+    std::string::size_type pos1,pos2;
+    pos2 = s.find(c);
+    pos1 = 0;
+    while(std::string::npos != pos2){
+        v.push_back(s.substr(pos1, pos2-pos1));
+
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
+    }
+    if(pos1 != s.length())
+        v.push_back(s.substr(pos1));
+}
+
 void Client::connectServer()
 {
-    getFile();
+    //    getFile();
 }
 
 void Client::getFile()
@@ -28,7 +44,7 @@ void Client::getFile()
     receiveFile(message);
 }
 
-bool Client::sendMessage(std::string message)
+socket_ptr Client::sendMessage(std::string message)
 {
     std::cout << "Send message:"  << message << std::endl;
     //创建一个新的套接字。
@@ -38,7 +54,7 @@ bool Client::sendMessage(std::string message)
     NetWork sock(udpsock);
 
     sock.sendto(message,serverep);
-    return  true;
+    return  udpsock;
 }
 
 void Client::receiveFile(std::string message)
@@ -77,7 +93,7 @@ void Client::receiveFilename(boost::system::error_code &e,boost::asio::ip::udp::
     char filename[len];
     memset(filename,0,sizeof (char) * len);
 
-//    boost::asio::ip::udp::endpoint sender_ep;
+    //    boost::asio::ip::udp::endpoint sender_ep;
 
     udpsock->receive_from(boost::asio::buffer(filename,len),sender_ep); //接收文件名
 
@@ -93,7 +109,7 @@ void Client::receiveFilename(boost::system::error_code &e,boost::asio::ip::udp::
 
     sock.receiveFile(fp);
 
-//    receive_file_content();
+    //    receive_file_content();
 }
 
 void Client::receive_file_content()
@@ -103,4 +119,128 @@ void Client::receive_file_content()
     NetWork sock(udpsock);
 
     sock.receiveFile(fp);
+}
+
+void Client::sendLoginInfo(QString n, QString p)
+{
+    //qDebug() << name << password;
+    std::string aN = n.toStdString();
+    std::string aPW = p.toStdString();
+
+    Json::Value audience;
+    audience["request"] = "VERIFYINFO";
+    audience["name"] = aN;
+    audience["password"] = aPW;
+    audience.toStyledString();
+    std::string message = audience.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+
+
+    NetWork sock(udpsockptr);
+    std::string m;
+
+    m = sock.receive();
+    if(m == "LOGINSUCCEED"){
+        Audience a;
+        a.setName(aN);
+        a.setPassword(aPW);
+        _audience = &a;
+        emit loginsucceed();
+    }else if(m == "VERIFYFAILED"){
+        emit loginfailed();
+    }else if(m == "HASLOGINED"){
+        emit haslogined();
+    }
+}
+
+void Client::sendRegisterInfo(QString n, QString p)
+{
+    std::string rN = n.toStdString();
+    std::string rPW = p.toStdString();
+
+    Json::Value registor;
+    registor["request"] = "REGISTEACCOUNT";
+    registor["name"] = rN;
+    registor["password"] = rPW;
+    registor.toStyledString();
+    std::string message = registor.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+
+    NetWork sock(udpsockptr);
+    std::string m;
+
+    m = sock.receive();
+    std::cout << m << std::endl;
+    if(m == "REGISTESUCCEED"){
+        emit registesucceed();
+    }else{
+        emit registefailed();
+    }
+}
+
+QString Client::getMyaudience()
+{
+    return _audience->getName();
+}
+
+void Client::loginOut(QString n)
+{
+    Json::Value logOUT;
+    logOUT["request"] = "LOGOUT";
+    logOUT["name"] = n.toStdString();
+    logOUT.toStyledString();
+
+    std::string message = logOUT.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+
+    NetWork sock(udpsockptr);
+    std::string m;
+
+    m = sock.receive();
+
+    if(m == "LOGOUTSUCCEED"){
+        _audience = nullptr;
+        emit loginout();
+    }
+}
+
+void Client::updateAvatar(QString n,QString audienceName)
+{
+    auto filename = n.toStdString();
+    filename = filename.substr(7,filename.size()-1);
+    std::cout << "Send name: " << filename << std::endl;
+
+    Json::Value logOUT;
+    logOUT["request"] = "UPDATEAVATAR";
+    logOUT["audience"] = audienceName.toStdString();
+    logOUT.toStyledString();
+
+    std::string message = logOUT.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string m;
+    m = sock.receive();
+    if(m == "RECEIVING"){
+    }
+
+
+//    auto fn = filename.data();
+//    FILE *fp = fopen(fn,"rb");
+
+//    boost::shared_ptr<FILE> file_ptr(fp,fclose);
+
+//    if(fp == NULL){
+//        std::cout << "未找到该文件" << std::endl;
+//    }else{
+//        std::cout << "已找到文件" << std::endl;
+//    }
 }

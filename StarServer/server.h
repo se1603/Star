@@ -7,6 +7,8 @@
 #include "json/json.h"
 #include <boost/filesystem.hpp>
 #include "network.h"
+#include "audiencebroker.h"
+#include "relationalbroker.h"
 
 struct File_info{
     typedef unsigned long long Size_type;
@@ -30,6 +32,9 @@ public:
 
 private:
     ThreadPool threadpool;  //线程池
+
+    //观众代管者
+    std::shared_ptr<AudienceBroker> audienceBroker;
 };
 
 #endif // SERVER_H

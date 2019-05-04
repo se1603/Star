@@ -8,7 +8,7 @@ boost::asio::ip::udp::endpoint udpep(boost::asio::ip::udp::v4(),8001);
 
 Server::Server()
 {
-
+    audienceBroker = AudienceBroker::getInstance();
 }
 
 void Server::acceptMessage()
@@ -65,6 +65,28 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["fileName"].asString());
         }
+        else if(request == "VERIFYINFO")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+            parameter.push_back(value["password"].asString());
+        }
+        else if(request == "REGISTEACCOUNT")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+            parameter.push_back(value["password"].asString());
+        }
+        else if(request == "LOGOUT")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "UPDATEAVATAR")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audience"].asString());
+        }
         else
         {
             parameter.push_back("invalidMessage");
@@ -81,10 +103,83 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
 
     if(request == "FILETRANSFER")
     {
-
-                sendFile(parameters[1],ep);
+        sendFile(parameters[1],ep);
         reply = "FILETRANSFERSUCCEED";
         char buff[sizeof (reply)];
+        strcpy(buff,reply.data());
+        sendMessage(buff,ep);
+        return reply;
+    }
+    else if(request == "VERIFYINFO")
+    {
+        if(audienceBroker->checkLoginaudience(parameters[1],parameters[2]) == true){
+            if(audienceBroker->verifyLoginInfo(parameters[1],parameters[2]) == true)
+            {
+                reply = "LOGINSUCCEED";
+                char buff[sizeof(reply)];
+                strcpy(buff,reply.data());
+                sendMessage(buff,ep);
+                return reply;
+            }
+            else
+            {
+                reply = "VERIFYFAILED";
+                char buff[sizeof(reply)];
+                strcpy(buff,reply.data());
+                sendMessage(buff,ep);
+                return reply;
+            }
+        }
+        else
+        {
+            reply = "HASLOGINED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "REGISTEACCOUNT")
+    {
+        if(audienceBroker->registeAccount(parameters[1],parameters[2]) == true)
+        {
+            reply = "REGISTESUCCEED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "REGISTEFAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "LOGOUT")
+    {
+        if(audienceBroker->logoutAudience(parameters[1]) == true){
+            reply = "LOGOUTSUCCEED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "LOGOUTFAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "UPDATEAVATAR")
+    {
+        reply = "RECEIVING";
+        char buff[sizeof(reply)];
         strcpy(buff,reply.data());
         sendMessage(buff,ep);
         return reply;

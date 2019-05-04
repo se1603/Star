@@ -10,8 +10,6 @@ public:
     {
         return m_instance;
     }
-
-
 private:
     MovieAndTelevisionBroker();
     static std::shared_ptr<MovieAndTelevisionBroker> m_instance;
