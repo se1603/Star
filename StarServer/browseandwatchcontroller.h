@@ -16,6 +16,7 @@ public:
 
     std::string interface(int category,int type);  //电影 武侠
     std::string category(int type);   //目录
+    std::string recommend(int category);   //每个目录下的推荐页面
 
     std::string filmInterface(int type); //武侠
 

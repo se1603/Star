@@ -27,6 +27,7 @@ public:
     std::vector<std::string> jsonParse(char message[]);
     Q_INVOKABLE QString browseFilm(int category, int type);
     Q_INVOKABLE QString showCategory(int type);
+    Q_INVOKABLE QString showRecommend(int category);
 
     //获取文件
     void getFile();
@@ -37,6 +38,7 @@ public:
 private:
     //缓存
     std::map<int,std::map<int,std::vector<MovieAndTelevision>>> movieAndTelevision;
+    std::map<int,std::vector<MovieAndTelevision>> recommend;
     //文件
     FILE *fp;
     File_info file_info;

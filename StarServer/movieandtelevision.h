@@ -28,8 +28,8 @@ public:
     std::vector<std::string> director() const;
     void setDirector(const std::vector<std::string> &director);
 
-    int getRecommend() const;
     void setRecommend(int value);
+    std::vector<int> getRecommend() const;
 
 protected:
     std::string m_name;             //名称
@@ -38,7 +38,7 @@ protected:
     Region m_region;                   //地区
     std::vector<std::string> m_actors;      //演员
     std::vector<std::string> m_director; //导演
-    int recommend;     //推荐标记
+    std::vector<int> recommend;     //推荐标记
 };
 
 #endif // MOVIEANDTELEVISION_H

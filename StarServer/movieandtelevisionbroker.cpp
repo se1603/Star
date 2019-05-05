@@ -23,9 +23,27 @@ std::vector<Film> MovieAndTelevisionBroker::getFilms(FilmType type)
     for(int i = 0; i != m_films.size();i++)
     {
         Film tmp = m_films[i];
-        if(tmp.type() == type)
+        std::vector<FilmType> t = tmp.type();
+        for(int j = 0;j != t.size();j++)
         {
-            result.push_back(tmp);
+            if(t[j] == type)
+                result.push_back(tmp);
+        }
+    }
+    return result;
+}
+
+std::vector<Film> MovieAndTelevisionBroker::getRecommendFilms(int type)
+{
+    std::vector<Film> result;
+    for(int i = 0; i != m_films.size();i++)
+    {
+        Film tmp = m_films[i];
+        std::vector<int> f = tmp.getRecommend();
+        for(int j = 0;j != f.size();j++)
+        {
+            if(f[j] == type)
+                result.push_back(tmp);
         }
     }
     return result;
@@ -80,34 +98,41 @@ Film MovieAndTelevisionBroker::handleFilm(std::vector<std::string> row)
 {
     Film film;
 
+    std::vector<std::string> director,actor,post,recommend,type;
     film.setName(row[0]);
-    film.setType(atoi(row[1].c_str()));
+    splictString(row[1],type,",");
+    for(int i = 0; i != type.size();i++)
+    {
+        film.setType(atoi(type[i].c_str()));
+    }
     film.setRegion(atoi(row[2].c_str()));
-    std::vector<std::string> director,actor,post;
     splictString(row[3],director,",");
     splictString(row[4],actor,",");
     splictString(row[5],post,",");
+    splictString(row[7],recommend,",");
     film.setDirector(director);
     film.setActors(actor);
     film.setPost(post);
     film.setIntroduction(row[6]);
-    film.setRecommend(atoi(row[7].c_str()));
-
+    for(int i = 0; i != recommend.size();i++)
+    {
+        film.setRecommend(atoi(recommend[i].c_str()));
+    }
     return film;
 }
 
 void MovieAndTelevisionBroker::splictString(const std::string &s, std::vector<std::string> &v, const std::string &c)
 {
     std::string::size_type pos1, pos2;
-        pos2 = s.find(c);
-        pos1 = 0;
-        while(std::string::npos != pos2)
-        {
-            v.push_back(s.substr(pos1, pos2-pos1));
+    pos2 = s.find(c);
+    pos1 = 0;
+    while(std::string::npos != pos2)
+    {
+        v.push_back(s.substr(pos1, pos2-pos1));
 
-            pos1 = pos2 + c.size();
-            pos2 = s.find(c, pos1);
-        }
-        if(pos1 != s.length())
-            v.push_back(s.substr(pos1));
+        pos1 = pos2 + c.size();
+        pos2 = s.find(c, pos1);
+    }
+    if(pos1 != s.length())
+        v.push_back(s.substr(pos1));
 }

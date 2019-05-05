@@ -86,13 +86,13 @@ void MovieAndTelevision::setDirector(const std::vector<std::string> &director)
     m_director = director;
 }
 
-int MovieAndTelevision::getRecommend() const
-{
-    return recommend;
-}
-
 void MovieAndTelevision::setRecommend(int value)
 {
-    recommend = value;
+    recommend.push_back(value);
+}
+
+std::vector<int> MovieAndTelevision::getRecommend() const
+{
+    return recommend;
 }
 

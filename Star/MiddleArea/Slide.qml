@@ -103,9 +103,10 @@ Item {
                 anchors.fill: parent
 
                 onClicked: {
-                    play.visible = true
-                    play.thename = rect.moviename
-                    play.thesource = rect.movieurl
+//                    play.visible = true
+//                    play.thename = rect.moviename
+//                    play.thesource = rect.movieurl
+                    console.log(parent.width)
                 }
 
                 onEntered: {

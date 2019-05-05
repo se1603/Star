@@ -80,6 +80,10 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["type"].asString());
         }
+        else if (request == "RECOMMEND") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["category"].asString());
+        }
         else
         {
             parameter.push_back("invalidMessage");
@@ -112,6 +116,10 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     else if(request == "CATEGORY"){
        reply = m_BrowseAndWatchController->category(atoi(parameters[1].c_str()));
        sendMessage(reply,ep);
+    }
+    else if (request == "RECOMMEND") {
+        reply = m_BrowseAndWatchController->recommend(atoi(parameters[1].c_str()));
+        sendMessage(reply,ep);
     }
 }
 

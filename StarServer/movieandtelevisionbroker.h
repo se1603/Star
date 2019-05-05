@@ -19,6 +19,7 @@ public:
     std::map<std::string, std::vector<MovieAndTelevision> > getAllMovieAndTelevision() const;
 
     std::vector<Film> getFilms(FilmType type);
+    std::vector<Film> getRecommendFilms(int type);
 
 private:
     MovieAndTelevisionBroker();

@@ -18,6 +18,7 @@ Client::Client(QObject *p) :
 void Client::connectServer()
 {
     getFile();
+//    showRecommend(1);
 //    browseFilm(1,6);
 }
 
@@ -57,6 +58,7 @@ socket_ptr Client::sendMessage(std::string message)
 QString Client::browseFilm(int category,int type)
 {
     Json::Value qmlvalue;
+    bool sendRequest = true;
 
     //先在缓存中找
     if(movieAndTelevision.find(category) != movieAndTelevision.end())
@@ -64,6 +66,7 @@ QString Client::browseFilm(int category,int type)
         std::map<int,std::vector<MovieAndTelevision>> m1 = movieAndTelevision[category];
         if(m1.find(type) != m1.end())
         {
+            sendRequest = false;
             std::vector<MovieAndTelevision> films = m1[type];
             for(int i = 0;i != films.size(); i++)
             {
@@ -74,7 +77,7 @@ QString Client::browseFilm(int category,int type)
             }
         }
     }
-    else
+    if(sendRequest)
     {
         Json::Value root;
         root["request"] = "INTERFACE";
@@ -169,6 +172,48 @@ QString Client::showCategory(int type)
     qmlvalue.toStyledString();
     std::cout << qmlvalue.toStyledString() << std::endl;
 
+    QString t = QString::fromStdString(qmlvalue.toStyledString());
+    return t;
+}
+
+QString Client::showRecommend(int category)
+{
+    Json::Value root;
+    root["request"] = "RECOMMEND";
+    root["category"] = std::to_string(category);
+    root.toStyledString();
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsock;
+    udpsock = sendMessage(message);
+
+    NetWork sock(udpsock);
+
+    std::string res = sock.receive();
+
+    Json::Value value;
+    Json::Value qmlvalue;
+    Json::Reader reader;
+    if(!reader.parse(res,value))
+    {
+        std::cerr << "Receive message failed." << std::endl;
+    }
+    else
+    {
+//        const Json::Value arrayObj = value["recommends"];
+//        Json::Value titleObj;
+//        for (unsigned int i = 0; i < arrayObj.size(); i++)
+//        {
+//            Json::Value item;
+//            std::string title = arrayObj[i]["title"].asString();
+//            item["title"] = arrayObj[i]["title"];
+//            std::cout << title << std::endl;
+//            titleObj.append(item);
+//        }
+        qmlvalue["commonFilm"] = value["commonFilm"];
+        qmlvalue["recommends"] = value["recommends"];
+    }
+    std::cout << qmlvalue.toStyledString() << std::endl;
     QString t = QString::fromStdString(qmlvalue.toStyledString());
     return t;
 }

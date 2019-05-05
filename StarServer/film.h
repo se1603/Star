@@ -25,11 +25,11 @@ class Film : public MovieAndTelevision
 public:
     Film();
 
-    FilmType type() const;
+    std::vector<FilmType> type() const;
     void setType(int filmtype);
 
 private:
-    FilmType m_type;
+    std::vector<FilmType> m_type;
 };
 
 #endif // FILM_H

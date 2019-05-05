@@ -47,7 +47,7 @@ std::string BrowseAndWatchController::category(int type)
         out = root.toStyledString();
         break;
     }
-    case 1:{
+    case 1:{ //电影目录
         std::vector<std::string> category2{"推荐","喜剧","武侠","动画","悬疑","爱情","科幻","惊悚","动作"};
         for(int i = 0; i != 9;i++)
         {
@@ -64,12 +64,69 @@ std::string BrowseAndWatchController::category(int type)
     return out;
 }
 
+std::string BrowseAndWatchController::recommend(int category)
+{
+    std::string out;
+    Json::Value root;
+
+    root["request"] = "RECOMMEND";
+    root["category"] = category;  //1 电影的推荐
+    switch (category) {
+    case 0:{
+
+    }
+        break;
+    case 1:{
+        std::vector<std::string> title1{"正在热播","热门华语大片","高人气好莱坞大片","经典高分港片","历年贺岁大片精选"};
+
+        Json::Value filmarry;
+        Json::Value commonFilm;
+        for(int i = 0; i != 6;i++)
+        {
+            std::vector<Film> films = m_movieAndTelevisionBroker->getRecommendFilms(i);
+            Json::Value arry;
+            Json::Value item;
+            for(int a = 0; a != films.size();a++)
+            {
+                Json::Value film;
+                film["name"] = films[a].name();
+                if(i == 0){
+                    film["post"] = films[a].post()[1];
+                    filmarry.append(film);   //存大图电影
+                }
+                else{
+                    film["post"] = films[a].post()[0];
+                    arry.append(film); //存小图电影
+                }
+                if(i != 0)
+                {
+                    item["title"] = title1[i - 1];
+                    item["films"] = arry;
+                }
+            }
+            if(i != 0)
+                commonFilm["resource"].append(item);
+        }
+        root["commonFilm"] = commonFilm;   //普通
+        root["recommends"] = filmarry;  //大图
+        out = root.toStyledString();
+    }
+        break;
+    default:
+        break;
+    }
+    return out;
+}
+
 
 std::string BrowseAndWatchController::filmInterface(int type)
 {
     FilmType filmtype;
     std::string showType;
     switch (type) {
+    case 0:
+        filmtype = FilmType::Recommend;
+        break;
     case 1:
         filmtype = FilmType::MartialArts;
         break;
@@ -93,9 +150,6 @@ std::string BrowseAndWatchController::filmInterface(int type)
         break;
     case 8:
         filmtype = FilmType::ScienceFiction;
-        break;
-    default:
-        filmtype = FilmType::Recommend;
         break;
     }
     std::vector<Film> films;
