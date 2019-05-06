@@ -1,8 +1,10 @@
 //time :2019.4.27
 //author:xudan
 
+//time :2019.4.27
+//author:xudan
+
 import QtQuick 2.9
-//import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import"../MiddleArea"
@@ -14,6 +16,14 @@ Item {
 
     property bool xflag: true
     property bool xRflag: true
+    property string name:""
+    property string type: ""
+    property string infoma:""
+//    property string de:""
+
+
+    property var model:""
+//    property alias detail:e.detail
 
     Timer{
         id:timer1
@@ -189,7 +199,7 @@ Item {
             }
             anchors.topMargin: 20
             id:right_stack
-            initialItem: summary_page
+            initialItem: comment_page
         }
 
         Component{
@@ -201,7 +211,11 @@ Item {
         Component{
             id:comment_page
             Comment{
-
+                id:e
+//                detail1: de
+                name1: name
+                types: type
+                info: infoma
             }
         }
     }
@@ -266,7 +280,9 @@ Item {
         Component{
             id:record_page
             Record{
-
+                playname: name
+                playtype: type
+                mode: model
             }
         }
 

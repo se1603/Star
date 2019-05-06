@@ -1,3 +1,5 @@
+//time：2019.4.15
+//内容：剧集
 import QtQuick 2.0
 
 Item {

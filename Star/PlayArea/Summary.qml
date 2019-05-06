@@ -30,7 +30,7 @@ Rectangle{
                 width: recordPage.width
                 height: 3/17*recordPage.height
                 border.color: "black"
-                color: "#000000"
+                color: "lightblue"
                 TextEdit{
                     id:edit
                     width: parent.width
@@ -60,6 +60,7 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
+                        add(edit.text)
                         //                        nametext.text = edit.text
                         edit.clear()
                     }
@@ -117,7 +118,7 @@ Rectangle{
         Component{
             id:allRecord
             AllRecord{
-//                model: list
+                model: list
             }
         }
     }
@@ -127,7 +128,7 @@ Rectangle{
     }
 
     function add(text){
-
+        list.append({name:"ff",message:text,time:"3.1"})
     }
 
 }

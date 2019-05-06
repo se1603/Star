@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import "../Audience"
-
+import "../PlayArea"
 
 Rectangle {
     id:middlearea
@@ -11,11 +11,21 @@ Rectangle {
     //   color:"gray"
     anchors.bottom: parent.bottom
 
+    property alias audienceInterface:audienceInterface
+    property alias play:play.visible
+    property alias middle:middle_face.visible
+
+
+
     MiddleInterface{
         id:middle_face
     }
 
-    property alias audienceInterface:audienceInterface
+
+    Play{
+        id:play
+        visible: false
+    }
 
     AudienceInterface {
         id: audienceInterface

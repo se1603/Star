@@ -1,4 +1,7 @@
+//time：2019.4.15
+//内容：动漫
 import QtQuick 2.0
+
 
 Item {
     Rectangle{

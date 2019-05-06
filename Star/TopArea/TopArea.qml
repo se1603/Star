@@ -41,7 +41,8 @@ Rectangle{
             onClicked: {
                 mainpage.color  = "lightblue"
                 mainpagetitle.color = "white"
-                //   play.color = "white"
+                middleArea.play = false
+                middleArea.middle = true
             }
         }
     }
@@ -71,6 +72,8 @@ Rectangle{
             onClicked: {
                 play.color = "lightblue"
                 playTitle.color = "white"
+                middleArea.middle = false
+                middleArea.play = true
             }
         }
     }

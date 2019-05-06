@@ -1,19 +1,14 @@
 import QtQuick 2.0
+Rectangle {
 
-Item {
-    Rectangle{
-        id:j
-        width: 40
-        height: 50
-        anchors.centerIn: parent
-        color: "red"
-    }
+    width: left_stack.width
+    height: left_stack.height
+    color: "#8B8378"
     Text{
-        anchors.top:j.bottom
-        text: "jjkkkk"
+        anchors.centerIn: parent
+        text: "No Local"
+        font.pixelSize: 36
+        font.family: "Helvetica"
     }
 
-    Menu{
-
-    }
 }

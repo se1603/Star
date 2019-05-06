@@ -43,7 +43,6 @@
         <file>PlayArea/Menu.qml</file>
         <file>PlayArea/Play.qml</file>
         <file>PlayArea/Record.qml</file>
-        <file>PlayArea/SimpleRow.qml</file>
         <file>PlayArea/Summary.qml</file>
         <file>MiddleArea/Comic.qml</file>
         <file>MiddleArea/DramaSeries.qml</file>
@@ -54,7 +53,6 @@
         <file>MiddleArea/MovieRecommend.qml</file>
         <file>MiddleArea/MovieType.qml</file>
         <file>MiddleArea/SelectPage.qml</file>
-        <file>MiddleArea/Slide.qml</file>
         <file>MiddleArea/Variety.qml</file>
         <file>TopArea/RightButton.qml</file>
         <file>TopArea/TopArea.qml</file>
