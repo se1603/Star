@@ -17,7 +17,11 @@ SOURCES += \
     controller.cpp \
     controllerfactory.cpp \
     browseandwatchcontroller.cpp \
-    region.cpp
+    region.cpp \
+    audience.cpp \
+    audiencebroker.cpp \
+    collection.cpp \
+    record.cpp
 
 HEADERS += \
     server.h \
@@ -32,6 +36,10 @@ HEADERS += \
     controller.h \
     controllerfactory.h \
     browseandwatchcontroller.h \
-    region.h
+    region.h \
+    audience.h \
+    audiencebroker.h \
+    collection.h \
+    record.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient

@@ -14,11 +14,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+    audience.cpp \
     client.cpp \
-    network.cpp \
+    collection.cpp \
+    film.cpp \
     movieandtelevision.cpp \
-    region.cpp \
-    film.cpp
+    network.cpp \
+    record.cpp \
+    region.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,11 +36,15 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-HEADERS += \
-    client.h \
-    network.h \
-    movieandtelevision.h \
-    region.h \
-    film.h
 
 LIBS += -lboost_system -ljsoncpp
+
+HEADERS += \
+    audience.h \
+    client.h \
+    collection.h \
+    film.h \
+    movieandtelevision.h \
+    network.h \
+    record.h \
+    region.h

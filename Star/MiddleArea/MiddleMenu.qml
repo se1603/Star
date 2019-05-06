@@ -52,26 +52,6 @@ Rectangle {
         }
     }
 
-//    ListModel{
-//        id:mainModel
-//        ListElement{
-//            toolBar:"精选"
-//        }
-//        ListElement{
-//            toolBar:"动漫"
-//        }
-//        ListElement{
-//            toolBar:"电影"
-//        }
-//        ListElement{
-//            toolBar:"剧集"
-//        }
-//        ListElement{
-//            toolBar:"综艺"
-//        }
-
-//    }
-
     function load_page(page){
         switch(page){
         case '动漫':

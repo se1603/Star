@@ -1,8 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
+import "../Audience"
 
-//import "../PlayArea"
 
 Rectangle {
     id:middlearea
@@ -15,4 +15,10 @@ Rectangle {
         id:middle_face
     }
 
+    property alias audienceInterface:audienceInterface
+
+    AudienceInterface {
+        id: audienceInterface
+        visible: false
+    }
 }

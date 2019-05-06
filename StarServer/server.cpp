@@ -14,6 +14,7 @@ Server::Server()
 {
     controlFactory = ControllerFactory::getInstance();
     m_BrowseAndWatchController = controlFactory->createBrowseAndWatchController();
+    audienceBroker = AudienceBroker::getInstance();
 }
 
 void Server::acceptMessage()
@@ -84,6 +85,34 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["category"].asString());
         }
+        else if(request == "VERIFYINFO")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+            parameter.push_back(value["password"].asString());
+        }
+        else if(request == "REGISTEACCOUNT")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+            parameter.push_back(value["password"].asString());
+        }
+        else if(request == "LOGOUT")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "UPDATEAVATAR")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audience"].asString());
+            parameter.push_back(value["avatar"].asString());
+        }
+        else if(request == "GETAVATAR")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
         else
         {
             parameter.push_back("invalidMessage");
@@ -112,14 +141,110 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         reply = m_BrowseAndWatchController->interface(
                     atoi(parameters[1].c_str()),atoi(parameters[2].c_str()));
         sendMessage(reply,ep);
+        return reply;
     }
     else if(request == "CATEGORY"){
        reply = m_BrowseAndWatchController->category(atoi(parameters[1].c_str()));
        sendMessage(reply,ep);
+       return reply;
     }
     else if (request == "RECOMMEND") {
         reply = m_BrowseAndWatchController->recommend(atoi(parameters[1].c_str()));
         sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "VERIFYINFO")
+    {
+        if(audienceBroker->checkLoginaudience(parameters[1],parameters[2]) == true){
+            if(audienceBroker->verifyLoginInfo(parameters[1],parameters[2]) == true)
+            {
+                reply = "LOGINSUCCEED";
+                char buff[sizeof(reply)];
+                strcpy(buff,reply.data());
+                sendMessage(buff,ep);
+                return reply;
+            }
+            else
+            {
+                reply = "VERIFYFAILED";
+                char buff[sizeof(reply)];
+                strcpy(buff,reply.data());
+                sendMessage(buff,ep);
+                return reply;
+            }
+        }
+        else
+        {
+            reply = "HASLOGINED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "REGISTEACCOUNT")
+    {
+        if(audienceBroker->registeAccount(parameters[1],parameters[2]) == true)
+        {
+            reply = "REGISTESUCCEED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "REGISTEFAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "LOGOUT")
+    {
+        if(audienceBroker->logoutAudience(parameters[1]) == true){
+            reply = "LOGOUTSUCCEED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "LOGOUTFAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "UPDATEAVATAR")
+    {
+        if(audienceBroker->changeAudienceAvatar(parameters[1],parameters[2]) == true){
+            reply = "HASCHANGED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "FAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "GETAVATAR")
+    {
+        std::string reply = audienceBroker->getAudienceAvatar(parameters[1]);
+        std::cout << "---------!!!" << reply << std::endl;
+        char buff[sizeof(reply)];
+        strcpy(buff,reply.data());
+        sendMessage(buff,ep);
+        return reply;
     }
 }
 

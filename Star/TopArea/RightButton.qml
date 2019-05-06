@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import "../Audience"
+import "../MiddleArea"
 
 Item {
     id:rightButton
@@ -8,6 +10,11 @@ Item {
     anchors.rightMargin: 5
     anchors.verticalCenter: parent.verticalCenter
     visible: true
+
+    property alias loginPic:login
+    property var loginstatus:false
+    property var loginname
+
     Rectangle{     //菜单图标
         id: list
         height: 2/3 * parent.height
@@ -82,8 +89,11 @@ Item {
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
         color: "lightgray"
+        property alias loginIcon:loginIcon
         Image {
             id: loginIcon
+            width: parent.width
+            height: parent.height
             opacity: loginmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: login.horizontalCenter
             anchors.verticalCenter: login.verticalCenter
@@ -92,6 +102,15 @@ Item {
                 id:loginmousearea
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    if(loginstatus === false){
+                        audienceItem.open()
+                    }else if(loginstatus === true){
+                        audienceItem.close()
+                        middleArea.audienceInterface.visible =
+                                !middleArea.audienceInterface.visible
+                    }
+                }
             }
         }
     }

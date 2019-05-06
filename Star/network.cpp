@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:封装了消息，文件的接收和发送
+*/
 #include "network.h"
 #include <iostream>
 #include <string.h>

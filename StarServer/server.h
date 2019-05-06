@@ -12,6 +12,7 @@
 #include <boost/filesystem.hpp>
 #include "network.h"
 #include "controllerfactory.h"
+#include "audiencebroker.h"
 
 struct File_info{
     typedef unsigned long long Size_type;
@@ -37,6 +38,9 @@ private:
     ThreadPool threadpool;  //线程池
     std::shared_ptr<ControllerFactory> controlFactory;
     std::shared_ptr<BrowseAndWatchController> m_BrowseAndWatchController;
+
+    //观众代管者
+    std::shared_ptr<AudienceBroker> audienceBroker;
 };
 
 #endif // SERVER_H

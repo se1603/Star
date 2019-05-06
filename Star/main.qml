@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import "TopArea"
 import "MiddleArea"
+import "Audience"
 import Star 1.0
 
 Window {
@@ -16,12 +17,18 @@ Window {
         id:client
     }
 
-    TopArea{
-        id: topArea
-        visible: true
+
+    MainItem {
+        id: mainItem
     }
-    MiddleArea {
-        id:middleArea
-        visible:visible
+
+    Connections{
+        target: mainWindow
+        onClosing: {
+            if(mainItem.middleArea.audienceInterface.audienceName !== ""){
+                client.loginOut(mainItem.middleArea.audienceInterface.audienceName)
+            }
+        }
     }
+
 }
