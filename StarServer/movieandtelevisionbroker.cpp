@@ -80,7 +80,7 @@ void MovieAndTelevisionBroker::initFilms()
             if(row == nullptr) break;
             std::vector<std::string> res;
             for(unsigned int i = 0;i < mysql_num_fields(result);++i){
-                std::cout << row[i] << std::endl;
+//                std::cout << row[i] << std::endl;
                 res.push_back(row[i]);
             }
             Film f = handleFilm(res);

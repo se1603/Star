@@ -55,7 +55,7 @@ socket_ptr Client::sendMessage(std::string message)
     return  udpsock;
 }
 
-QString Client::browseFilm(int category,int type)
+QString Client::browseMovieAndTelevision(int category,int type)
 {
     Json::Value qmlvalue;
     bool sendRequest = true;
@@ -103,7 +103,7 @@ QString Client::browseFilm(int category,int type)
         }
         else
         {
-            const Json::Value arrayObj = value["films"];
+            const Json::Value arrayObj = value["movieAndTelevision"];
             for (unsigned int i = 0; i < arrayObj.size(); i++)
             {
                 std::string name = arrayObj[i]["name"].asString();
@@ -114,7 +114,7 @@ QString Client::browseFilm(int category,int type)
                 m.setPost(post);
                 films.push_back(m);
             }
-            qmlvalue = value["films"];
+            qmlvalue = value["movieAndTelevision"];
 
             int interface = value["interface"].asInt();
             int type = value["type"].asInt();
@@ -210,8 +210,8 @@ QString Client::showRecommend(int category)
 //            std::cout << title << std::endl;
 //            titleObj.append(item);
 //        }
-        qmlvalue["commonFilm"] = value["commonFilm"];
-        qmlvalue["recommends"] = value["recommends"];
+        qmlvalue["secondRecommends"] = value["secondRecommends"];
+        qmlvalue["firstRecommends"] = value["firstRecommends"];
     }
     std::cout << qmlvalue.toStyledString() << std::endl;
     QString t = QString::fromStdString(qmlvalue.toStyledString());

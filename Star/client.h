@@ -25,9 +25,9 @@ public:
     socket_ptr sendMessage(std::string message);
 
     std::vector<std::string> jsonParse(char message[]);
-    Q_INVOKABLE QString browseFilm(int category, int type);
-    Q_INVOKABLE QString showCategory(int type);
-    Q_INVOKABLE QString showRecommend(int category);
+    Q_INVOKABLE QString browseMovieAndTelevision(int category, int type); //浏览影视
+    Q_INVOKABLE QString showCategory(int type);  //显示分类
+    Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
     //获取文件
     void getFile();

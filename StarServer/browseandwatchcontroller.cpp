@@ -107,8 +107,8 @@ std::string BrowseAndWatchController::recommend(int category)
             if(i != 0)
                 commonFilm["resource"].append(item);
         }
-        root["commonFilm"] = commonFilm;   //普通
-        root["recommends"] = filmarry;  //大图
+        root["secondRecommends"] = commonFilm;   //普通
+        root["firstRecommends"] = filmarry;  //大图
         out = root.toStyledString();
     }
         break;
@@ -167,7 +167,7 @@ std::string BrowseAndWatchController::filmInterface(int type)
         item["post"] = films[i].post()[0];
         arryObj.append(item);
     }
-    root["films"] = arryObj;
+    root["movieAndTelevision"] = arryObj;
     std::string out = root.toStyledString();
 
     return out;

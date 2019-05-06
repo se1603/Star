@@ -56,7 +56,7 @@ Rectangle {
                 height: 4/15 * parent.height
                 anchors.left: row_image.right
                 anchors.top:row_image.top
-                model:recommendFilms.recommends
+                model:recommendFilms.firstRecommends
                 delegate: show_slide
             }
 
@@ -67,7 +67,7 @@ Rectangle {
 
                 Repeater{
                     id:show_film
-                    model:recommendFilms.commonFilm.resource
+                    model:recommendFilms.secondRecommends.resource
                     Rectangle{
                         width: page_display.width
                         height: page_display.width < 1000 ? 355 : 400
@@ -166,21 +166,21 @@ Rectangle {
                     }
                     onClicked: {
                         if(category.text === "武侠")
-                            movie.films = JSON.parse(client.browseFilm(1,1))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,1))
                         else if(category.text == "悬疑")
-                            movie.films = JSON.parse(client.browseFilm(1,2))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,2))
                         else if(category.text == "喜剧")
-                            movie.films = JSON.parse(client.browseFilm(1,3))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,3))
                         else if(category.text == "动作")
-                            movie.films = JSON.parse(client.browseFilm(1,4))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,4))
                         else if(category.text == "爱情")
-                            movie.films = JSON.parse(client.browseFilm(1,5))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,5))
                         else if(category.text == "动画")
-                            movie.films = JSON.parse(client.browseFilm(1,6))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,6))
                         else if(category.text == "惊悚")
-                            movie.films = JSON.parse(client.browseFilm(1,7))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,7))
                         else
-                            movie.films = JSON.parse(client.browseFilm(1,8))
+                            movie.films = JSON.parse(client.browseMovieAndTelevision(1,8))
                         load_page(category.text)
                     }
                 }
