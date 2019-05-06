@@ -86,6 +86,12 @@ std::vector<std::string> Server::jsonParse(char message[])
         {
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["audience"].asString());
+            parameter.push_back(value["avatar"].asString());
+        }
+        else if(request == "GETAVATAR")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
         }
         else
         {
@@ -178,7 +184,26 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     }
     else if(request == "UPDATEAVATAR")
     {
-        reply = "RECEIVING";
+        if(audienceBroker->changeAudienceAvatar(parameters[1],parameters[2]) == true){
+            reply = "HASCHANGED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+        else
+        {
+            reply = "FAILED";
+            char buff[sizeof(reply)];
+            strcpy(buff,reply.data());
+            sendMessage(buff,ep);
+            return reply;
+        }
+    }
+    else if(request == "GETAVATAR")
+    {
+        std::string reply = audienceBroker->getAudienceAvatar(parameters[1]);
+        std::cout << "---------!!!" << reply << std::endl;
         char buff[sizeof(reply)];
         strcpy(buff,reply.data());
         sendMessage(buff,ep);

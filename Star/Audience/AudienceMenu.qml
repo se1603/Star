@@ -18,20 +18,37 @@ Rectangle {
             id: audience_avator
             width: 1 / 6 * parent.height
             height: 1 / 6 * parent.height
-            radius: 1 / 2 * audience_avator.width
             border.color: "gray"
             anchors.horizontalCenter: parent.horizontalCenter
-
-            MouseArea {
-                anchors.fill:parent
-                onClicked: dir.open()
-            }
-
             Image {
-                width: 2 / 3 * parent.width
-                height: 2 / 3 * parent.height
-                source:"../image/audience/头像.jpg"
+                width: parent.width
+                height: parent.height
+                source:audienceInterface.audienceAvatar
                 anchors.centerIn: parent
+
+                Text {
+                    id: notice
+                    text: "点击更换头像"
+                    color: "gray"
+                    font.pixelSize: 15
+                    anchors.centerIn: parent
+                    visible: false
+                }
+
+                MouseArea {
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onEntered: {
+                        parent.opacity = 0.5
+                        notice.visible = true
+                    }
+                    onExited: {
+                        parent.opacity = 1
+                        notice.visible = false
+                    }
+
+                    onClicked: dir.open()
+                }
             }
         }
 

@@ -18,7 +18,7 @@ SOURCES += \
     network.cpp \
     audience.cpp \
     collection.cpp \
-    record.cpp
+    record.cpp \
 
 RESOURCES += qml.qrc
 
@@ -38,6 +38,6 @@ HEADERS += \
     network.h \
     audience.h \
     collection.h \
-    record.h
+    record.h \
 
 LIBS += -lboost_system -ljsoncpp

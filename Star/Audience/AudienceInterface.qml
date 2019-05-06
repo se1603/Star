@@ -7,6 +7,7 @@ Rectangle {
     anchors.centerIn: parent
 
     property string audienceName:""
+    property string audienceAvatar:""
 
     Row {
         width: parent.width

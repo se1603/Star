@@ -10,7 +10,7 @@ boost::asio::ip::udp::endpoint ep(boost::asio::ip::udp::v4(),6666);
 
 Client::Client(QObject *parent):QObject(parent)
 {
-
+    _audience = new Audience();
 }
 
 void Client::splictString(std::string &s, std::vector<std::string> &v, const std::string &c)
@@ -143,10 +143,9 @@ void Client::sendLoginInfo(QString n, QString p)
 
     m = sock.receive();
     if(m == "LOGINSUCCEED"){
-        Audience a;
-        a.setName(aN);
-        a.setPassword(aPW);
-        _audience = &a;
+        _audience->setName(aN);
+        _audience->setPassword(aPW);
+        _audience->setAvatar(getAudienceAvatar(aN));
         emit loginsucceed();
     }else if(m == "VERIFYFAILED"){
         emit loginfailed();
@@ -182,9 +181,14 @@ void Client::sendRegisterInfo(QString n, QString p)
     }
 }
 
-QString Client::getMyaudience()
+QString Client::getMyName()
 {
     return _audience->getName();
+}
+
+QString Client::getMyAvatar()
+{
+    return _audience->getAvatar();
 }
 
 void Client::loginOut(QString n)
@@ -210,37 +214,52 @@ void Client::loginOut(QString n)
     }
 }
 
-void Client::updateAvatar(QString n,QString audienceName)
+void Client::updateAvatar(QString n,QString a)
 {
     auto filename = n.toStdString();
-    filename = filename.substr(7,filename.size()-1);
-    std::cout << "Send name: " << filename << std::endl;
+    auto audiencename = a.toStdString();
+    std::cout << audiencename << filename << std::endl;
 
-    Json::Value logOUT;
-    logOUT["request"] = "UPDATEAVATAR";
-    logOUT["audience"] = audienceName.toStdString();
-    logOUT.toStyledString();
+    Json::Value AVATAR;
+    AVATAR["request"] = "UPDATEAVATAR";
+    AVATAR["audience"] = audiencename;
+    AVATAR["avatar"] = filename;
+    AVATAR.toStyledString();
 
-    std::string message = logOUT.toStyledString();
+    std::string message = AVATAR.toStyledString();
 
     socket_ptr udpsockptr;
     udpsockptr = sendMessage(message);
     NetWork sock(udpsockptr);
 
     std::string m;
+
     m = sock.receive();
-    if(m == "RECEIVING"){
+    if(m == "HASCHANGED"){
+        _audience->setAvatar(filename);
+        QString source = QString::fromStdString(filename);
+        emit updateAvatarSucceed(source);
+    }else if(m == "FAILED"){
+        emit updateAvatarFailed();
     }
+}
 
+std::string Client::getAudienceAvatar(std::string name)
+{
+    Json::Value AudienceInfo;
+    AudienceInfo["request"] = "GETAVATAR";
+    AudienceInfo["name"] = name;
+    AudienceInfo.toStyledString();
+    std::string message = AudienceInfo.toStyledString();
 
-//    auto fn = filename.data();
-//    FILE *fp = fopen(fn,"rb");
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
 
-//    boost::shared_ptr<FILE> file_ptr(fp,fclose);
+    NetWork sock(udpsockptr);
 
-//    if(fp == NULL){
-//        std::cout << "未找到该文件" << std::endl;
-//    }else{
-//        std::cout << "已找到文件" << std::endl;
-//    }
+    std::string m;
+
+    m = sock.receive();
+
+    return m;
 }

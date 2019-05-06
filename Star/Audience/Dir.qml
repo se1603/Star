@@ -10,9 +10,9 @@ Popup {
     x: 1 / 2 * (mainWindow.width - root.width)
     y: 1 / 5 * mainWindow.height
 
-    property string folderPathName:"file:///root"
+    property string folderPathName:"qrc:///image/avatar"
     property string changePathName
-    property string updateFileName
+    property string updateFileSource
 
     Rectangle {
         id: folderRec
@@ -26,8 +26,8 @@ Popup {
             showDirs: true
             showFiles: true
             showDirsFirst: true
-            showDotAndDotDot: root
-            nameFilters: ["*.jpg","*.png"]
+            showDotAndDotDot: false
+            nameFilters: ["*.jpg","*.png","*.jpeg"]
             showOnlyReadable: true
             sortField: FolderListModel.Type
         }
@@ -35,43 +35,49 @@ Popup {
         Component {
             id: fileDelegate
 
-            Text {
-                text: fileName
-                color: folderModel.isFolder(index) ? "green" : "black"
-                font.pixelSize: 15
-                opacity: 0.5
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onEntered: {
-                        parent.opacity = 1
-                    }
-                    onExited: {
-                        parent.opacity = 0.7
-                    }
-                    onClicked: {
-                        if(folderModel.isFolder(index) === true){
-                            changePathName = folderPathName
-                            folderPathName =  changePathName + "/" + parent.text
-                            folderModel.folder = folderPathName
-                        }else{
-                            updateFileName = parent.text
-                            choose_title.text = "确定上传 "+updateFileName+" 吗？"
+            Rectangle {
+                width: 1 / 3 * folderRec.width
+                height: 1 / 3 * folderRec.width
+                Image {
+                    width: parent.width
+                    height: parent.height
+                    source: "../image/avatar/"+fileName
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: {
+                            parent.opacity = 0.7
+                        }
+                        onExited: {
+                            parent.opacity = 1
+                        }
+                        onClicked: {
+                            if(folderModel.isFolder(index) === true){
+                                changePathName = folderPathName
+                                folderPathName =  changePathName + "/" + parent.text
+                                folderModel.folder = folderPathName
+                            }else{
+                                updateFileSource = parent.source
+                                choose_title.text = "确定上传 "+fileName+" 吗？"
+                            }
                         }
                     }
                 }
             }
         }
-
-        ListView {
-            width: parent.width
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 1 / 50 * parent.height
-            model: folderModel
-            delegate: fileDelegate
-        }
     }
+
+    ListView {
+        width: parent.width
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 1 / 6 * parent.height
+        spacing: 10
+        model: folderModel
+        delegate: fileDelegate
+        clip: true
+    }
+
 
     Rectangle {
         id: chooseRec
@@ -96,20 +102,18 @@ Popup {
                 Button {
                     text:"确认上传"
                     onClicked: {
-                        if(updateFileName === ""){
+                        if(updateFileSource === ""){
                             choose_title.text = "没有选择文件！"
                         }else{
-                            choose_title.text = "正在上传…"
-                            var filestring = folderPathName + "/" + updateFileName
-                            client.updateAvatar(filestring,audienceInterface.audienceName)
+                            client.updateAvatar(updateFileSource,audienceInterface.audienceName)
                         }
                     }
                 }
                 Button {
-                    text:"取消"
+                    text:"关闭窗口"
                     onClicked: {
                         choose_title.text = "请选择要上传的图片："
-                        updateFileName = ""
+                        updateFileSource = ""
                         dir.close()
                     }
                 }
@@ -121,6 +125,10 @@ Popup {
         target: client
         onUpdateAvatarFailed: {
             choose_title.text = "上传失败"
+        }
+        onUpdateAvatarSucceed: {
+            choose_title.text = "上传成功"
+            audienceInterface.audienceAvatar = newsource
         }
     }
 }

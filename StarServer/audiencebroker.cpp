@@ -46,8 +46,6 @@ bool AudienceBroker::verifyLoginInfo(std::string n, std::string p)
                 a.setName(audienceRows[0]);
                 a.setPassword(audienceRows[1]);
                 a.setAvatar(audienceRows[2]);
-                a.setCollection(audienceRows[3]);
-                a.setRecord(audienceRows[4]);
                 loginedAudiences.push_back(a);
                 std::cout << "----------yes!!!!" << std::endl;
                 return true;
@@ -150,6 +148,41 @@ bool AudienceBroker::checkLoginaudience(std::string n, std::string p)
     if(flag == 0){
         return true;
     }
+}
+
+std::string AudienceBroker::getAudienceAvatar(std::string n)
+{
+    std::string avatar;
+    for(auto a:loginedAudiences){
+        if(a.getName() == n){
+            avatar = a.getAvatar();
+        }
+    }
+
+    return avatar;
+}
+
+bool AudienceBroker::changeAudienceAvatar(std::string name, std::string source)
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "In changeAvatar:Connect MYSQL failed." << std::endl;
+    }
+
+    std::string sql = "update audience set avatar='"+source+"' where name = '"+name+"';";
+
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "Update avatar failed" << std::endl;
+        return false;
+    }else{
+        return true;
+    }
+
+    if(mysql != nullptr)
+        mysql_close(mysql);
 }
 
 AudienceBroker::AudienceBroker()

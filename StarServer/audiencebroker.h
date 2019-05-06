@@ -29,6 +29,10 @@ public:
     bool logoutAudience(std::string n);
     //检查帐号是否已经登录
     bool checkLoginaudience(std::string n,std::string p);
+    //获取某帐号头像
+    std::string getAudienceAvatar(std::string n);
+    //更改某帐号头像
+    bool changeAudienceAvatar(std::string name,std::string source);
 private:
     AudienceBroker();
     static std::shared_ptr<AudienceBroker> m_instance;

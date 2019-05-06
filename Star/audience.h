@@ -12,25 +12,24 @@
 class Collection;
 class Record;
 class Client;
-class Audience : public QObject
+class Audience
 {
     friend class Client;
-    Q_OBJECT
 public:
-    Audience(QObject* parent=0);
+    Audience();
 
     //获取
     QString getName();
     QString getPassword();
+    QString getAvatar();
     //设置
     void setName(std::string name);
     void setPassword(std::string password);
+    void setAvatar(std::string source);
 private:
     QString m_name;
     QString m_password;
     QString m_avatar;
-    QStringList m_collectionList;
-    QStringList m_recordList;
 
     std::vector<Collection*> m_collections;
     std::vector<Record*> m_records;

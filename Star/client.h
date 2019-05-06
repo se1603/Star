@@ -33,9 +33,12 @@ public:
     //关于观众信息的函数（在QML端调用）
     Q_INVOKABLE void sendLoginInfo(QString n,QString p);
     Q_INVOKABLE void sendRegisterInfo(QString n,QString p);
-    Q_INVOKABLE QString getMyaudience();
+    Q_INVOKABLE QString getMyName();
+    Q_INVOKABLE QString getMyAvatar();
     Q_INVOKABLE void loginOut(QString n);
-    Q_INVOKABLE void updateAvatar(QString n,QString audienceName);
+    Q_INVOKABLE void updateAvatar(QString n, QString a);
+    //获取已登录帐号所有内容的函数
+    std::string getAudienceAvatar(std::string name);
 
 signals:
     void loginsucceed();
@@ -45,7 +48,7 @@ signals:
     void loginout();
     void haslogined();
     void updateAvatarFailed();
-    void updateAvatarSucceed();
+    void updateAvatarSucceed(QString newsource);
 private:
     //文件
     FILE *fp;

@@ -64,6 +64,7 @@ Page {
 
                 TextField {
                     id:passwordInput
+                    echoMode: TextInput.Password
                 }
             }
         }

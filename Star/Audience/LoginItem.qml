@@ -11,10 +11,11 @@ Page {
     Connections {
         target: client
         onLoginsucceed : {
-            topArea.rightButton.loginPic.loginIcon.source = "../image/audience/头像.jpg"
+            topArea.rightButton.loginPic.loginIcon.source = client.getMyAvatar()
             topArea.rightButton.loginstatus = true
             audienceItem.close()
-            middleArea.audienceInterface.audienceName = client.getMyaudience()
+            middleArea.audienceInterface.audienceName = client.getMyName()
+            middleArea.audienceInterface.audienceAvatar = client.getMyAvatar()
         }
         onLoginfailed: {
             noticeText.text = "name or password is not correct,please input again"
@@ -76,6 +77,7 @@ Page {
 
                 TextField {
                     id:passwordInput
+                    echoMode: TextInput.Password
                 }
             }
         }

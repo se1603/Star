@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 //    Client c;
 //    c.connectServer();
     qmlRegisterType<Client>("Star",1,0,"Client");
-    qmlRegisterType<Audience>("Star",1,0,"Auidnece");
     qmlRegisterType<Collection>("Star",1,0,"Collection");
     qmlRegisterType<Record>("Star",1,0,"Record");
 

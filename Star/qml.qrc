@@ -31,5 +31,14 @@
         <file>TopArea/TopSearch.qml</file>
         <file>MainItem.qml</file>
         <file>Audience/Dir.qml</file>
+        <file>image/avatar/1.jpeg</file>
+        <file>image/avatar/2.jpeg</file>
+        <file>image/avatar/3.jpeg</file>
+        <file>image/avatar/4.jpeg</file>
+        <file>image/avatar/5.jpeg</file>
+        <file>image/avatar/6.jpeg</file>
+        <file>image/avatar/7.jpeg</file>
+        <file>image/avatar/8.jpeg</file>
+        <file>image/avatar/9.jpg</file>
     </qresource>
 </RCC>
