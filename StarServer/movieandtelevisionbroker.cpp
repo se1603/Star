@@ -12,23 +12,13 @@ MovieAndTelevisionBroker::MovieAndTelevisionBroker()
     initFilms();
 }
 
-std::map<std::string, std::vector<MovieAndTelevision> > MovieAndTelevisionBroker::getAllMovieAndTelevision() const
-{
-    return m_movieAndTelevision;
-}
-
 std::vector<Film> MovieAndTelevisionBroker::getFilms(FilmType type)
 {
     std::vector<Film> result;
     for(int i = 0; i != m_films.size();i++)
     {
         Film tmp = m_films[i];
-        std::vector<FilmType> t = tmp.type();
-        for(int j = 0;j != t.size();j++)
-        {
-            if(t[j] == type)
-                result.push_back(tmp);
-        }
+        tmp.findFilmByType(type,result);
     }
     return result;
 }
@@ -39,12 +29,7 @@ std::vector<Film> MovieAndTelevisionBroker::getRecommendFilms(int type)
     for(int i = 0; i != m_films.size();i++)
     {
         Film tmp = m_films[i];
-        std::vector<int> f = tmp.getRecommend();
-        for(int j = 0;j != f.size();j++)
-        {
-            if(f[j] == type)
-                result.push_back(tmp);
-        }
+        tmp.findFilmByRecommend(type,result);
     }
     return result;
 }
@@ -96,28 +81,76 @@ void MovieAndTelevisionBroker::initFilms()
 
 Film MovieAndTelevisionBroker::handleFilm(std::vector<std::string> row)
 {
-    Film film;
+    std::vector<std::string> filmDirector,filmActor,filmPost,recommend,type;
 
-    std::vector<std::string> director,actor,post,recommend,type;
-    film.setName(row[0]);
     splictString(row[1],type,",");
+    std::vector<FilmType> filmtype;     //电影类型
     for(int i = 0; i != type.size();i++)
     {
-        film.setType(atoi(type[i].c_str()));
+        switch (atoi(type[i].c_str())) {
+        case 1:
+            filmtype.push_back(FilmType::MartialArts);
+            break;
+        case 2:
+            filmtype.push_back(FilmType::Suspense);
+            break;
+        case 3:
+            filmtype.push_back(FilmType::Comedy);
+            break;
+        case 4:
+            filmtype.push_back(FilmType::Action);
+            break;
+        case 5:
+            filmtype.push_back(FilmType::Love);
+            break;
+        case 6:
+            filmtype.push_back(FilmType::Cartoon);
+            break;
+        case 7:
+            filmtype.push_back(FilmType::Terror);
+            break;
+        case 8:
+            filmtype.push_back(FilmType::ScienceFiction);
+            break;
+        default:
+            break;
+        }
     }
-    film.setRegion(atoi(row[2].c_str()));
-    splictString(row[3],director,",");
-    splictString(row[4],actor,",");
-    splictString(row[5],post,",");
+    Region filmRegion = Region::China;
+    switch (atoi(row[2].c_str())) {
+    case 1:
+        filmRegion = Region::China;
+        break;
+    case 2:
+        filmRegion = Region::American;
+        break;
+    case 3:
+        filmRegion = Region::Korea;
+        break;
+    case 4:
+        filmRegion = Region::India;
+        break;
+    case 5:
+        filmRegion = Region::THailand;
+        break;
+    case 6:
+        filmRegion = Region::Britain;
+        break;
+    default:
+        break;
+    }
+    splictString(row[3],filmDirector,",");
+    splictString(row[4],filmActor,",");
+    splictString(row[5],filmPost,",");
     splictString(row[7],recommend,",");
-    film.setDirector(director);
-    film.setActors(actor);
-    film.setPost(post);
-    film.setIntroduction(row[6]);
+    std::vector<int> filmRecommends;
     for(int i = 0; i != recommend.size();i++)
     {
-        film.setRecommend(atoi(recommend[i].c_str()));
+        filmRecommends.push_back(atoi(recommend[i].c_str()));
     }
+
+    Film film(row[0],row[6],filmRegion,filmPost,
+            filmActor,filmDirector,filmtype,filmRecommends);
     return film;
 }
 

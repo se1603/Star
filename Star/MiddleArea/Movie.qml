@@ -1,3 +1,7 @@
+/*
+  Author:王梦娟
+  Date: 2019-5-1 电影显示
+*/
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3

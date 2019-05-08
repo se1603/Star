@@ -8,16 +8,11 @@ BrowseAndWatchController::BrowseAndWatchController()
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
-std::map<std::string, std::vector<MovieAndTelevision> > BrowseAndWatchController::getAllMovieAndTeleVision()
-{
-    return  m_movieAndTelevisionBroker->getAllMovieAndTelevision();
-}
-
 std::string BrowseAndWatchController::interface(int category, int type)
 {
     std::string reply;
     switch (category) {
-    case 1:  //电影
+    case 1:  //电影子类别显示
         reply = filmInterface(type);
         break;
     default:
@@ -35,7 +30,7 @@ std::string BrowseAndWatchController::category(int type)
     root["request"] = "CATEGORY";
     root["type"] = type;
     switch (type) {
-    case 0:{
+    case 0:{//主页目录
         std::vector<std::string> category1{"精选","电影","剧集","动漫","综艺"};
         for(int i = 0; i != 5;i++)
         {
@@ -76,7 +71,7 @@ std::string BrowseAndWatchController::recommend(int category)
 
     }
         break;
-    case 1:{
+    case 1:{//电影推荐页面
         std::vector<std::string> title1{"正在热播","热门华语大片","高人气好莱坞大片","经典高分港片","历年贺岁大片精选"};
 
         Json::Value filmarry;
@@ -88,14 +83,18 @@ std::string BrowseAndWatchController::recommend(int category)
             Json::Value item;
             for(int a = 0; a != films.size();a++)
             {
+                std::vector<std::string> resource;
                 Json::Value film;
-                film["name"] = films[a].name();
                 if(i == 0){
-                    film["post"] = films[a].post()[1];
+                    resource = films[a].show(true);
+                    film["name"] = resource[0];
+                    film["post"] = resource[1];
                     filmarry.append(film);   //存大图电影
                 }
                 else{
-                    film["post"] = films[a].post()[0];
+                    resource = films[a].show(false);
+                    film["name"] = resource[0];
+                    film["post"] = resource[1];
                     arry.append(film); //存小图电影
                 }
                 if(i != 0)
@@ -122,7 +121,6 @@ std::string BrowseAndWatchController::recommend(int category)
 std::string BrowseAndWatchController::filmInterface(int type)
 {
     FilmType filmtype;
-    std::string showType;
     switch (type) {
     case 0:
         filmtype = FilmType::Recommend;
@@ -162,9 +160,11 @@ std::string BrowseAndWatchController::filmInterface(int type)
     root["type"] = type;
     for(int i = 0; i != films.size();i++)
     {
+        std::vector<std::string> resource;
+        resource = films[i].show(false);
         Json::Value item;
-        item["name"] = films[i].name();
-        item["post"] = films[i].post()[0];
+        item["name"] = resource[0];
+        item["post"] = resource[1];
         arryObj.append(item);
     }
     root["movieAndTelevision"] = arryObj;

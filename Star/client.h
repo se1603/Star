@@ -60,9 +60,6 @@ signals:
     void updateAvatarSucceed(QString newsource);
 
 private:
-    //缓存
-    std::map<int,std::map<int,std::vector<MovieAndTelevision>>> movieAndTelevision;
-    std::map<int,std::vector<MovieAndTelevision>> recommend;
     //文件
     FILE *fp;
     File_info file_info;
