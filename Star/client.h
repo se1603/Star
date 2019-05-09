@@ -4,8 +4,9 @@
 #include "network.h"
 #include <string>
 #include "json/json.h"
-#include "audience.h"
 #include <QObject>
+#include "movieandtelevision.h"
+#include "audience.h"
 
 struct File_info{
     typedef unsigned long long Size_type;
@@ -18,27 +19,32 @@ class Client : public QObject
 {
     Q_OBJECT
 public:
-    Client(QObject* parent=0);
-
-    void splictString(std::string &s, std::vector<std::string> &v, const std::string &c);
+    Client(QObject *p = 0);
 
     void connectServer();
-    void getFile();
+
     socket_ptr sendMessage(std::string message);
 
-    void receiveFile(std::string message);
-    void receiveFilename(boost::system::error_code &e,boost::asio::ip::udp::endpoint sender_ep,socket_ptr udpsock);
-    void receive_file_content();   //写文件
+    std::vector<std::string> jsonParse(char message[]);
+    void splictString(std::string &s, std::vector<std::string> &v, const std::string &c);
+
+    //显示影视
+    Q_INVOKABLE QString browseMovieAndTelevision(int category, int type); //浏览影视
+    Q_INVOKABLE QString showCategory(int type);  //显示分类
+    Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
     //关于观众信息的函数（在QML端调用）
     Q_INVOKABLE void sendLoginInfo(QString n,QString p);
     Q_INVOKABLE void sendRegisterInfo(QString n,QString p);
-    Q_INVOKABLE QString getMyName();
-    Q_INVOKABLE QString getMyAvatar();
     Q_INVOKABLE void loginOut(QString n);
     Q_INVOKABLE void updateAvatar(QString n, QString a);
-    //获取已登录帐号所有内容的函数
     std::string getAudienceAvatar(std::string name);
+
+    //获取文件
+    void getFile();
+    void receiveFile(std::string message);
+    void receiveFilename(boost::system::error_code &e,boost::asio::ip::udp::endpoint sender_ep,socket_ptr udpsock);
+    void receive_file_content();
 
 signals:
     void loginsucceed();
@@ -49,14 +55,14 @@ signals:
     void haslogined();
     void updateAvatarFailed();
     void updateAvatarSucceed(QString newsource);
+
 private:
+    //缓存
+    std::map<int,std::map<int,std::vector<MovieAndTelevision>>> movieAndTelevision;
+    std::map<int,std::vector<MovieAndTelevision>> recommend;
     //文件
     FILE *fp;
     File_info file_info;
-    File_info::Size_type total_bytes_writen;
-    static const unsigned buffer_size = 100 * 1024;
-    char buffer[buffer_size];
-
     Audience* _audience;
 };
 

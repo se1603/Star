@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:封装了消息，文件的接收和发送
+*/
 #ifndef NETWORK_H
 #define NETWORK_H
 
@@ -31,6 +35,7 @@ public:
     std::string receive(boost::asio::ip::udp::endpoint &sender_ep);
 
     long int sendFile(FILE *fp, endpoint ep);
+
 private:
     socket_ptr sock;
 };

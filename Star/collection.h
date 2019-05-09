@@ -6,9 +6,8 @@
 
 class Audience;
 class MovieAndTelevision;
-class Collection : public QObject
+class Collection
 {
-    Q_OBJECT
 public:
     Collection();
 private:

@@ -11,11 +11,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-//    Client c;
-//    c.connectServer();
-    qmlRegisterType<Client>("Star",1,0,"Client");
-    qmlRegisterType<Collection>("Star",1,0,"Collection");
-    qmlRegisterType<Record>("Star",1,0,"Record");
+    qmlRegisterType<Client>("Star", 1, 0, "Client");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

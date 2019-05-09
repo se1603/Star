@@ -11,27 +11,18 @@
 class Audience
 {
 public:
-    Audience();
+    Audience(std::string name,std::string password,std::string avatar);
+    bool judgeLogin(std::string name);
+    bool judgeName(std::string name);
+    bool judgePassword(std::string password);
 
-    //获取
-    std::string getName();
-    std::string getPassword();
-    std::string getAvatar();
-    std::string getCollection();
-    std::string getRecord();
-    //设置
-    void setName(std::string name);
-    void setPassword(std::string password);
-    void setAvatar(std::string avatar);
-    void setCollection(std::string collection);
-    void setRecord(std::string record);
 private:
     std::string m_name;
     std::string m_password;
     std::string m_avatar;
 
-    std::string m_collections;
-    std::string m_records;
+    std::vector<Collection> m_collections;
+    std::vector<Record> m_records;
 };
 
 #endif // AUDIENCE_H

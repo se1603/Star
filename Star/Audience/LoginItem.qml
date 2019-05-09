@@ -11,11 +11,11 @@ Page {
     Connections {
         target: client
         onLoginsucceed : {
-            topArea.rightButton.loginPic.loginIcon.source = client.getMyAvatar()
+            topArea.rightButton.loginPic.loginIcon.source =1
             topArea.rightButton.loginstatus = true
+            middleArea.audienceInterface.audienceName =1
+            middleArea.audienceInterface.audienceAvatar =1
             audienceItem.close()
-            middleArea.audienceInterface.audienceName = client.getMyName()
-            middleArea.audienceInterface.audienceAvatar = client.getMyAvatar()
         }
         onLoginfailed: {
             noticeText.text = "name or password is not correct,please input again"

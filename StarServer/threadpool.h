@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:线程池
+*/
 #ifndef THREADPOOL_H
 #define THREADPOOL_H
 

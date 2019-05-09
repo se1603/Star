@@ -8,14 +8,15 @@ import Star 1.0
 Window {
     visible: true
     id: mainWindow
+    color: "#F5F5F5"
     minimumHeight: 670
     minimumWidth: 1075
     title: qsTr("Star")
-    property string name:mainItem.middleArea.audienceInterface.audienceName
 
-    Client {
-        id: client
+    Client{
+        id:client
     }
+
 
     MainItem {
         id: mainItem
@@ -24,9 +25,10 @@ Window {
     Connections{
         target: mainWindow
         onClosing: {
-            if(name !== ""){
-                client.loginOut(name)
+            if(mainItem.middleArea.audienceInterface.audienceName !== ""){
+                client.loginOut(mainItem.middleArea.audienceInterface.audienceName)
             }
         }
     }
+
 }

@@ -1,5 +1,10 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:封装了消息，文件的接收和发送
+*/
 #include "network.h"
 #include <iostream>
+#include <string.h>
 
 //----------------------crc32----------------
 static unsigned int crc_table[256];   //256个
@@ -149,19 +154,26 @@ std::string NetWork::receive()
     unsigned int crc32value;
     long int id = 1;   //包序列号
 
-    char buffer[1024*10];
+    char buffer[10 * 1024];
     bzero(buffer,sizeof (buffer));   //消息缓存
 
     boost::asio::ip::udp::endpoint sender_ep;
 
     //检测数据的完整
-    std::cout << "WAIT: " << std::endl;
+    std::cout << "Receive Message: " << std::endl;
     size_t len = sock->receive_from(boost::asio::buffer(reinterpret_cast<char*>(&data), sizeof(data)),sender_ep);
-
+    size_t read = 0;
     int count = data.head.count;
-    int read = 0;
+
+    bool first = false;
+
+    std::string s;
 
     while(count){
+        if(first)
+        {
+            len = sock->receive_from(boost::asio::buffer(reinterpret_cast<char*>(&data), sizeof(data)),sender_ep);
+        }
         if(len < 0)
             std::cout << "Receive Message From Client failed.\n";
         else {
@@ -174,9 +186,8 @@ std::string NetWork::receive()
                     pack_info.len = len;
                     ++id;
                     sock->send_to(boost::asio::buffer((char *)&pack_info,sizeof(pack_info)),sender_ep);
-                    memcpy(buffer + read,data.buff,sizeof (data.buff));
-                    read += len;
-//                    std::cout << buffer << std::endl;
+                    memcpy(buffer+read,data.buff,512);
+                    read += 512;
                 }
                 else {
                     //错误包，重发
@@ -197,9 +208,10 @@ std::string NetWork::receive()
             }
         }
         --count;
+        first = true;
     }
-    std::string s = buffer;
-
+    s = buffer;
+    std::cout << s << std::endl;
     return s;
 }
 
@@ -269,7 +281,7 @@ long NetWork::sendFile(FILE *fp, endpoint ep)
 
 void NetWork::receiveFile(FILE *fp)
 {
-//    std::cout << "=====Receive File Context=====" << std::endl;
+    //    std::cout << "=====Receive File Context=====" << std::endl;
     int len = 0;
     boost::asio::ip::udp::endpoint sender_ep;
 
@@ -282,14 +294,14 @@ void NetWork::receiveFile(FILE *fp)
 
         len = sock->receive_from(boost::asio::buffer(reinterpret_cast<char*>(&data), sizeof(data)),sender_ep);
 
-//        std::cout << "len: " << len << std::endl;
+        //        std::cout << "len: " << len << std::endl;
 
         if(len > 0)
         {
-//            std::cout << "len: " << len << std::endl;
+            //            std::cout << "len: " << len << std::endl;
             crc32tmp = crc32(crc,(unsigned char *)data.buff,sizeof(data));
-//            std::cout << "crc32:" << data.head.errorFlag << std::endl;
-//            std::cout << "id:"  << data.head.id << std::endl;
+            //            std::cout << "crc32:" << data.head.errorFlag << std::endl;
+            //            std::cout << "id:"  << data.head.id << std::endl;
 
             if(data.head.index == id)
             {
@@ -302,7 +314,7 @@ void NetWork::receiveFile(FILE *fp)
                     //                    std::cout << "data id: " << data.head.id << std::endl;
                     sock->send_to(boost::asio::buffer((char *)&head,sizeof(head)),sender_ep);
 
-//                    std::cout << data.buff << std::endl;
+                    //                    std::cout << data.buff << std::endl;
                     fwrite(data.buff,sizeof (char),data.head.len,fp);
                 }
                 else {

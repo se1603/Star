@@ -6,9 +6,8 @@
 
 class Audience;
 class MovieAndTelevision;
-class Record : public QObject
+class Record
 {
-    Q_OBJECT
 public:
     Record();
 private:

@@ -42,12 +42,8 @@ bool AudienceBroker::verifyLoginInfo(std::string n, std::string p)
                 for(unsigned int i=0;i<mysql_num_fields(result);++i){
                     audienceRows.push_back(std::string(row[i]));
                 }
-                Audience a;
-                a.setName(audienceRows[0]);
-                a.setPassword(audienceRows[1]);
-                a.setAvatar(audienceRows[2]);
+                Audience a(audienceRows[0],audienceRows[1],audienceRows[2]);
                 loginedAudiences.push_back(a);
-                std::cout << "----------yes!!!!" << std::endl;
                 return true;
             }
         }
@@ -125,7 +121,7 @@ bool AudienceBroker::insertNewAudience(std::string n, std::string p)
 bool AudienceBroker::logoutAudience(std::string n)
 {
     for(auto it = loginedAudiences.begin();it != loginedAudiences.end();){
-        if((*it).getName() == n){
+        if((*it).judgeLogin(n) == true){
             it = loginedAudiences.erase(it);
             std::cout << "已退出" << std::endl;
             return true;
@@ -139,7 +135,7 @@ bool AudienceBroker::checkLoginaudience(std::string n, std::string p)
 {
     int flag = 0;
     for(auto a:loginedAudiences){
-        if(a.getName() == n && a.getPassword() == p){
+        if(a. == n && a.getPassword() == p){
             flag = 1;
             return false;
         }

@@ -3,7 +3,6 @@
 #ifndef AUDIENCEBROKER_H
 #define AUDIENCEBROKER_H
 #include "relationalbroker.h"
-#include <vector>
 #include <string>
 #include "audience.h"
 

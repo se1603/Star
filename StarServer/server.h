@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:用封装好的NetWork重写网络连接
+*/
 #ifndef SERVER_H
 #define SERVER_H
 
@@ -7,8 +11,7 @@
 #include "json/json.h"
 #include <boost/filesystem.hpp>
 #include "network.h"
-#include "audiencebroker.h"
-#include "relationalbroker.h"
+#include "controllerfactory.h"
 
 struct File_info{
     typedef unsigned long long Size_type;
@@ -32,9 +35,11 @@ public:
 
 private:
     ThreadPool threadpool;  //线程池
+    std::shared_ptr<ControllerFactory> controlFactory;
+    std::shared_ptr<BrowseAndWatchController> m_BrowseAndWatchController;
 
-    //观众代管者
-    std::shared_ptr<AudienceBroker> audienceBroker;
+    //观众控制器
+    std::shared_ptr<AudienceController> m_AudienceController;
 };
 
 #endif // SERVER_H

@@ -9,24 +9,17 @@ Rectangle {
 
     property alias middleArea:middleArea
 
-        TopArea{
-            id: topArea
-            visible: true
-        }
+    TopArea{
+        id: topArea
+        visible: true
+    }
 
-        MiddleArea {
-            id:middleArea
-            visible:visible
-        }
+    MiddleArea {
+        id:middleArea
+        visible:visible
+    }
 
-        AudiencePoupItem {
-            id:audienceItem
-        }
-//    Rectangle {
-//        id: test
-//        width: parent.width
-//        height: 9 / 10 * parent.height
-//        MessageReceiveView {
-//        }
-//    }
+    AudiencePoupItem {
+        id:audienceItem
+    }
 }

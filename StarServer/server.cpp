@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:用封装好的NetWork重写网络连接
+*/
 #include "server.h"
 #include <iostream>
 #include <algorithm>
@@ -8,6 +12,8 @@ boost::asio::ip::udp::endpoint udpep(boost::asio::ip::udp::v4(),8001);
 
 Server::Server()
 {
+    controlFactory = ControllerFactory::getInstance();
+    m_BrowseAndWatchController = controlFactory->createBrowseAndWatchController();
     audienceBroker = AudienceBroker::getInstance();
 }
 
@@ -65,6 +71,20 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["fileName"].asString());
         }
+        else if(request == "INTERFACE")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["interface"].asString());
+            parameter.push_back(value["type"].asString());
+        }
+        else if (request == "CATEGORY") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["type"].asString());
+        }
+        else if (request == "RECOMMEND") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["category"].asString());
+        }
         else if(request == "VERIFYINFO")
         {
             parameter.push_back(value["request"].asString());
@@ -109,11 +129,28 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
 
     if(request == "FILETRANSFER")
     {
+
         sendFile(parameters[1],ep);
         reply = "FILETRANSFERSUCCEED";
         char buff[sizeof (reply)];
         strcpy(buff,reply.data());
         sendMessage(buff,ep);
+        return reply;
+    }
+    else if (request == "INTERFACE") {
+        reply = m_BrowseAndWatchController->interface(
+                    atoi(parameters[1].c_str()),atoi(parameters[2].c_str()));
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "CATEGORY"){
+       reply = m_BrowseAndWatchController->category(atoi(parameters[1].c_str()));
+       sendMessage(reply,ep);
+       return reply;
+    }
+    else if (request == "RECOMMEND") {
+        reply = m_BrowseAndWatchController->recommend(atoi(parameters[1].c_str()));
+        sendMessage(reply,ep);
         return reply;
     }
     else if(request == "VERIFYINFO")
@@ -231,7 +268,9 @@ void Server::sendFile(std::string filename, endpoint ep)
     socket_ptr sock(new boost::asio::ip::udp::socket(service,boost::asio::ip::udp::endpoint()));
     boost::asio::ip::udp::endpoint sender_ep;
 
-    auto fileName = filename.data();
+    std::string path = "../StarServer/";
+    path += filename;
+    auto fileName = path.data();
     FILE *fp = fopen(fileName,"rb");
 
     boost::shared_ptr<FILE> file_ptr(fp,fclose); //退出后自动关闭文件
@@ -253,7 +292,7 @@ void Server::sendFile(std::string filename, endpoint ep)
     memset(buffer,0,sizeof (char) * buffer_size);
     File_info file_info;
 
-    int filename_size = strlen(fileName) + 1;     //文件名
+    int filename_size = strlen(filename.data()) + 1;     //文件名
     size_t file_info_size = sizeof (file_info);
     size_t total_size = file_info_size + filename_size;
     if(total_size > buffer_size){
@@ -274,7 +313,7 @@ void Server::sendFile(std::string filename, endpoint ep)
     memcpy(buffer, &file_info, file_info_size);
     sock->send_to(boost::asio::buffer(buffer,file_info_size),ep);  //发送大小
 
-    memcpy(buffer, fileName, filename_size);
+    memcpy(buffer, filename.data(), filename_size);
     sock->send_to(boost::asio::buffer(buffer,filename_size),ep);  //发送文件名
 
     std::cout << "Send file: " << buffer << "\n";

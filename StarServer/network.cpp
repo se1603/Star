@@ -1,3 +1,7 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:封装了消息，文件的接收和发送
+*/
 #include "network.h"
 #include <iostream>
 
@@ -67,6 +71,7 @@ int NetWork::sendto(std::string message, endpoint ep)
         if( len > MAXLENGTH)  //长度大于512,分包发送
         {
             char buffer[1024 * 10];
+            bzero(buffer,1024 * 10);
             memcpy(buffer,message.data(),sizeof (buffer));
             int readed = 0;
             int count = (len / MAXLENGTH) + 1;
@@ -75,7 +80,9 @@ int NetWork::sendto(std::string message, endpoint ep)
                 memcpy(data.buff,buffer + readed,MAXLENGTH);
                 readed += MAXLENGTH;
                 len -= MAXLENGTH;
-
+                if(len < 0)
+                    len = 0;
+                std::cout << "test:" << data.buff << std::endl;
                 if(send_index == receive_index){
                     ++send_index;
                     data.head.index = send_index;
@@ -152,7 +159,7 @@ std::string NetWork::receive(boost::asio::ip::udp::endpoint &sender_ep)
     char buffer[1024*10];
     bzero(buffer,sizeof (buffer));   //消息缓存
 
-//    boost::asio::ip::udp::endpoint sender_ep;
+    //    boost::asio::ip::udp::endpoint sender_ep;
 
     //检测数据的完整
     std::cout << "WAIT: " << std::endl;
