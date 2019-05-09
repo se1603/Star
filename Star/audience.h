@@ -22,8 +22,8 @@ private:
     QString m_password;
     QString m_avatar;
 
-    std::vector<Collection*> m_collections;
-    std::vector<Record*> m_records;
+    std::vector<Collection> m_collections;
+    std::vector<Record> m_records;
 };
 
 #endif // AUDIENCE_H

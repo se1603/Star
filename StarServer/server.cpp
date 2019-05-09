@@ -14,7 +14,7 @@ Server::Server()
 {
     controlFactory = ControllerFactory::getInstance();
     m_BrowseAndWatchController = controlFactory->createBrowseAndWatchController();
-    audienceBroker = AudienceBroker::getInstance();
+    m_AudienceController = controlFactory->createAudienceController();
 }
 
 void Server::acceptMessage()
@@ -108,7 +108,7 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["audience"].asString());
             parameter.push_back(value["avatar"].asString());
         }
-        else if(request == "GETAVATAR")
+        else if(request == "GETAUDIENCEINFO")
         {
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
@@ -155,8 +155,8 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     }
     else if(request == "VERIFYINFO")
     {
-        if(audienceBroker->checkLoginaudience(parameters[1],parameters[2]) == true){
-            if(audienceBroker->verifyLoginInfo(parameters[1],parameters[2]) == true)
+        if(m_AudienceController->checkoutAudience(parameters[1]) == true){
+            if(m_AudienceController->verifyAudience(parameters[1],parameters[2]) == true)
             {
                 reply = "LOGINSUCCEED";
                 char buff[sizeof(reply)];
@@ -184,7 +184,7 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     }
     else if(request == "REGISTEACCOUNT")
     {
-        if(audienceBroker->registeAccount(parameters[1],parameters[2]) == true)
+        if(m_AudienceController->registeAudience(parameters[1],parameters[2]) == true)
         {
             reply = "REGISTESUCCEED";
             char buff[sizeof(reply)];
@@ -203,7 +203,8 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     }
     else if(request == "LOGOUT")
     {
-        if(audienceBroker->logoutAudience(parameters[1]) == true){
+        if(m_AudienceController->logoutAudience(parameters[1]) == true)
+        {
             reply = "LOGOUTSUCCEED";
             char buff[sizeof(reply)];
             strcpy(buff,reply.data());
@@ -221,7 +222,7 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     }
     else if(request == "UPDATEAVATAR")
     {
-        if(audienceBroker->changeAudienceAvatar(parameters[1],parameters[2]) == true){
+        if(m_AudienceController->updateAudienceAvatar(parameters[1],parameters[2]) == true){
             reply = "HASCHANGED";
             char buff[sizeof(reply)];
             strcpy(buff,reply.data());
@@ -237,13 +238,10 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
             return reply;
         }
     }
-    else if(request == "GETAVATAR")
+    else if(request == "GETAUDIENCEINFO")
     {
-        std::string reply = audienceBroker->getAudienceAvatar(parameters[1]);
-        std::cout << "---------!!!" << reply << std::endl;
-        char buff[sizeof(reply)];
-        strcpy(buff,reply.data());
-        sendMessage(buff,ep);
+        reply = m_AudienceController->audienceInfo(parameters[1]);
+        sendMessage(reply,ep);
         return reply;
     }
 }

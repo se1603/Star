@@ -1,6 +1,6 @@
 /* Author:王梦娟
- * Date:2019-4-25
- * Note:用封装好的NetWork重写网络连接
+ * Date:2019-4-25 用封装好的NetWork重写网络连接
+ * Date:2019-5-7 合并用户模块
 */
 #ifndef SERVER_H
 #define SERVER_H

@@ -11,10 +11,10 @@ Page {
     Connections {
         target: client
         onLoginsucceed : {
-            topArea.rightButton.loginPic.loginIcon.source =1
+            topArea.rightButton.loginPic.loginIcon.source = avatar
             topArea.rightButton.loginstatus = true
-            middleArea.audienceInterface.audienceName =1
-            middleArea.audienceInterface.audienceAvatar =1
+            middleArea.audienceInterface.audienceName = name
+            middleArea.audienceInterface.audienceAvatar = avatar
             audienceItem.close()
         }
         onLoginfailed: {

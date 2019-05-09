@@ -1,9 +1,8 @@
 //董梦丹 4-25
-//最后修改于 4-27
+//最后修改于 5-08
 #ifndef AUDIENCEBROKER_H
 #define AUDIENCEBROKER_H
 #include "relationalbroker.h"
-#include <string>
 #include "audience.h"
 
 class Audience;
@@ -25,13 +24,13 @@ public:
     //添加新用户到数据库中
     bool insertNewAudience(std::string n,std::string p);
     //退出登录
-    bool logoutAudience(std::string n);
+    bool logoutAccount(std::string n);
     //检查帐号是否已经登录
-    bool checkLoginaudience(std::string n,std::string p);
-    //获取某帐号头像
-    std::string getAudienceAvatar(std::string n);
+    bool checkLoginAudience(std::string n);
     //更改某帐号头像
     bool changeAudienceAvatar(std::string name,std::string source);
+
+    void showAudienceInfo(std::string name, std::vector<std::string> &audienceinfo);
 private:
     AudienceBroker();
     static std::shared_ptr<AudienceBroker> m_instance;
