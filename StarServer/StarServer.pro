@@ -22,7 +22,8 @@ SOURCES += \
     audiencebroker.cpp \
     collection.cpp \
     record.cpp \
-    audiencecontroller.cpp
+    audiencecontroller.cpp \
+    variety.cpp
 
 HEADERS += \
     server.h \
@@ -42,6 +43,7 @@ HEADERS += \
     audiencebroker.h \
     collection.h \
     record.h \
-    audiencecontroller.h
+    audiencecontroller.h \
+    variety.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient

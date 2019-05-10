@@ -15,6 +15,10 @@ std::string BrowseAndWatchController::interface(int category, int type)
     case 1:  //电影子类别显示
         reply = filmInterface(type);
         break;
+    case 4:
+        //综艺子类别显示
+        reply = varietyInterface(type);
+        break;
     default:
         break;
     }
@@ -54,6 +58,18 @@ std::string BrowseAndWatchController::category(int type)
         out = root.toStyledString();
         break;
     }
+    case 4:{
+        //综艺目录
+        std::vector<std::string> category5{"推荐","真人秀","选秀","美食","旅游","纪实","搞笑","访谈"};
+        for(int i=0;i!=8;i++){
+            Json::Value item;
+            item["category"] = category5[i];
+            arryObj.append(item);
+        }
+        root["categorys"] = arryObj;
+        out = root.toStyledString();
+    }
+        break;
     }
 
     return out;
@@ -111,6 +127,43 @@ std::string BrowseAndWatchController::recommend(int category)
         out = root.toStyledString();
     }
         break;
+    case 4:{
+        std::vector<std::string> title4{"热门在播综艺","今日份快乐源泉请查收","地表最强真人秀","细说人生百态"};
+        Json::Value varietyarry;
+        Json::Value commonVariety;
+        for(int i=0;i!=5;i++){
+            std::vector<Variety> varieties = m_movieAndTelevisionBroker->getRecommendVarieties(i);
+            Json::Value arry;
+            Json::Value item;
+            for(int a=0;a!=varieties.size();a++)
+            {
+                std::vector<std::string> resource;
+                Json::Value variety;
+                if(i == 0){
+                    resource = varieties[a].show(true);
+                    variety["name"] = resource[0];
+                    variety["post"] = resource[1];
+                    varietyarry.append(variety);
+                }else{
+                    resource = varieties[a].show(false);
+                    variety["name"] = resource[0];
+                    variety["post"] = resource[1];
+                    arry.append(variety);
+                }
+
+                if(i!=0){
+                    item["title"] = title4[i-1];
+                    item["varieties"] = arry;
+                }
+            }
+            if(i!=0)
+                commonVariety["resource"].append(item);
+        }
+        root["secondRecommends"] = commonVariety;
+        root["firstRecommends"] = varietyarry;
+        out = root.toStyledString();
+    }
+        break;
     default:
         break;
     }
@@ -162,6 +215,58 @@ std::string BrowseAndWatchController::filmInterface(int type)
     {
         std::vector<std::string> resource;
         resource = films[i].show(false);
+        Json::Value item;
+        item["name"] = resource[0];
+        item["post"] = resource[1];
+        arryObj.append(item);
+    }
+    root["movieAndTelevision"] = arryObj;
+    std::string out = root.toStyledString();
+
+    return out;
+}
+
+std::string BrowseAndWatchController::varietyInterface(int type)
+{
+    VarietyType varietytype;
+    switch(type) {
+    case 0:
+        varietytype = VarietyType::Recommend;
+        break;
+    case 1:
+        varietytype = VarietyType::RealityShow;
+        break;
+    case 2:
+        varietytype = VarietyType::TalentShow;
+        break;
+    case 3:
+        varietytype = VarietyType::Food;
+        break;
+    case 4:
+        varietytype = VarietyType::Travel;
+        break;
+    case 5:
+        varietytype = VarietyType::ActualRecord;
+        break;
+    case 6:
+        varietytype = VarietyType::Funny;
+        break;
+    case 7:
+        varietytype = VarietyType::Interview;
+        break;
+    }
+
+    std::vector<Variety> varieties;
+    varieties = m_movieAndTelevisionBroker->getVarieties(varietytype);
+
+    Json::Value root;
+    Json::Value arryObj;
+    root["request"] = "INTERFACE";
+    root["interface"] = 4;
+    root["type"] = type;
+    for(int i=0;i != varieties.size();i++){
+        std::vector<std::string> resource;
+        resource = varieties[i].show(false);
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];

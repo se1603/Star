@@ -1,10 +1,32 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.2
 
-Item {
-    Rectangle{
-        width: 200
-        height: 200
-        color: "#dddddd"
-        anchors.centerIn: parent
+Rectangle {
+    id: variety
+    width: page_display.width
+    height: page_display.height
+
+    property var varieties
+
+    StackView {
+        id: variety_stack
+        anchors {
+            fill: parent
+        }
+        initialItem: recommend_variety
+    }
+
+    Component {
+        id: recommend_variety
+        VarietyRecommend {
+
+        }
+    }
+
+    Component {
+        id: common_variety
+        VarietyType {
+
+        }
     }
 }

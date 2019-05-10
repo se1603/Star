@@ -21,7 +21,8 @@ SOURCES += \
     movieandtelevision.cpp \
     network.cpp \
     record.cpp \
-    region.cpp
+    region.cpp \
+    variety.cpp
 
 RESOURCES += qml.qrc
 
@@ -47,4 +48,5 @@ HEADERS += \
     movieandtelevision.h \
     network.h \
     record.h \
-    region.h
+    region.h \
+    variety.h

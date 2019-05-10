@@ -7,6 +7,7 @@
 
 #include "relationalbroker.h"
 #include "film.h"
+#include "variety.h"
 
 class MovieAndTelevisionBroker : public RelationalBroker
 {
@@ -24,10 +25,18 @@ public:
     std::vector<Film> getFilms(FilmType type);
     std::vector<Film> getRecommendFilms(int type);
 
+    void initVarieties();
+    Variety handleVariety(std::vector<std::string> row);
+
+    std::vector<Variety> getVarieties(VarietyType type);
+    std::vector<Variety> getRecommendVarieties(int type);
+
 private:
     MovieAndTelevisionBroker();
     static std::shared_ptr<MovieAndTelevisionBroker> m_instance;
     std::vector<Film> m_films;   //电影
+
+    std::vector<Variety> m_varieties; //综艺
 };
 
 #endif // MOVIEANDTELEVISIONBROKER_H
