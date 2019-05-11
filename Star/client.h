@@ -33,15 +33,17 @@ public:
     Q_INVOKABLE QString showCategory(int type);  //显示分类
     Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
-    //关于观众信息的函数（在QML端调用）
+    //用户操作（QML端）
+    //登录
     Q_INVOKABLE void sendLoginInfo(QString n,QString p);
+    //注册
     Q_INVOKABLE void sendRegisterInfo(QString n,QString p);
-    Q_INVOKABLE QString getMyName();
-    Q_INVOKABLE QString getMyAvatar();
+    //退出
     Q_INVOKABLE void loginOut(QString n);
+    //修改头像
     Q_INVOKABLE void updateAvatar(QString n, QString a);
-    //获取已登录帐号所有内容的函数
-    std::string getAudienceAvatar(std::string name);
+    //用户类函数（C++端）
+    void getAudienceInfo(std::string name);
 
     //获取文件
     void getFile();
@@ -50,7 +52,7 @@ public:
     void receive_file_content();
 
 signals:
-    void loginsucceed();
+    void loginsucceed(QString name,QString avatar);
     void loginfailed();
     void registesucceed();
     void registefailed();

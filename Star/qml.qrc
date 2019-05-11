@@ -57,5 +57,9 @@
         <file>TopArea/RightButton.qml</file>
         <file>TopArea/TopArea.qml</file>
         <file>TopArea/TopSearch.qml</file>
+        <file>MiddleArea/VarietyType.qml</file>
+        <file>MiddleArea/VarietyRecommend.qml</file>
+        <file>MiddleArea/ComicRecommend.qml</file>
+        <file>MiddleArea/ComicType.qml</file>
     </qresource>
 </RCC>

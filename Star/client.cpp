@@ -5,8 +5,8 @@
 #include <dirent.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.87.103"),8001);
-boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7788));
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.210"),8001);
+boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
 Client::Client(QObject *p) :
@@ -358,10 +358,7 @@ void Client::sendLoginInfo(QString n, QString p)
 
     m = sock.receive();
     if(m == "LOGINSUCCEED"){
-        _audience->setName(aN);
-        _audience->setPassword(aPW);
-        _audience->setAvatar(getAudienceAvatar(aN));
-        emit loginsucceed();
+        getAudienceInfo(aN);
     }else if(m == "VERIFYFAILED"){
         emit loginfailed();
     }else if(m == "HASLOGINED"){
@@ -394,16 +391,6 @@ void Client::sendRegisterInfo(QString n, QString p)
     }else{
         emit registefailed();
     }
-}
-
-QString Client::getMyName()
-{
-    return _audience->getName();
-}
-
-QString Client::getMyAvatar()
-{
-    return _audience->getAvatar();
 }
 
 void Client::loginOut(QString n)
@@ -451,18 +438,16 @@ void Client::updateAvatar(QString n,QString a)
 
     m = sock.receive();
     if(m == "HASCHANGED"){
-        _audience->setAvatar(filename);
-        QString source = QString::fromStdString(filename);
-        emit updateAvatarSucceed(source);
+        emit updateAvatarSucceed(QString::fromStdString(filename));
     }else if(m == "FAILED"){
         emit updateAvatarFailed();
     }
 }
 
-std::string Client::getAudienceAvatar(std::string name)
+void Client::getAudienceInfo(std::string name)
 {
     Json::Value AudienceInfo;
-    AudienceInfo["request"] = "GETAVATAR";
+    AudienceInfo["request"] = "GETAUDIENCEINFO";
     AudienceInfo["name"] = name;
     AudienceInfo.toStyledString();
     std::string message = AudienceInfo.toStyledString();
@@ -473,8 +458,23 @@ std::string Client::getAudienceAvatar(std::string name)
     NetWork sock(udpsockptr);
 
     std::string m;
-
     m = sock.receive();
 
-    return m;
+    Json::Value value;
+    Json::Reader reader;
+
+    std::vector<std::string> p;
+
+    if(!reader.parse(m,value)){
+        std::cerr << "Receive info failed." << std::endl;
+    }else{
+        p.push_back(value["name"].asString());
+        p.push_back(value["avatar"].asString());
+    }
+
+    QString n = QString::fromStdString(p[0]);
+    QString a = QString::fromStdString(p[1]);
+//    qDebug() << n << "------" << a;
+    emit loginsucceed(n,a);
+
 }

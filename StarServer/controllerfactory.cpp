@@ -11,3 +11,8 @@ std::shared_ptr<BrowseAndWatchController> ControllerFactory::createBrowseAndWatc
 {
     return BrowseAndWatchController::getInstance();
 }
+
+std::shared_ptr<AudienceController> ControllerFactory::createAudienceController()
+{
+    return AudienceController::getInstance();
+}

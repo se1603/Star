@@ -12,7 +12,8 @@ enum class Region{
     Korea = 3,
     India = 4,
     THailand = 5,
-    Britain = 6
+    Britain = 6,
+    Japan = 7
 };
 
 #endif // REGION_H

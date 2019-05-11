@@ -1,5 +1,5 @@
 //董梦丹 4-25
-//最后修改于 4-27
+//最后修改于 5-08
 #include "audiencebroker.h"
 #include "audience.h"
 #include "collection.h"
@@ -42,12 +42,10 @@ bool AudienceBroker::verifyLoginInfo(std::string n, std::string p)
                 for(unsigned int i=0;i<mysql_num_fields(result);++i){
                     audienceRows.push_back(std::string(row[i]));
                 }
-                Audience a;
-                a.setName(audienceRows[0]);
-                a.setPassword(audienceRows[1]);
-                a.setAvatar(audienceRows[2]);
+                std::vector<Collection> collection;
+                std::vector<Record> record;
+                Audience a(audienceRows[0],audienceRows[1],audienceRows[2],collection,record);
                 loginedAudiences.push_back(a);
-                std::cout << "----------yes!!!!" << std::endl;
                 return true;
             }
         }
@@ -122,10 +120,10 @@ bool AudienceBroker::insertNewAudience(std::string n, std::string p)
 
 }
 
-bool AudienceBroker::logoutAudience(std::string n)
+bool AudienceBroker::logoutAccount(std::string n)
 {
     for(auto it = loginedAudiences.begin();it != loginedAudiences.end();){
-        if((*it).getName() == n){
+        if((*it).verifyLogin(n) == true){
             it = loginedAudiences.erase(it);
             std::cout << "已退出" << std::endl;
             return true;
@@ -135,31 +133,18 @@ bool AudienceBroker::logoutAudience(std::string n)
     }
 }
 
-bool AudienceBroker::checkLoginaudience(std::string n, std::string p)
+bool AudienceBroker::checkLoginAudience(std::string n)
 {
     int flag = 0;
     for(auto a:loginedAudiences){
-        if(a.getName() == n && a.getPassword() == p){
+        if(a.verifyName(n) == true){
             flag = 1;
             return false;
         }
     }
-
     if(flag == 0){
         return true;
     }
-}
-
-std::string AudienceBroker::getAudienceAvatar(std::string n)
-{
-    std::string avatar;
-    for(auto a:loginedAudiences){
-        if(a.getName() == n){
-            avatar = a.getAvatar();
-        }
-    }
-
-    return avatar;
 }
 
 bool AudienceBroker::changeAudienceAvatar(std::string name, std::string source)
@@ -183,6 +168,15 @@ bool AudienceBroker::changeAudienceAvatar(std::string name, std::string source)
 
     if(mysql != nullptr)
         mysql_close(mysql);
+}
+
+void AudienceBroker::showAudienceInfo(std::string name, std::vector<std::string> &audienceinfo)
+{
+    for(auto a:loginedAudiences){
+        if(a.verifyName(name) == true){
+            a.show(audienceinfo);
+        }
+    }
 }
 
 AudienceBroker::AudienceBroker()

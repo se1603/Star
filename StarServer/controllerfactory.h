@@ -6,6 +6,7 @@
 #define CONTROLLERFACTORY_H
 
 #include "browseandwatchcontroller.h"
+#include "audiencecontroller.h"
 
 class ControllerFactory
 {
@@ -15,6 +16,8 @@ public:
     }
 
     std::shared_ptr<BrowseAndWatchController> createBrowseAndWatchController();
+
+    std::shared_ptr<AudienceController> createAudienceController();
 
 private:
     ControllerFactory();

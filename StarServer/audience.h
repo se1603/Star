@@ -1,5 +1,5 @@
 //董梦丹 4-25
-//最后修改于 4-25
+//最后修改于 5-08
 #ifndef AUDIENCE_H
 #define AUDIENCE_H
 #include <iostream>
@@ -11,27 +11,21 @@
 class Audience
 {
 public:
-    Audience();
+    Audience(std::string name,std::string password,std::string avatar,
+             std::vector<Collection> collection,std::vector<Record> record);
 
-    //获取
-    std::string getName();
-    std::string getPassword();
-    std::string getAvatar();
-    std::string getCollection();
-    std::string getRecord();
-    //设置
-    void setName(std::string name);
-    void setPassword(std::string password);
-    void setAvatar(std::string avatar);
-    void setCollection(std::string collection);
-    void setRecord(std::string record);
+    bool verifyLogin(std::string name);
+    bool verifyName(std::string name);
+    bool verifyPassword(std::string password);
+
+    void show(std::vector<std::string> &audienceinfo);
 private:
     std::string m_name;
     std::string m_password;
     std::string m_avatar;
 
-    std::string m_collections;
-    std::string m_records;
+    std::vector<Collection> m_collections;
+    std::vector<Record> m_records;
 };
 
 #endif // AUDIENCE_H

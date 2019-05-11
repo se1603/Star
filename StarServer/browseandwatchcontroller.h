@@ -22,6 +22,11 @@ public:
 
     std::string filmInterface(int type); //电影界面显示信息
 
+    //综艺界面显示信息
+    std::string varietyInterface(int type);
+
+    std::string comicInterface(int type);//动漫界面显示信息
+
 private:
     BrowseAndWatchController();
     static std::shared_ptr<BrowseAndWatchController> m_instance;

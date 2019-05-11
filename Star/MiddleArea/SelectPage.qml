@@ -4,82 +4,94 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id:selectPage
+    width: page_display.width
+    height: page_display.height
 
-    width: /*59 / 60 **/page_display.width
-    height: 59 / 60 *page_display.height
 
-    ScrollView {
+    ScrollView{
         anchors.fill: parent
         clip: true
-        ColumnLayout {
+        ColumnLayout{
             width: parent.width
             height: parent.height
 
             Row{
-                id:slide
-                width: parent.width
-                height: 300
+                id:slide_row
                 Rectangle{
-                    id:image_re
-                    width: 4/5*selectPage.width
-                    height: 300
+                    id:slideImage
+                    width: mainWindow.width < 1200 ? 702 : 950
+                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Text{
-                        id:dd
+                        id:te
+
                     }
-                }
-                ListView{
-                    id:slideView
-                    width: 1/5*selectPage.width
-                    height: 300//selectPage.height
-                    anchors.top:image_re.top
-                    anchors.topMargin: 5
-                    anchors.left: image_re.right
-                    model: listModel1
-                    delegate: slide_de
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+
+                        }
+                    }
                 }
             }
 
+            ListView{
+                id: slide_films
+                width: parent.width
+                height: 4/15 * parent.height
+                anchors.left: slide_row.right
+                anchors.top:slide_row.top
+                model:listModel1//recommendFilms.firstRecommends
+                delegate: show_slide
+            }
 
-
-            Column{
-                anchors.top:slide.bottom
+            ColumnLayout{
+                anchors.top:slideImage.bottom
                 anchors.topMargin: 20
-                spacing: 10
-                Repeater{
-                    model: selectModel2
-                    Rectangle {
-                        id:item
-                        width:selectPage.width
-                        height:370
-                        Text { id: nameField; text: name }
+                spacing: page_display.width < 1000 ? 10 : 60
 
-                        GridLayout{
-                            id:grid
-                            columns:4
-                            width: parent.width
-                            anchors.top:nameField.bottom
-                            //                columnSpacing: 10
-                            rowSpacing: 20
+                Repeater{
+                    id:show_film
+                    model:5//recommendFilms.secondRecommends.resource
+                    Rectangle{
+                        width: page_display.width
+                        height: page_display.width < 1000 ? 355 : 400
+                        Text {
+                            id:recommend_title
+                            text: modelData
+                            font.pixelSize: 24
+                        }
+
+                        Row {
+                            id: film_grid
+                            anchors.top: recommend_title.bottom
+                            anchors.topMargin: 15
+                            anchors.left: parent.left
+                            spacing: mainWindow.width < 1200 ? 15 : 50
                             Repeater {
-                                model: attributes
-                                Rectangle{
-                                    width: 1/5 * item.width + 10
-                                    height: 150
-                                    color: "#dd22dd"
-                                    Text{
-                                        anchors.top: parent.bottom
-                                        text: url
-                                    }
-                                    MouseArea{
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            play.visible = true
-                                            play.name = url
-                                            play.type = type
-                                            play.model = model
-                                            play.infoma = type
+                                model: 5//modelData.films
+                                Rectangle {
+                                    width:  mainWindow.width < 1200 ? 175 : 197
+                                    height:  page_display.width < 1000 ? 290 : 326
+                                    Rectangle {
+                                        id: collection_img
+                                        width: parent.width
+                                        height:  page_display.width < 1000 ? 263 : 296
+                                        color: "red"
+
+                                        MouseArea{
+                                            anchors.fill: parent
+                                            onClicked: {
+
+                                            }
                                         }
+                                    }
+                                    Text {
+                                        id: collection_text
+                                        width: parent.width
+                                        text: modelData
+                                        wrapMode: Text.Wrap
+                                        anchors.top: collection_img.bottom
                                     }
                                 }
                             }
@@ -89,97 +101,67 @@ Rectangle {
             }
         }
     }
+    Timer {
+        id:time
+        interval: 3000
+        running: true
+        repeat: true
+        onTriggered:{
+            if(slide_films.currentIndex ===  4)
+            {
+                slide_films.currentIndex -= 4
 
-
-    ListModel {
-        id: selectModel2
-
-        ListElement{
-            name:"动漫精选"
-            attributes:[
-                ListElement{
-                    url:"动漫精选1"
-                    type:"sss sss"
-                    model:"15"
-                },
-                ListElement{
-                    url:"动漫精选2"
-                    type:"ss1s sss"
-                    model:"15"
-                },
-                ListElement{
-                    url:"动漫精选3"
-                    type:"sss s1ss"
-                    model:"15"
-                },
-                ListElement{
-                    url:"动漫精选4"
-                    type:"sfsss sss"
-                    model:"15"
-                },
-                ListElement{
-                    url:"动漫精选5"
-                    type:"sssd sss"
-                    model:"15"
-                }
-            ]
-        }
-
-        ListElement{
-            name:"电影精选"
-            attributes:[
-                ListElement{
-                    url:"电影精选1"
-                    type:"sss sssgs"
-                    model:"0"
-                },
-                ListElement{
-                    url:"电影精选2"
-                    type:"ssss4 sss"
-                    model:"0"
-                },
-                ListElement{
-                    url:"电影精选3"
-                    type:"sss esss"
-                    model:"0"
-                },
-                ListElement{
-                    url:"电影精选4"
-                    model:"0"
-                },
-                ListElement{
-                    url:"电影精选5"
-                    type:"sss5s sss"
-                    model:"0"
-                }
-            ]
-        }
-        ListElement{
-            name:"剧集精选"
-            attributes:[
-                ListElement{
-                    url:"剧集精选1"
-                    type:"sss 2sss"
-                },
-                ListElement{
-                    url:"剧集精选2"
-                    type:"sss ssqs"
-                },
-                ListElement{
-                    url:"剧集精选3"
-                    type:"ssws sss"
-                },
-                ListElement{
-                    url:"剧集精选4"
-                    type:"ssws sss"
-                },
-                ListElement{
-                    url:"剧集精选5"
-                    type:"swss 3sss"
-                }
-            ]
+            }else{
+                slide_films.currentIndex += 1
+            }
         }
     }
+
+    Component{
+        id:show_slide
+        Rectangle{
+            id: slideRect
+            width: 250
+            height: slideImage.height / 5
+            color:ListView.isCurrentItem ? "lightblue" : "white"
+            onColorChanged: {
+                te.text = icon
+            }
+            Text {
+                id: slideFilm_name
+                text: tex//modelData
+                anchors.centerIn: parent
+                color: "black"
+            }
+
+            MouseArea {
+                id:mousearea
+                acceptedButtons: Qt.RightButton | Qt.LeftButton
+                hoverEnabled: true
+                propagateComposedEvents: true
+                enabled: true
+                anchors.fill: parent
+
+                onClicked: {
+
+                    console.log(parent.width)
+                }
+
+                onEntered: {
+                    //鼠标覆盖，显示对应的图片
+                    if(slideRect.ListView.view.currentIndex !== index){
+                        slideRect.ListView.view.currentIndex = index;
+                    }
+                    time.stop()
+                }
+                onExited: {
+                    time.restart()
+
+                }
+            }
+        }
+    }
+
     ListModel{
         id:listModel1
         ListElement{
@@ -204,66 +186,4 @@ Rectangle {
             icon:"vvvdsd4"
         }
     }
-
-    Timer {
-        id:time
-        interval: 3000
-        running: true
-        repeat: true
-        onTriggered:{
-            if(slideView.currentIndex ==  4)
-            {
-                slideView.currentIndex -= 4
-
-            }else{
-                slideView.currentIndex += 1
-            }
-        }
-    }
-
-    Component{
-        id:slide_de
-        Rectangle{
-            id:slideRect
-            width: 1/5*selectPage.width
-            height: 1/5*image_re.height
-            border.color: "lightblue"
-            color:ListView.isCurrentItem ? "lightblue" : "white"
-            onColorChanged: {
-                dd.text=icon
-            }
-            Text {
-                id: te
-                text: tex
-                anchors.centerIn: parent
-                color: "black"
-            }
-
-            MouseArea {
-                id:mousearea
-                acceptedButtons: Qt.RightButton | Qt.LeftButton
-                hoverEnabled: true
-                propagateComposedEvents: true
-                enabled: true
-                anchors.fill: parent
-
-                onClicked: {
-                    console.log(parent.width)
-                }
-
-                onEntered: {
-                    //鼠标覆盖，显示对应的图片
-                    if(slideRect.ListView.view.currentIndex != index){
-                        slideRect.ListView.view.currentIndex = index;
-                    }
-                    time.stop()
-                }
-                onExited: {
-                    time.restart()
-
-                }
-            }
-        }
-    }
-
 }

@@ -12,7 +12,6 @@
 #include <boost/filesystem.hpp>
 #include "network.h"
 #include "controllerfactory.h"
-#include "audiencebroker.h"
 
 struct File_info{
     typedef unsigned long long Size_type;
@@ -39,8 +38,8 @@ private:
     std::shared_ptr<ControllerFactory> controlFactory;
     std::shared_ptr<BrowseAndWatchController> m_BrowseAndWatchController;
 
-    //观众代管者
-    std::shared_ptr<AudienceBroker> audienceBroker;
+    //观众控制器
+    std::shared_ptr<AudienceController> m_AudienceController;
 };
 
 #endif // SERVER_H

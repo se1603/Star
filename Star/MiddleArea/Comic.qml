@@ -1,20 +1,33 @@
 //time：2019.4.15
 //内容：动漫
 import QtQuick 2.0
-
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
 
 Item {
-    Rectangle{
+    id:comic
+    width: page_display.width
+    height: page_display.height
 
-        width: 100
-        height: parent.height
-        color: "red"
-        anchors.right:parent.right
+   property var comics
+    StackView{
+        id: comic_stack
+        anchors {
+            fill: parent
+        }
+        initialItem: comicRecommend_page
     }
-    Text{
-        id:f
-        anchors.centerIn: parent
-        text: "COMIC"
-        font.pixelSize: 32
+    Component{
+        id:comicRecommend_page
+        ComicRecommend{
+
+        }
     }
+    Component{
+        id:comictype_page
+        ComicType{
+
+        }
+    }
+
 }
