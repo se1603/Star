@@ -28,7 +28,29 @@ std::string BrowseAndWatchController::interface(int category, int type)
 
     return reply;
 }
+std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
+{
+    Json::Value root;
+    std::string out;
+    root["request"] = "RECODE";
+    root["name"] = name;
+        auto f = m_movieAndTelevisionBroker->getVideoInfo(name,i);
+        Json::Value value;
+        Json::Value type;
+        root["videotype"] = 1;
+        for(int i = 0;i != f.size();i++){
+            if(i == 0){
+                value["esipode"] = f[0];
+            }else{
+                type["type"] = f[i];
+            }
+        }
+        value["videotype"] = type;
+        root["resource"] = value;
+        out = root.toStyledString();
 
+    return out;
+}
 std::string BrowseAndWatchController::category(int type)
 {
     std::string out;
@@ -98,6 +120,91 @@ std::string BrowseAndWatchController::recommend(int category)
     root["category"] = category;  //1 电影的推荐
     switch (category) {
     case 0:{
+        std::vector<std::string> title{"电影精选","动漫精选","综艺精选"};
+        Json::Value selectarray;
+        Json::Value selectcommon;
+        std::vector<Film> films = m_movieAndTelevisionBroker->getRecommendFilms(7);
+        for(int i = 0;i != films.size();i++){
+            std::vector<std::string> resource;
+            Json::Value film;
+            resource = films[i].show(true);
+            film["name"] = resource[0];
+            film["post"] = resource[1];
+            selectarray.append(film);
+        }
+
+        std::vector<Comic> comics = m_movieAndTelevisionBroker->getRecommendComics(7);
+        for(int i = 0;i != comics.size();i++){
+            std::vector<std::string> resource;
+            Json::Value comic;
+            resource = comics[i].show(true);
+            comic["name"] = resource[0];
+            comic["post"] = resource[1];
+            selectarray.append(comic);
+        }
+
+        std::vector<Variety> varieties = m_movieAndTelevisionBroker->getRecommendVarieties(7);
+        for(int i = 0;i != varieties.size();i++){
+            std::vector<std::string> resource;
+            Json::Value varietie;
+            resource = varieties[i].show(true);
+            varietie["name"] = resource[0];
+            varietie["post"] = resource[1];
+            selectarray.append(varietie);
+        }
+        root["firstRecommends"] = selectarray;  //大图
+
+
+
+        std::vector<Film> film1s = m_movieAndTelevisionBroker->getRecommendFilms(99);
+        Json::Value arry;
+        Json::Value item;
+        for(int a = 0; a != 10;a++)
+        {
+            std::vector<std::string> resource;
+            Json::Value film;
+            resource = film1s[a].show(false);
+            film["name"] = resource[0];
+            film["post"] = resource[1];
+            arry.append(film); //存小图电影
+            a++;
+        }
+        item["title"] = title[0];
+        item["films"] = arry;
+        selectcommon["resource"].append(item);
+
+        std::vector<Comic> film2s = m_movieAndTelevisionBroker->getRecommendComics(99);
+        Json::Value arry1;
+        for(int a = 0; a != 5;a++)
+        {
+            std::vector<std::string> resource;
+            Json::Value film;
+            resource = film2s[a].show(false);
+            film["name"] = resource[0];
+            film["post"] = resource[1];
+            arry1.append(film); //存小图电影
+        }
+        item["title"] = title[1];
+        item["films"] = arry1;
+        selectcommon["resource"].append(item);
+
+        std::vector<Variety> vas = m_movieAndTelevisionBroker->getRecommendVarieties(99);
+        Json::Value arry2;
+        for(int a = 0; a != 5;a++)
+        {
+            std::vector<std::string> resource;
+            Json::Value film;
+            resource = vas[a].show(false);
+            film["name"] = resource[0];
+            film["post"] = resource[1];
+            arry2.append(film); //存小图电影
+        }
+        item["title"] = title[2];
+        item["films"] = arry2;
+        selectcommon["resource"].append(item);
+
+        root["secondRecommends"] = selectcommon;
+        out = root.toStyledString();
 
     }
         break;
@@ -146,32 +253,32 @@ std::string BrowseAndWatchController::recommend(int category)
         Json::Value comicarray;
         Json::Value commonComic;
         for(int i = 0;i != 6;i++){
-           std::vector<Comic> comics = m_movieAndTelevisionBroker->getRecommendComics(i);
-           Json::Value array;
-           Json::Value item;
-           for(int a = 0;a != comics.size();a++){
-               std::vector<std::string> resource;
-               Json::Value comic;
-               if(i == 0){
-                   resource = comics[a].show(true);
-                   comic["name"] = resource[0];
-                   comic["post"] = resource[1];
-                   comicarray.append(comic);  //存大图电影
-               }
-               else{
-                   resource = comics[a].show(false);
-                   comic["name"] = resource[0];
-                   comic["post"] = resource[1];
-                   array.append(comic); //存小图电影
-               }
-               if(i != 0)
-               {
-                   item["title"] = title3[i - 1];
-                   item["films"] = array;
-               }
-           }
-           if(i != 0)
-               commonComic["resource"].append(item);
+            std::vector<Comic> comics = m_movieAndTelevisionBroker->getRecommendComics(i);
+            Json::Value array;
+            Json::Value item;
+            for(int a = 0;a != comics.size();a++){
+                std::vector<std::string> resource;
+                Json::Value comic;
+                if(i == 0){
+                    resource = comics[a].show(true);
+                    comic["name"] = resource[0];
+                    comic["post"] = resource[1];
+                    comicarray.append(comic);  //存大图电影
+                }
+                else{
+                    resource = comics[a].show(false);
+                    comic["name"] = resource[0];
+                    comic["post"] = resource[1];
+                    array.append(comic); //存小图电影
+                }
+                if(i != 0)
+                {
+                    item["title"] = title3[i - 1];
+                    item["films"] = array;
+                }
+            }
+            if(i != 0)
+                commonComic["resource"].append(item);
         }
         root["secondRecommends"] = commonComic;   //普通
         root["firstRecommends"] = comicarray;  //大图
@@ -380,5 +487,7 @@ std::string BrowseAndWatchController::comicInterface(int type)
 
     return out;
 }
+
+
 
 

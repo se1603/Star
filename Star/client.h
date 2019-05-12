@@ -42,6 +42,8 @@ public:
     Q_INVOKABLE void loginOut(QString n);
     //修改头像
     Q_INVOKABLE void updateAvatar(QString n, QString a);
+    
+    Q_INVOKABLE QString getMovieInfo(QString n,int i);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
 

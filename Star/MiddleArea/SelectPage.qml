@@ -1,3 +1,8 @@
+//Author:徐丹
+//time：2019.5.5
+//内容：精选内容展示
+//修改：点击post跳转到播放界面
+
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
@@ -7,7 +12,7 @@ Rectangle {
     width: page_display.width
     height: page_display.height
 
-
+    property var recommendFilms:JSON.parse(client.showRecommend(0))
     ScrollView{
         anchors.fill: parent
         clip: true
@@ -22,9 +27,9 @@ Rectangle {
                     width: mainWindow.width < 1200 ? 702 : 950
                     height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
-                    Text{
-                        id:te
-
+                    Image {
+                        id: film_image
+                        anchors.fill: parent
                     }
                     MouseArea{
                         anchors.fill: parent
@@ -41,7 +46,7 @@ Rectangle {
                 height: 4/15 * parent.height
                 anchors.left: slide_row.right
                 anchors.top:slide_row.top
-                model:listModel1//recommendFilms.firstRecommends
+                model:recommendFilms.firstRecommends
                 delegate: show_slide
             }
 
@@ -52,13 +57,13 @@ Rectangle {
 
                 Repeater{
                     id:show_film
-                    model:5//recommendFilms.secondRecommends.resource
+                    model:recommendFilms.secondRecommends.resource
                     Rectangle{
                         width: page_display.width
                         height: page_display.width < 1000 ? 355 : 400
                         Text {
                             id:recommend_title
-                            text: modelData
+                            text:  modelData.title
                             font.pixelSize: 24
                         }
 
@@ -69,7 +74,7 @@ Rectangle {
                             anchors.left: parent.left
                             spacing: mainWindow.width < 1200 ? 15 : 50
                             Repeater {
-                                model: 5//modelData.films
+                                model: modelData.films
                                 Rectangle {
                                     width:  mainWindow.width < 1200 ? 175 : 197
                                     height:  page_display.width < 1000 ? 290 : 326
@@ -79,17 +84,27 @@ Rectangle {
                                         height:  page_display.width < 1000 ? 263 : 296
                                         color: "red"
 
+                                        Image {
+                                            anchors.fill: parent
+                                            anchors.top: parent.top
+                                            source:"file:" + modelData.post
+                                        }
+
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
-
+                                                play.visible = true
+                                                play.name = modelData.name
+                                                play.image = modelData.post
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,0))
+                                                console.log(play.datas.resource.videotype.type)
                                             }
                                         }
                                     }
                                     Text {
                                         id: collection_text
                                         width: parent.width
-                                        text: modelData
+                                        text: modelData.name
                                         wrapMode: Text.Wrap
                                         anchors.top: collection_img.bottom
                                     }
@@ -125,11 +140,11 @@ Rectangle {
             height: slideImage.height / 5
             color:ListView.isCurrentItem ? "lightblue" : "white"
             onColorChanged: {
-                te.text = icon
+                film_image.source = "file:" + modelData.post
             }
             Text {
                 id: slideFilm_name
-                text: tex//modelData
+                text: modelData.name
                 anchors.centerIn: parent
                 color: "black"
             }
@@ -159,31 +174,6 @@ Rectangle {
 
                 }
             }
-        }
-    }
-
-    ListModel{
-        id:listModel1
-        ListElement{
-            tex:"ddd"
-            icon:"vvvdsd"
-        }
-
-        ListElement{
-            tex:"ddd1"
-            icon:"vvv1dsd"
-        }
-        ListElement{
-            tex:"ddd2"
-            icon:"vvvd2sd"
-        }
-        ListElement{
-            tex:"ddd3"
-            icon:"vvvds3d"
-        }
-        ListElement{
-            tex:"ddd4"
-            icon:"vvvdsd4"
         }
     }
 }

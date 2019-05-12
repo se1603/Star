@@ -264,12 +264,45 @@ QString Client::showRecommend(int category)
 //            std::cout << title << std::endl;
 //            titleObj.append(item);
 //        }
-        qmlvalue["secondRecommends"] = value["secondRecommends"];
+        qmlvalue["resource"] = value["resource"];
         qmlvalue["firstRecommends"] = value["firstRecommends"];
+        qmlvalue["secondRecommends"] = value["secondRecommends"];
     }
     std::cout << qmlvalue.toStyledString() << std::endl;
     QString t = QString::fromStdString(qmlvalue.toStyledString());
     return t;
+}
+
+QString Client::getMovieInfo(QString n,int i)
+{
+    Json::Value recode;
+    recode["request"] = "RECODE";
+    recode["name"] = n.toStdString();
+    recode["videotype"] = std::to_string(i);
+    recode.toStyledString();
+    std::string message = recode.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string receive;
+    receive = sock.receive();
+
+    Json::Value value;
+    Json::Value qmlvalue;
+    Json::Reader reader;
+    if(!reader.parse(receive,value))
+    {
+        std::cerr << "Receive message failed." << std::endl;
+    }
+    else {
+        qmlvalue["resource"] = value["resource"];
+    }
+    std::cout << qmlvalue.toStyledString() << std::endl;
+    QString t = QString::fromStdString(qmlvalue.toStyledString());
+    return t;
+
 }
 
 void Client::receiveFile(std::string message)
@@ -443,6 +476,7 @@ void Client::updateAvatar(QString n,QString a)
         emit updateAvatarFailed();
     }
 }
+
 
 void Client::getAudienceInfo(std::string name)
 {

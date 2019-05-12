@@ -5,6 +5,7 @@
 #include "movieandtelevision.h"
 
 enum class ComicType{
+    Recommend = 0,
     RobotWars = 1,  //机战
     Youth = 2,      //青春
     Combat = 3,     //格斗
@@ -26,6 +27,10 @@ public:
     std::vector<std::string> show(bool recommend);  //动漫显示的消息
     void findComicByType(ComicType type, std::vector<Comic> &comics);  //获取该类动漫
     void findComicByRecommend(int recommend,std::vector<Comic> &comics); //获取该类推荐下的动漫
+
+    void recodeInfo(std::string name,std::vector<std::string> &v);//返回播放界面信息，如影视类型，集数
+
+    bool findByName(std::string name);
 private:
     std::vector<ComicType> m_type;
 };

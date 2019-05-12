@@ -3,6 +3,7 @@
 
 //time :2019.4.27
 //author:xudan
+//内容：播放主界面
 
 import QtQuick 2.9
 import QtQuick.Controls 2.0
@@ -19,11 +20,11 @@ Item {
     property string name:""
     property string type: ""
     property string infoma:""
-//    property string de:""
+    property string image:""
 
 
-    property var model:""
-//    property alias detail:e.detail
+    property var datas
+
 
     Timer{
         id:timer1
@@ -212,10 +213,10 @@ Item {
             id:comment_page
             Comment{
                 id:e
-//                detail1: de
                 name1: name
-                types: type
+                types: datas.resource.videotype.type
                 info: infoma
+                imge: image
             }
         }
     }
@@ -281,8 +282,9 @@ Item {
             id:record_page
             Record{
                 playname: name
-                playtype: type
-                mode: model
+                playtype: datas.resource.esipode
+                img:image
+                mode: datas.resource.esipode
             }
         }
 

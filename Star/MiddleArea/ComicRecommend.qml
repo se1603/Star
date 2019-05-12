@@ -1,4 +1,6 @@
-
+//time：2019.5.6
+//内容：动漫推荐界面填充post
+//Autor：徐丹
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
@@ -103,6 +105,11 @@ Rectangle {
                                             onClicked: {
                                                 console.log(modelData.name)
                                                 console.log(modelData.post)
+                                                play.visible = true
+                                                play.name = modelData.name
+                                                play.image = modelData.post
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,3))
+                                                console.log(play.datas.resource.videotype.type)
                                             }
                                         }
                                     }

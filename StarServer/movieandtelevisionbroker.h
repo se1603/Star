@@ -41,6 +41,9 @@ public:
     std::vector<Comic> getComics(ComicType type);
     std::vector<Comic> getRecommendComics(int type);
 
+//    std::vector<std::string> getVideoInfo(std::string name);
+    std::vector<std::string> getVideoInfo(std::string name,int i);
+
 private:
     MovieAndTelevisionBroker();
     static std::shared_ptr<MovieAndTelevisionBroker> m_instance;

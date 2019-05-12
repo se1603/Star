@@ -1,13 +1,15 @@
+//Author:徐丹
+//time：2019.4.28
+//节目界面
+
 import QtQuick 2.0
-//import "../image"
 
 Rectangle {
     id:commentPage
     property string name1:""
     property string types: ""
     property string info: ""
-
-//    property alias detail: detail.visible
+    property string imge:""
 
     width: /*59/60**/right_stack.width
     height: /*59/60**/right_stack.height
@@ -23,6 +25,12 @@ Rectangle {
             width: 1/2*commentPage.width
             height: 1/4*commentPage.height
             color: "red"
+            Image{
+                id:com_img
+                width: parent.width
+                height: parent.height
+                source: "file:" + imge
+            }
         }
         Column{
             spacing: 10
@@ -41,7 +49,7 @@ Rectangle {
                 font.pixelSize: 10
             }
         }
-//    }
+
 
     Row{
         id:row_icon

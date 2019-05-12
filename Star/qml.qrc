@@ -61,5 +61,8 @@
         <file>MiddleArea/VarietyRecommend.qml</file>
         <file>MiddleArea/ComicRecommend.qml</file>
         <file>MiddleArea/ComicType.qml</file>
+        <file>image/play/collect.jpg</file>
+        <file>image/play/share.jpg</file>
+        <file>image/play/download.png</file>
     </qresource>
 </RCC>

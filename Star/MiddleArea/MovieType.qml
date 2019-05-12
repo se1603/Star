@@ -71,6 +71,11 @@ Rectangle {
                                 onClicked: {
                                     console.log(modelData.name)
                                     console.log(modelData.post)
+                                    play.visible = true
+                                    play.name = modelData.name
+                                    play.image = modelData.post
+                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name,1))
+                                    console.log(play.datas.resource.videotype.type)
                                 }
                             }
                         }

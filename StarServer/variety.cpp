@@ -45,3 +45,56 @@ void Variety::findVarietyByRecommend(int recommend, std::vector<Variety> &variet
             varieties.push_back(*this);
     }
 }
+
+void Variety::recodeInfo(std::string name, std::vector<std::string> &v)
+{
+    if(m_name == name){
+        auto i = std::to_string(m_episode);
+        v.push_back(i);
+        for(auto t: m_type){
+            switch(t){
+            case VarietyType::Food:{
+                v.push_back("美食");
+                break;
+            }
+            case VarietyType::Funny :{
+                v.push_back("搞笑");
+                break;
+            }
+            case VarietyType::Interview :{
+                v.push_back("访谈");
+                break;
+            }
+            case VarietyType::RealityShow:{
+                v.push_back("真人秀");
+                break;
+            }
+            case VarietyType::TalentShow:{
+                v.push_back("悬疑");
+                break;
+            }
+            case VarietyType::Travel:{
+                v.push_back("旅游");
+                break;
+            }
+            case VarietyType::ActualRecord:{
+                v.push_back("纪实");
+                break;
+            }
+            default:v.push_back("选秀");
+                break;
+            }
+        }
+    }else{
+        return;
+    }
+}
+
+bool Variety::findByName(std::string name)
+{
+    if(m_name == name){
+        return true;
+    }else{
+        return false;
+    }
+}

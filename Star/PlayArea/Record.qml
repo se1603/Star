@@ -1,6 +1,6 @@
 //time:2019.4.30
 //author:xudan
-//
+//内容：评论界面
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.11
@@ -13,8 +13,11 @@ Rectangle{
     color: "#8B8378"
     property string playname: ""
     property string playtype: ""
+    property string img:""
 
     property alias mode:play_repeater.model
+   
+    
     Text{
         id:te_play
         anchors.top:parent.top
@@ -29,18 +32,20 @@ Rectangle{
     Row{
         id:row_play
         anchors.left: parent.left
-//        anchors.leftMargin: 10
         anchors.top: te_play.bottom
         anchors.topMargin: 10
         spacing: 5
         Rectangle{
             id:play_rec
-            width: 3/5*play_page.width
-            height: 1/8*play_page.height
+            width: 2/5*play_page.width
+            height: 1/5*play_page.height
              color: "red"
-//            Image{
-
-//            }
+            Image{
+                id:record_img
+                width:parent.width
+                height: parent.height
+                source:"file:" + img
+            }
         }
         Column{
             id:column_play
@@ -58,7 +63,7 @@ Rectangle{
                 anchors.top:name_te.bottom
                 font.family: "Beta Dance"
                 font.pixelSize: 14
-                text: playtype
+                text: playtype+"集全"
             }
         }
     }

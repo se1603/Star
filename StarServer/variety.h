@@ -26,6 +26,9 @@ public:
     std::vector<std::string> show(bool recommend);
     void findVarietyByType(VarietyType type,std::vector<Variety> &varieties);
     void findVarietyByRecommend(int recommend,std::vector<Variety> &varieties);
+
+    void recodeInfo(std::string name,std::vector<std::string> &v);
+    bool findByName(std::string name);
 private:
     std::vector<VarietyType> m_type;
 };

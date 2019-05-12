@@ -201,7 +201,7 @@ void MovieAndTelevisionBroker::initComics()
             if(row == nullptr) break;
             std::vector<string> res;
             for(unsigned i = 0;i < mysql_num_fields(result);++i){
-                cout << i << "  " << row[i] << endl;
+//                cout << i << "  " << row[i] << endl;
                 res.push_back(row[i]);
             }
             Comic c = handleComic(res);
@@ -310,6 +310,62 @@ std::vector<Comic> MovieAndTelevisionBroker::getRecommendComics(int type)
     }
     return result;
 }
+
+
+std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name, int i)
+{
+    std::vector<std::string> resource;
+    switch(i){
+    case 0:{
+        for(int i = 0;i != m_films.size();i++){
+            auto tem = m_films[i];
+            if(tem.findByName(name)){
+                tem.recodeInfo(name,resource);
+                break;
+            }
+        }
+        for(int i = 0;i != m_comics.size();i++){
+            auto tem = m_comics[i];
+            if(tem.findByName(name)){
+                tem.recodeInfo(name,resource);
+                break;
+            }
+        }
+        for(int i = 0;i != m_varieties.size();i++){
+            auto tem = m_varieties[i];
+            if(tem.findByName(name)){
+                tem.recodeInfo(name,resource);
+                break;
+            }
+        }
+
+    }
+    case 1:{
+        for(int i = 0;i != m_films.size();i++){
+            auto tem = m_films[i];
+            tem.recodeInfo(name,resource);
+        }
+        break;
+    }
+    case 3:{
+        for(int i = 0;i != m_comics.size();i++){
+            auto tem = m_comics[i];
+            tem.recodeInfo(name,resource);
+        }
+        break;
+    }
+    case 4:{
+        for(int i = 0;i != m_varieties.size();i++){
+            auto tem = m_varieties[i];
+            tem.recodeInfo(name,resource);
+        }
+        break;
+    }
+    default:break;
+    }
+    return resource;
+}
+
 
 void MovieAndTelevisionBroker::initFilms()
 {
