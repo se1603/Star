@@ -45,7 +45,6 @@
         <file>PlayArea/Record.qml</file>
         <file>PlayArea/Summary.qml</file>
         <file>MiddleArea/Comic.qml</file>
-        <file>MiddleArea/DramaSeries.qml</file>
         <file>MiddleArea/MiddleArea.qml</file>
         <file>MiddleArea/MiddleInterface.qml</file>
         <file>MiddleArea/MiddleMenu.qml</file>
@@ -64,5 +63,8 @@
         <file>image/play/collect.jpg</file>
         <file>image/play/share.jpg</file>
         <file>image/play/download.png</file>
+        <file>MiddleArea/Drama.qml</file>
+        <file>MiddleArea/DrameRecommend.qml</file>
+        <file>MiddleArea/DrameType.qml</file>
     </qresource>
 </RCC>

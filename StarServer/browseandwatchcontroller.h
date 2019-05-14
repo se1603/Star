@@ -21,7 +21,7 @@ public:
     std::string recommend(int category);   //每个目录下的推荐页面
 
     std::string filmInterface(int type); //电影界面显示信息
-
+    std::string drameInterface(int type);//剧集页面显示
     //综艺界面显示信息
     std::string varietyInterface(int type);
 

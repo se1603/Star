@@ -24,7 +24,8 @@ SOURCES += \
     record.cpp \
     audiencecontroller.cpp \
     variety.cpp \
-    comic.cpp
+    comic.cpp \
+    drame.cpp
 
 HEADERS += \
     server.h \
@@ -46,6 +47,7 @@ HEADERS += \
     record.h \
     audiencecontroller.h \
     variety.h \
-    comic.h
+    comic.h \
+    drame.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient

@@ -41,7 +41,7 @@ Rectangle {
 
             Component{
                 id:drama_page
-                DramaSeries{
+                Drama{
 
                 }
             }

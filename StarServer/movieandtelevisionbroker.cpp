@@ -13,6 +13,7 @@ MovieAndTelevisionBroker::MovieAndTelevisionBroker()
     initFilms();
     initVarieties();
     initComics();
+    initDrame();
 }
 
 std::vector<Film> MovieAndTelevisionBroker::getFilms(FilmType type)
@@ -37,6 +38,145 @@ std::vector<Film> MovieAndTelevisionBroker::getRecommendFilms(int type)
     return result;
 }
 
+void MovieAndTelevisionBroker::initDrame()
+{
+    if(!m_drames.empty())
+            m_drames.clear();
+
+        MYSQL *mysql;
+        mysql = new MYSQL;
+
+        MYSQL_RES *result;
+        MYSQL_ROW row;
+
+        mysql_init(mysql);
+        if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+            cout << "(Drame)Connect MYSQL failed." << endl;
+        }else{
+            cout << "(Drame)Connect MYSQL succeed." << endl;
+        }
+
+        std::string sql = "select * from Drame;";
+        if(mysql_query(mysql,sql.data())){
+            cout << "(Drame)获取失败" << endl;
+        }else{
+            result = mysql_use_result(mysql);
+            while(1){
+                row = mysql_fetch_row(result);
+                if(row == nullptr) break;
+                std::vector<std::string> res;
+                for(unsigned int i=0;i<mysql_num_fields(result);++i){
+                    res.push_back(row[i]);
+//                    cout << i << "  " << row[i] << endl;
+                }
+                Drame drame= handleDrame(res);
+                m_drames.push_back(drame);
+            }
+            mysql_free_result(result);
+            result = nullptr;
+        }
+        if(mysql != nullptr)
+            mysql_close(mysql);
+        mysql_library_end();
+}
+
+Drame MovieAndTelevisionBroker::handleDrame(std::vector<std::string> row)
+{
+    std::vector<std::string> drameDirector,drameActor,dramePost,recommend,type;
+
+       splictString(row[1],type,",");
+       std::vector<DrameType> drametype;     //剧集类型
+       for(int i = 0; i != type.size();i++)
+       {
+           switch (atoi(type[i].c_str())) {
+           case 1:
+               drametype.push_back(DrameType::AncientCostume);
+               break;
+           case 2:
+               drametype.push_back(DrameType::Suspense);
+               break;
+           case 3:
+               drametype.push_back(DrameType::MartialArts);
+               break;
+           case 4:
+               drametype.push_back(DrameType::Metropolis);
+               break;
+           case 5:
+               drametype.push_back(DrameType::History);
+               break;
+           case 6:
+               drametype.push_back(DrameType::Idol);
+               break;
+           case 7:
+               drametype.push_back(DrameType::Family);
+               break;
+           case 8:
+               drametype.push_back(DrameType::ScienceFiction);
+               break;
+           default:
+               break;
+           }
+       }
+       Region drameRegion = Region::China;
+       switch (atoi(row[2].c_str())) {
+       case 1:
+           drameRegion = Region::China;
+           break;
+       case 2:
+           drameRegion = Region::American;
+           break;
+       case 3:
+           drameRegion = Region::Korea;
+           break;
+       case 4:
+           drameRegion = Region::India;
+           break;
+       case 5:
+           drameRegion = Region::THailand;
+           break;
+       case 6:
+           drameRegion = Region::Britain;
+           break;
+       case 7:
+           drameRegion = Region::Japan;
+           break;
+       default:
+           break;
+       }
+       splictString(row[3],drameDirector,",");
+       splictString(row[4],drameActor,",");
+       splictString(row[5],dramePost,",");
+       splictString(row[7],recommend,",");
+       std::vector<int> drameRecommends;
+       for(int i = 0; i != recommend.size();i++)
+       {
+           drameRecommends.push_back(atoi(recommend[i].c_str()));
+       }
+
+       Drame drame(row[0],row[6],drameRegion,dramePost,drameActor,drameDirector,drametype,atoi(row[8].c_str()),drameRecommends);
+
+       return drame;
+}
+
+std::vector<Drame> MovieAndTelevisionBroker::getDrames(DrameType type)
+{
+    std::vector<Drame> result;
+    for(int i = 0; i != m_drames.size(); i++){
+        Drame tmp = m_drames[i];
+        tmp.findDrameByType(type, result);
+    }
+    return result;
+}
+
+std::vector<Drame> MovieAndTelevisionBroker::getRecommendDrames(int type)
+{
+    std::vector<Drame> result;
+        for(int i = 0; i!= m_drames.size();i++){
+            Drame tmp = m_drames[i];
+            tmp.findDrameByRecommend(type,result);
+        }
+        return result;
+}
 void MovieAndTelevisionBroker::initVarieties()
 {
     if(!m_varieties.empty())

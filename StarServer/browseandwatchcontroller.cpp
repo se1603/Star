@@ -15,6 +15,9 @@ std::string BrowseAndWatchController::interface(int category, int type)
     case 1:  //电影子类别显示
         reply = filmInterface(type);
         break;
+    case 2:    //剧集子类别显示
+        reply = drameInterface(type);
+        break;
     case 3:
         reply = comicInterface(type);
         break;
@@ -77,6 +80,18 @@ std::string BrowseAndWatchController::category(int type)
         {
             Json::Value item;
             item["category"] = category2[i];
+            arryObj.append(item);
+        }
+        root["categorys"] = arryObj;
+        out = root.toStyledString();
+        break;
+    }
+    case 2:{  //剧集目录
+        std::vector<std::string> category3{"推荐","古装","悬疑","武侠","都市","历史","偶像", "家庭","科幻"};
+        for(int i = 0; i != 9; i++)
+        {
+            Json::Value item;
+            item["category"] = category3[i];
             arryObj.append(item);
         }
         root["categorys"] = arryObj;
@@ -245,6 +260,46 @@ std::string BrowseAndWatchController::recommend(int category)
         }
         root["secondRecommends"] = commonFilm;   //普通
         root["firstRecommends"] = filmarry;  //大图
+        out = root.toStyledString();
+    }
+        break;
+    case 2:{//剧集推荐页面
+        std::vector<std::string> title2{"正在热播","猜你喜欢","排行榜","卫视同步","偶像剧场"};
+
+        Json::Value dramearry;
+        Json::Value commonDrame;
+        for(int i = 0; i != 6;i++)
+        {
+            std::vector<Drame> drames = m_movieAndTelevisionBroker->getRecommendDrames(i);
+            Json::Value arry;
+            Json::Value item;
+            for(int a = 0; a != drames.size();a++)
+            {
+                std::vector<std::string> resource;
+                Json::Value drame;
+                if(i == 0){
+                    resource = drames[a].show(true);
+                    drame["name"] = resource[0];
+                    drame["post"] = resource[1];
+                    dramearry.append(drame);   //存大图
+                }
+                else{
+                    resource = drames[a].show(false);
+                    drame["name"] = resource[0];
+                    drame["post"] = resource[1];
+                    arry.append(drame); //存小图
+                }
+                if(i != 0)
+                {
+                    item["title"] = title2[i - 1];
+                    item["drames"] = arry;
+                }
+            }
+            if(i != 0)
+                commonDrame["resource"].append(item);
+        }
+        root["secondRecommends"] = commonDrame;   //普通
+        root["firstRecommends"] = dramearry;  //大图
         out = root.toStyledString();
     }
         break;
@@ -425,6 +480,61 @@ std::string BrowseAndWatchController::varietyInterface(int type)
     for(int i=0;i != varieties.size();i++){
         std::vector<std::string> resource;
         resource = varieties[i].show(false);
+        Json::Value item;
+        item["name"] = resource[0];
+        item["post"] = resource[1];
+        arryObj.append(item);
+    }
+    root["movieAndTelevision"] = arryObj;
+    std::string out = root.toStyledString();
+
+    return out;
+}
+
+std::string BrowseAndWatchController::drameInterface(int type)
+{
+    DrameType drametype;
+    switch(type) {
+    case 0:
+        drametype = DrameType::Recommend;
+        break;
+    case 1:
+        drametype = DrameType::AncientCostume;
+        break;
+    case 2:
+        drametype = DrameType::Suspense;
+        break;
+    case 3:
+        drametype = DrameType::MartialArts;
+        break;
+    case 4:
+        drametype = DrameType::Metropolis;
+        break;
+    case 5:
+        drametype = DrameType::History;
+        break;
+    case 6:
+        drametype = DrameType::Idol;
+        break;
+    case 7:
+        drametype = DrameType::Family;
+        break;
+    case 8:
+        drametype = DrameType::ScienceFiction;
+        break;
+    }
+
+    std::vector<Drame> drames;
+    drames = m_movieAndTelevisionBroker->getDrames(drametype);
+
+    Json::Value root;
+    Json::Value arryObj;
+    root["request"] = "INTERFACE";
+    root["interface"] = 2;
+    root["type"] = type;
+    for(int i=0;i != drames.size();i++){
+        std::vector<std::string> resource;
+        resource = drames[i].show(false);
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];
