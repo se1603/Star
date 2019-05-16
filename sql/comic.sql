@@ -1,4 +1,4 @@
-create table Comic(name varchar(30) NOT NULL,type varchar(10) NOT NULL,region int NOT NULL,epilide int NOT NULL,director varchar(20),actor varchar(50),post varchar(100),introduction varchar(500),recommend varchar(10) NOT NULL); 
+create table Comic(name varchar(50) NOT NULL,type varchar(10) NOT NULL,region int NOT NULL,epilide int NOT NULL,director varchar(20),actor varchar(50),post varchar(200),introduction varchar(500),recommend varchar(10) NOT NULL); 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('机动战士高达00','1','7','50','水岛精二','三木真一郎','./images/posts/comics/jiDongZhanShiGaoDa00.jpg','西历2307年，由于化石燃料的枯竭，人类开始寻找全新形式的能源——由3条巨大的轨道式升降梯所组成的巨型太阳光发电系统。然而，能够分享这一能源的，只能是世界上的一部分大国及其同盟国。 拥有3条巨大的轨道式升降梯的3个超级大国及其联盟：以美利坚合众国为中心的“UNICORN”，以中国、俄罗斯、印度为中心的“人类进步联盟”，以及以欧洲为中心的“AEU”。','5');
 
@@ -50,12 +50,12 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('狐妖小红娘','4,5','1','63','未知','张杰','./images/posts/comics/huYaoXiaoHongLiang.jpg','该动画主要讲述了以红娘为职业的狐妖在为前世恋人牵红线过程当中发生的一系列有趣、神秘的故事。','1,3');
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('吸血鬼骑士','4,7','7','13','佐山圣子','堀江由衣','./images/posts/comics/xixueguiqishi.jpg','主人公优姬小时候被吸血鬼袭击，为玖兰枢所救并失去了之前所有的记忆。自那时起优姬便将枢视为救命恩人，憧憬着对方。而枢对待优姬也是特别的温柔。一方面，身为吸血鬼猎人一族的锥生零，四年前由于家族被吸血鬼杀害而被学园领养。零与受伤的优姬如同兄妹般长大，但零却有着连优姬都不能说的秘密……知道night class秘密的零与优姬受命于理事长，担任学园的风纪委和保护者，处理两者之间的问题日夜连续活动着。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('吸血鬼骑士','4,7','7','13','佐山圣子','堀江由衣','./images/posts/comics/xixueguiqishi.jpg','主人公优姬小时候被吸血鬼袭击，为玖兰枢所救并失去了之前所有的记忆。自那时起优姬便将枢视为救命恩人，憧憬着对方。而枢对待优姬也是特别的温柔。一方面，身为吸血鬼猎人一族的锥生零，四年前由于家族被吸血鬼杀害而被学园领养。零与受伤的优姬如同兄妹般长大，但零却有着连优姬都不能说的秘密……知道night class秘密的零与优姬受命于理事长，担任学园的风纪委和保护者，处理两者之间的问题日夜连续活动着。','4,99');
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('好像告诉你','2,4,7','7','13','镝木宏','能登麻美子','./images/posts/comics/haoXiangGaoSuNi.jpg','黑沼爽子，一个早已经被遗忘的名字，被大家称做“贞子”的女生，从小学到高中都是如此。几乎没有人知道她的本名，天天都被人害怕着。其实，她只是阴沉了一点点而已，只是而已啦。笑起来有点恐怖，周围的空气流动比较诡异点而已。很想很想的和大家融洽的相处，很想很想的尽自己的力量去帮助大家，她有一颗很温柔、善良、纯洁的心，但是却包裹在“贞子”的外貌下……就这样，被大家误解了，害怕了。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('好像告诉你','2,4,7','7','13','镝木宏','能登麻美子','./images/posts/comics/haoXiangGaoSuNi.jpg','黑沼爽子，一个早已经被遗忘的名字，被大家称做“贞子”的女生，从小学到高中都是如此。几乎没有人知道她的本名，天天都被人害怕着。其实，她只是阴沉了一点点而已，只是而已啦。笑起来有点恐怖，周围的空气流动比较诡异点而已。很想很想的和大家融洽的相处，很想很想的尽自己的力量去帮助大家，她有一颗很温柔、善良、纯洁的心，但是却包裹在“贞子”的外貌下……就这样，被大家误解了，害怕了。','4,99');
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('风之神痕','4,5,7','7','24','坂田纯一','小野大辅','./images/posts/comics/fengZhiShenHen.jpg','日本炎术师名门神凪宗家的继承人神凪和麻因为没有炎术的才能而被家族赶出日本，然而无家可归的和麻在海外却意外地遇见了风的精灵王并与之签定契约由此成为最强的风术师。 离开日本4年后和麻改名为八神和麻后又回到家乡，他个性轻率浮躁，胸无大志，只想靠除灵这样的简单工作混日子，然而当他与16岁的美少女炎术师神凪绫乃开始搭档工作时命运就逐渐改变了……','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('风之神痕','4,5,7','7','24','坂田纯一','小野大辅','./images/posts/comics/fengZhiShenHen.jpg','日本炎术师名门神凪宗家的继承人神凪和麻因为没有炎术的才能而被家族赶出日本，然而无家可归的和麻在海外却意外地遇见了风的精灵王并与之签定契约由此成为最强的风术师。 离开日本4年后和麻改名为八神和麻后又回到家乡，他个性轻率浮躁，胸无大志，只想靠除灵这样的简单工作混日子，然而当他与16岁的美少女炎术师神凪绫乃开始搭档工作时命运就逐渐改变了……','5,99');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Clannad','4,5,7','7','25','石原立也','中村悠一','./images/posts/comics/clannad.jpg','作为日本著名游戏品牌Key最著名的四季四部曲之一的《CLANNAD》第二部作品。 在某个小镇，主角冈崎朋也因为家庭的因素成为不良少年。某一天，他在学校坡道前发现了一个止步不前的女孩，在朋也认识了这个名为古河渚的女孩后，他的生活开始有了重大的变化。','99');
@@ -119,8 +119,5 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('一拳超人2','3,6','7','6','樱井亲良','古川慎,石川界人,梶裕贵','./images/posts/comics/yiQuanChaoRen1.jpg,./images/posts/comics/yiQuanChaoRen.jpg','因兴趣而开始做英雄的男人，埼玉。他通过3年的特训获得了无敌的力量，成为仅凭一击就能打倒任何敌人的英雄。他和偶然成为自己弟子的杰诺斯一起，开始在英雄协会正式展开英雄活动。在怪人发生率异常上升的同时，英雄协会想到大预言家皱巴巴婆婆留下的“地球完蛋了”的灾害的可能...','0,1');
-
-
-
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('博人传','6,7','7','105','阿部记之','水树奈奈,竹内顺子','./images/posts/comics/boRenZhuan1.jpg,./images/posts/comics/boRenZhuan.jpg','经历漫长的战争之后以七代目火影漩涡鸣人治理的木叶村为中心，成立了新的忍者5大国，本作主要讲述鸣人的儿子、虽然有才能却把鸣人叫做臭老爸的漩涡博人；佐助的女儿、对鸣人抱持憧憬的宇智波佐良娜；以及充满了谜团的超级优秀忍者巳月三人一组，在村子里努力修炼成长的故事。','0,7');

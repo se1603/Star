@@ -1,6 +1,6 @@
 //Author:徐丹
 //time：2019.4.28
-//片库界面
+//全部评论界面
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
@@ -25,6 +25,10 @@ ScrollView{
             width: all_scroll.width
             height: 100
             border.color: "#dddddd"
+
+            CommentPop{
+                id:dd
+            }
             Text{
                 id:all_name
                 anchors.top:parent.top
@@ -65,6 +69,7 @@ ScrollView{
                 width: 50
                 height: 30
                 color: "blue"
+
                 Text{
                     font.family: "Beta Dance"
                     font.pixelSize: 18
@@ -74,7 +79,9 @@ ScrollView{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                       list.append({name:"ff",message:"text",time:"3.1"})
+                        onClicked: dd.open()
+//                        list.insert(0,{name:"ff",message:"text",time:"3.1"})
+                       //list.append({name:"ff",message:"text",time:"3.1"})
                     }
                 }
             }

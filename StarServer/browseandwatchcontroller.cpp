@@ -44,16 +44,21 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
     root["name"] = name;
         auto f = m_movieAndTelevisionBroker->getVideoInfo(name,i);
         Json::Value value;
-        Json::Value type;
+        Json::Value types;
         root["videotype"] = 1;
         for(int i = 0;i != f.size();i++){
+            Json::Value type;
             if(i == 0){
                 value["esipode"] = f[0];
-            }else{
+            }else if(i == 1){
+               value["introduction"] = f[1];
+            }
+            else{
                 type["type"] = f[i];
+                types.append(type);
             }
         }
-        value["videotype"] = type;
+        value["videotype"] = types;
         root["resource"] = value;
         out = root.toStyledString();
 
@@ -140,7 +145,7 @@ std::string BrowseAndWatchController::recommend(int category)
     root["category"] = category;  //1 电影的推荐
     switch (category) {
     case 0:{
-        std::vector<std::string> title{"电影精选","动漫精选","综艺精选"};
+        std::vector<std::string> title{"电影精选","剧集精选","动漫精选","综艺精选"};
         Json::Value selectarray;
         Json::Value selectcommon;
         std::vector<Film> films = m_movieAndTelevisionBroker->getRecommendFilms(7);
@@ -151,6 +156,16 @@ std::string BrowseAndWatchController::recommend(int category)
             film["name"] = resource[0];
             film["post"] = resource[1];
             selectarray.append(film);
+        }
+
+        std::vector<Drame> drames = m_movieAndTelevisionBroker->getRecommendDrames(7);
+        for(int i = 0;i != drames.size();i++){
+            std::vector<std::string> resource;
+            Json::Value drame;
+            resource = drames[i].show(true);
+            drame["name"] = resource[0];
+            drame["post"] = resource[1];
+            selectarray.append(drame);
         }
 
         std::vector<Comic> comics = m_movieAndTelevisionBroker->getRecommendComics(7);
@@ -179,7 +194,7 @@ std::string BrowseAndWatchController::recommend(int category)
         std::vector<Film> film1s = m_movieAndTelevisionBroker->getRecommendFilms(99);
         Json::Value arry;
         Json::Value item;
-        for(int a = 0; a != 10;a++)
+        for(int a = 10; a != 0;a=a-2)
         {
             std::vector<std::string> resource;
             Json::Value film;
@@ -193,18 +208,32 @@ std::string BrowseAndWatchController::recommend(int category)
         item["films"] = arry;
         selectcommon["resource"].append(item);
 
-        std::vector<Comic> film2s = m_movieAndTelevisionBroker->getRecommendComics(99);
+        std::vector<Drame> drame1 = m_movieAndTelevisionBroker->getRecommendDrames(5);
+        Json::Value arryd;
+        for(int a = 0;a != 5;a++){
+            std::vector<std::string> resource;
+            Json::Value drame;
+            resource = drame1[a].show(false);
+            drame["name"] = resource[0];
+            drame["post"] = resource[1];
+            arryd.append(drame);
+        }
+        item["title"] = title[1];
+        item["films"] = arryd;
+        selectcommon["resource"].append(item);
+
+        std::vector<Comic> comic2s = m_movieAndTelevisionBroker->getRecommendComics(99);
         Json::Value arry1;
         for(int a = 0; a != 5;a++)
         {
             std::vector<std::string> resource;
             Json::Value film;
-            resource = film2s[a].show(false);
+            resource = comic2s[a].show(false);
             film["name"] = resource[0];
             film["post"] = resource[1];
             arry1.append(film); //存小图电影
         }
-        item["title"] = title[1];
+        item["title"] = title[2];
         item["films"] = arry1;
         selectcommon["resource"].append(item);
 
@@ -219,7 +248,7 @@ std::string BrowseAndWatchController::recommend(int category)
             film["post"] = resource[1];
             arry2.append(film); //存小图电影
         }
-        item["title"] = title[2];
+        item["title"] = title[3];
         item["films"] = arry2;
         selectcommon["resource"].append(item);
 

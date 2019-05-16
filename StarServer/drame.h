@@ -32,6 +32,9 @@ public:
     std::vector<std::string> show(bool recommend);
     void findDrameByType(DrameType type, std::vector<Drame> &drames);
     void findDrameByRecommend(int recommend, std::vector<Drame> &drames);
+    bool findByName(std::string name);
+
+    void recodeInfo(std::string name,std::vector<std::string> &v);
 
     void save(std::map<std::string,Drame> &drames);
 private:

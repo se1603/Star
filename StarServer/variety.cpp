@@ -51,6 +51,7 @@ void Variety::recodeInfo(std::string name, std::vector<std::string> &v)
     if(m_name == name){
         auto i = std::to_string(m_episode);
         v.push_back(i);
+        v.push_back(m_introduction);
         for(auto t: m_type){
             switch(t){
             case VarietyType::Food:{

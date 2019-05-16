@@ -1,4 +1,4 @@
- create table Film(name varchar(30) NOT NULL,type varchar(10) NOT NULL,region int NOT NULL,director varchar(20),actor varchar(50),post varchar(100),introduction varchar(500),recommend varchar(10) NOT NULL);
+ create table Film(name varchar(30) NOT NULL,type varchar(10) NOT NULL,region int NOT NULL,director varchar(20),actor varchar(50),post varchar(200),introduction varchar(500),recommend varchar(10) NOT NULL);
 
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('大圣归来','6','1','田晓鹏','张磊','./images/posts/films/daShengGuiLai.jpg','五百年前，由石猴变化而成的齐天大圣孙悟空（张磊 配音）大闹天宫，最终被如来佛祖镇压在了五行山下。此去经年，长安城内突然遭到山妖洗劫，童男童女哭声连连，命悬一线。危机时刻，自幼被行脚僧法明（吴文伦 配音）抚养长大的江流儿（林子杰 配音）救下了一个小女孩，结果反遭山妖追杀。','99');
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('大鱼海棠','6','1','梁旋','季冠霖','./images/posts/films/daYuHaiTang.jpg','所有活着的人类，都是海里一条巨大的鱼，出生的时候他们从海的此岸出发。他们的生命就像横越大海，有时相遇，有时分开……死的时候，他们便到了岸，各去各的世界。四十五亿年前，这个星球上，只有一片汪洋大海，和一群古老的大鱼。','99');
@@ -14,7 +14,7 @@ insert into Film(name,type,region,director,actor,post,introduction,recommend) va
 
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('流浪地球','8','1','郭帆','吴京,李光洁','./images/posts/films/liuLangDiQiu.jpg,./images/posts/films/liuLangDiQiu1.jpg','太阳即将毁灭，人类在地球表面建造出巨大的推进器，寻找新家园。然而宇宙之路危机四伏，为了拯救地球，为了人类能在漫长的2500年后抵达新的家园，流浪地球时代的年轻人挺身而出，展开争分夺秒的生死之战。','0,1,2');
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('人间喜剧','3','1','孙周','艾伦,任达华','./images/posts/films/renJianXiJu.jpg,./images/posts/films/renJianXiJu1.jpg','电影 《人间·喜剧》 讲述了又怂又没出息的电台主播濮通，交不起房租讨不回薪水，媳妇都要闹离婚。莫名被卷进一场阴谋漩涡，怂人濮通一夜逆袭，拳打黑帮大佬，绑架首富独子，各路奇葩依次登场，濮通的喜剧人生由此爆笑展开……','0,1');
-insert into Film(name,type,region,director,actor,post,introduction,recommend) values('狂暴凶狮','7','2','迪克.麦斯','艾比.霍尔斯','./images/posts/films/kuangBaoXiongShi.jpg,./images/posts/films/kuangBaoXiongShi1.jpg','在阿姆斯特丹，警方发现了被残忍杀害的一家人的尸体，警方对此案一时之间毫无头绪。但是阿姆斯特丹动物园的兽医Lizzie通过伤口怀疑这应该是一只大型的狮子所为。','0');
+insert into Film(name,type,region,director,actor,post,introduction,recommend) values('狂暴凶狮','7','2','迪克.麦斯','艾比.霍尔斯','./images/posts/films/kuangBaoXiongShi.jpg,./images/posts/films/kuangBaoXiongShi1.jpg','在阿姆斯特丹，警方发现了被残忍杀害的一家人的尸体，警方对此案一时之间毫无头绪。但是阿姆斯特丹动物园的兽医Lizzie通过伤口怀疑这应该是一只大型的狮子所为。','0,7');
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('阳台上','5','1','张猛','周冬雨,王锵','./images/posts/films/yangTaiShang.jpg,./images/posts/films/yangTaiShang1.jpg','《阳台上》讲述了一个关于“复仇”的故事。整日无所事事的张英雄（王锵 饰）一直生活在父母的溺爱下。父亲因为与拆迁工作人员陆志强发生冲突而忽然离世，张英雄决定要为父亲报仇。','0');
 insert into Film(name,type,region,director,actor,post,introduction,recommend) values('傀儡姬','5','1','侯国涛','张冬,季晨','./images/posts/films/kuiLeiJi.jpg,./images/posts/films/kuiLeiJi1.jpg','太鬼马女偃师师师为寻找师兄勇闯城主府，却将城主姬夜辰错认成大护卫。二人被卷入数起怪异事件，渐生情愫，师师却发现对方不但是傀儡人，而且可能是杀死飞赫的凶手。','0,1');
 

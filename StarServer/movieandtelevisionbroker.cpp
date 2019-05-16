@@ -607,26 +607,45 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
                 break;
             }
         }
-        for(auto it = m_comics.begin(); it != m_comics.end();it++){
+        for(auto it = m_drames.begin();it != m_drames.end()&&resource.size() == 0;it++){
             auto tem = it->second;
             if(tem.findByName(name)){
                 tem.recodeInfo(name,resource);
                 break;
             }
         }
-        for(auto it = m_varieties.begin(); it != m_varieties.end();it++){
+        for(auto it = m_comics.begin(); it != m_comics.end()&& resource.size() == 0;it++){
             auto tem = it->second;
             if(tem.findByName(name)){
                 tem.recodeInfo(name,resource);
                 break;
             }
         }
-
+        for(auto it = m_varieties.begin(); it != m_varieties.end()&& resource.size() == 0;it++){
+            auto tem = it->second;
+            if(tem.findByName(name)){
+                tem.recodeInfo(name,resource);
+                break;
+            }
+        }
     }
     case 1:{
         for(auto it = m_films.begin(); it != m_films.end();it++){
             auto tem = it->second;
             tem.recodeInfo(name,resource);
+            if(resource.size() != 0){
+                break;
+            }
+        }
+        break;
+    }
+    case 2:{
+        for(auto it = m_drames.begin();it != m_drames.end();it++){
+            auto tem = it->second;
+            tem.recodeInfo(name,resource);
+            if(resource.size() != 0){
+                break;
+            }
         }
         break;
     }
@@ -634,6 +653,9 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
         for(auto it = m_comics.begin(); it != m_comics.end();it++){
             auto tem = it->second;
             tem.recodeInfo(name,resource);
+            if(resource.size() != 0){
+                break;
+            }
         }
         break;
     }
@@ -641,6 +663,9 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
         for(auto it = m_varieties.begin(); it != m_varieties.end();it++){
             auto tem = it->second;
             tem.recodeInfo(name,resource);
+            if(resource.size() != 0){
+                break;
+            }
         }
         break;
     }

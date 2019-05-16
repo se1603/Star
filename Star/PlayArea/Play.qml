@@ -164,7 +164,7 @@ Item {
                 width: 1/2*parent.width-8
                 height: parent.height-20
                 Button{
-                    anchors.centerIn: parent
+                    anchors.fill: parent
                     text: "简介"
                     onClicked: {
                         right_stack.push(comment_page,StackView.Immediate)
@@ -180,7 +180,7 @@ Item {
                 width: 1/2*parent.width-8
                 height: parent.height-20
                 Button{
-                    anchors.centerIn: parent
+                    anchors.fill: parent
                     text: "评论"
                     onClicked: {
                         right_stack.push(summary_page,StackView.Immediate)
@@ -205,18 +205,14 @@ Item {
 
         Component{
             id:summary_page
-            Summary{
+            Comment{
 
             }
         }
         Component{
             id:comment_page
-            Comment{
+            Program{
                 id:e
-                name1: name
-                types: datas.resource.videotype.type
-                info: infoma
-                imge: image
             }
         }
     }
@@ -234,27 +230,50 @@ Item {
             height: 1/13*leftRect.height - 10
             color: "black"
             Rectangle{
+                id:libraryRec
                 anchors.left: parent.left
-                anchors.leftMargin: 10
-                width: 1/3*parent.width
-                height: parent.height
+                anchors.leftMargin: 5
+                anchors.top:parent.top
+                anchors.topMargin: 5
+                width: 1/4*parent.width
+                height: parent.height-10
                 color: "red"
                 Button{
                     anchors.fill: parent
-                    text: qsTr("Record")
-                    onClicked: left_stack.push(record_page)
+                    text: qsTr("片库")
+                    onClicked: left_stack.push(library_page)
                 }
             }
             Rectangle{
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                width: 1/3*parent.width
-                height: parent.height
-                color: "red"
+                id:localrect
+                anchors.top:parent.top
+                anchors.topMargin: 5
+                anchors.left: libraryRec.right
+                anchors.leftMargin: 15
+                anchors.right: recordRect.left
+                anchors.rightMargin: 15
+                width: 1/4*parent.width
+                height: parent.height-10
+//                color: "red"
                 Button{
                     anchors.fill:parent
-                    text: qsTr("Local")
+                    text: qsTr("本地")
                     onClicked: left_stack.push(local_page)
+                }
+            }
+            Rectangle{
+                id:recordRect
+                anchors.top:parent.top
+                anchors.topMargin: 5
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                width: 1/4*parent.width
+                height: parent.height-10
+                color: "gray"
+                Button{
+                    anchors.fill:parent
+                    text: qsTr("记录")
+                    onClicked: left_stack.push(record_page)
                 }
             }
         }
@@ -270,7 +289,7 @@ Item {
             }
             anchors.topMargin: 20
             id:left_stack
-            initialItem: record_page
+            initialItem: library_page
         }
         Component{
             id:local_page
@@ -280,11 +299,12 @@ Item {
         }
         Component{
             id:record_page
-            Record{
-                playname: name
-                playtype: datas.resource.esipode
-                img:image
-                mode: datas.resource.esipode
+            Record{}
+        }
+
+        Component{
+            id:library_page
+            FilmLibraty{
             }
         }
 

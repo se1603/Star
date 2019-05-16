@@ -1,91 +1,61 @@
-//time:2019.4.30
-//author:xudan
-//内容：评论界面
-
 import QtQuick 2.0
-import QtQuick.Layouts 1.11
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.2
 
-Rectangle{
-    id:play_page
-    width: left_stack.width
-    height: left_stack.height
+ScrollView{
+    anchors.fill: parent
+    id:all_scroll
+    clip: true
+    property alias model:listview.model
 
-    color: "#8B8378"
-    property string playname: ""
-    property string playtype: ""
-    property string img:""
-
-    property alias mode:play_repeater.model
-   
-    
-    Text{
-        id:te_play
-        anchors.top:parent.top
-        anchors.topMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        text: "Playing"
-        font.family: "Beta Dance"
-        font.pixelSize: 24
+    ListView{
+        id:listview
+        anchors.fill: parent
+        model: la//play.datas
+        delegate: dele
     }
 
-    Row{
-        id:row_play
-        anchors.left: parent.left
-        anchors.top: te_play.bottom
-        anchors.topMargin: 10
-        spacing: 5
+    ListModel{
+        id:la
+        ListElement{
+           it:"jjjj"
+        }
+        ListElement{
+           it:"jjjj"
+        }
+        ListElement{
+           it:"jjjj"
+        }
+        ListElement{
+           it:"jjjj"
+        }
+    }
+
+    Component{
+        id:dele
         Rectangle{
-            id:play_rec
-            width: 2/5*play_page.width
-            height: 1/5*play_page.height
-             color: "red"
-            Image{
-                id:record_img
-                width:parent.width
-                height: parent.height
-                source:"file:" + img
-            }
-        }
-        Column{
-            id:column_play
-            anchors.left: row_play.right
-            anchors.leftMargin: 5
-            anchors.top: parent.top
-            Text{
-                id:name_te
-                anchors.top: parent.top
-                font.family: "Beta Dance"
-                font.pixelSize: 14
-                text: playname
-            }
-            Text{
-                anchors.top:name_te.bottom
-                font.family: "Beta Dance"
-                font.pixelSize: 14
-                text: playtype+"集全"
-            }
-        }
-    }
-
-    GridLayout{
-        id:gird_play
-        columns:10
-        width: play_page.width
-        anchors.top:row_play.bottom
-        anchors.topMargin: 10
-        anchors.left: parent.left
-        anchors.right: parent.right
-        Repeater{
-            id:play_repeater
+            width: all_scroll.width
+            height: 200
+            border.color: "#dddddd"
             Rectangle{
-                width: 15
-                height: 15
-                color: "red"
-                Text{
-                    anchors.centerIn: parent
-                    text: modelData+1
-                }
+                id:all_message
+                anchors.top: parent.top
+                width: parent.width*2/3
+                height: parent.height-10
+                color: "#55ddaa"
+//                Image{
+//                    anchors.fill: parent
+//                    source: modelData.post
+//                }
+            }
+            Text{
+                id:all_time
+                anchors.top: parent.top
+                anchors.left: all_message.right
+                text: "dgdg"//modelData.name
+                font.pixelSize: 26
+                width: 1/3*parent.width
+                wrapMode: Text.Wrap
             }
         }
     }
