@@ -1,7 +1,7 @@
 #include "film.h"
 
-Film::Film(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<std::string> actors, std::vector<std::string> directors, std::vector<FilmType> types, std::vector<int> recommends)
-{
+Film::Film(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<Actor *> actors, std::vector<Director *> directors, std::vector<FilmType> types, std::vector<int> recommends)
+{    
     m_name = name;
     m_introduction = introduction;
     m_region = region;
@@ -11,6 +11,11 @@ Film::Film(std::string name, std::string introduction, Region region, std::vecto
     m_type = types;
     m_recommend = recommends;
     m_episode = 1;
+}
+
+Film::Film()
+{
+
 }
 
 std::vector<std::string> Film::show(bool recommend)
@@ -97,6 +102,11 @@ bool Film::findByName(std::string name)
     }else{
         return false;
     }
+}
+
+void Film::save(std::map<std::string, Film> &films)
+{
+    films[m_name] = *this;
 }
 
 //MartialArts = 1,    //武侠

@@ -1,6 +1,6 @@
 #include "comic.h"
 
-Comic::Comic(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<std::string> actors, std::vector<std::string> directors, std::vector<ComicType> types, int episode, std::vector<int> recommends)
+Comic::Comic(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<Actor *> actors, std::vector<Director *> directors, std::vector<ComicType> types, int episode, std::vector<int> recommends)
 {
     m_name = name;
     m_introduction = introduction;
@@ -112,4 +112,9 @@ bool Comic::findByName(std::string name)
     }else{
         return false;
     }
+}
+
+void Comic::save(std::map<std::string, Comic> &comics)
+{
+    comics[m_name] = *this;
 }

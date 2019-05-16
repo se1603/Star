@@ -11,10 +11,12 @@
 class BrowseAndWatchController : public Controller
 {
 public:
-    static std::shared_ptr<BrowseAndWatchController> getInstance()
+    static BrowseAndWatchController* getInstance()
     {
         return m_instance;
     }
+
+    ~BrowseAndWatchController();
 
     std::string interface(int category,int type);  //每个目录下的界面显示
     std::string category(int type);   //目录信息
@@ -31,8 +33,8 @@ public:
 
 private:
     BrowseAndWatchController();
-    static std::shared_ptr<BrowseAndWatchController> m_instance;
-    std::shared_ptr<MovieAndTelevisionBroker> m_movieAndTelevisionBroker;
+    static BrowseAndWatchController* m_instance;
+    MovieAndTelevisionBroker* m_movieAndTelevisionBroker;
 };
 
 #endif // BROWSEANDWATCHCONTROLLER_H

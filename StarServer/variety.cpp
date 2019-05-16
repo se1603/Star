@@ -3,8 +3,8 @@
 
 Variety::Variety(std::string name, std::string introduction, Region region,
                  std::vector<std::string> posts,
-                 std::vector<std::string> actors,
-                 std::vector<std::string> directors,
+                 std::vector<Actor *> actors,
+                 std::vector<Director *> directors,
                  std::vector<VarietyType> types, std::vector<int> recommends, int episodes)
 {
     m_name = name;
@@ -97,4 +97,9 @@ bool Variety::findByName(std::string name)
     }else{
         return false;
     }
+}
+
+void Variety::save(std::map<std::string, Variety> &varietys)
+{
+    varietys[m_name] = *this;
 }

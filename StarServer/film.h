@@ -27,10 +27,11 @@ class Film : public MovieAndTelevision
 public:
     Film(std::string name,std::string introduction,
          Region region,std::vector<std::string> posts,
-         std::vector<std::string> actors,
-         std::vector<std::string> directors,std::vector<FilmType> types,
+         std::vector<Actor *> actors,
+         std::vector<Director *> directors,std::vector<FilmType> types,
          std::vector<int> recommends);
 
+    Film();
 
     std::vector<std::string> show(bool recommend);  //电影显示的消息
     void findFilmByType(FilmType type, std::vector<Film> &films);  //获取该类电影
@@ -38,6 +39,8 @@ public:
     void recodeInfo(std::string name,std::vector<std::string> &v);
 
     bool findByName(std::string name);
+
+    void save(std::map<std::string,Film> &films);
 
 private:
     std::vector<FilmType> m_type;

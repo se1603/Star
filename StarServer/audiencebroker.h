@@ -12,11 +12,12 @@ class Record;
 class AudienceBroker : public RelationalBroker
 {
 public:
-    static std::shared_ptr<AudienceBroker> getInstance()
+    static AudienceBroker* getInstance()
     {
         return m_instance;
     }
 
+    ~AudienceBroker();
     //验证登录信息
     bool verifyLoginInfo(std::string n,std::string p);
     //注册新帐号
@@ -33,7 +34,7 @@ public:
     void showAudienceInfo(std::string name, std::vector<std::string> &audienceinfo);
 private:
     AudienceBroker();
-    static std::shared_ptr<AudienceBroker> m_instance;
+    static AudienceBroker* m_instance;
 
     std::vector<Audience> loginedAudiences;
 };

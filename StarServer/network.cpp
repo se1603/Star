@@ -82,7 +82,7 @@ int NetWork::sendto(std::string message, endpoint ep)
                 len -= MAXLENGTH;
                 if(len < 0)
                     len = 0;
-                std::cout << "test:" << data.buff << std::endl;
+//                std::cout << "test:" << data.buff << std::endl;
                 if(send_index == receive_index){
                     ++send_index;
                     data.head.index = send_index;
@@ -123,7 +123,7 @@ int NetWork::sendto(std::string message, endpoint ep)
                 returnlen = sock->send_to(boost::asio::buffer((char *)&data,sizeof(data)),ep);
 
                 sock->receive_from(boost::asio::buffer((char *)&pack_info,sizeof(pack_info)),sender_ep);
-                std::cout << "leave" << std::endl;
+//                std::cout << "leave" << std::endl;
                 receive_index = pack_info.index;
 
                 if(pack_info.errorFlag == 1)

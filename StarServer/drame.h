@@ -25,12 +25,15 @@ class Drame : public MovieAndTelevision
 public:
     Drame(std::string name,std::string introduction,
           Region region,std::vector<std::string> posts,
-          std::vector<std::string> actors,
-          std::vector<std::string> directors,
+          std::vector<Actor *> actors,
+          std::vector<Director *> directors,
           std::vector<DrameType> types,int episode,std::vector<int> recommends);
+    Drame(){}
     std::vector<std::string> show(bool recommend);
     void findDrameByType(DrameType type, std::vector<Drame> &drames);
     void findDrameByRecommend(int recommend, std::vector<Drame> &drames);
+
+    void save(std::map<std::string,Drame> &drames);
 private:
     std::vector<DrameType> m_type;
 };

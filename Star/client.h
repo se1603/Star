@@ -68,6 +68,9 @@ private:
     FILE *fp;
     File_info file_info;
     Audience* _audience;
+    std::map<int,std::map<int,std::string>> interfaceBuffer;
+    std::map<int,std::string> categoryBuffer;
+    std::map<int,std::string> recommendBuffer;
 };
 
 #endif // CLIENT_H

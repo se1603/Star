@@ -7,6 +7,8 @@
 
 #include <vector>
 #include "actor.h"
+#include "director.h"
+#include <map>
 
 class MovieAndTelevision
 {
@@ -19,8 +21,8 @@ protected:
     std::string m_introduction;       //简介
     Region m_region;                   //地区
     std::vector<std::string> m_post;  //海报
-    std::vector<std::string> m_actors;      //演员
-    std::vector<std::string> m_director; //导演
+    std::vector<Actor *> m_actors;      //演员
+    std::vector<Director *> m_director; //导演
     int m_episode; //集数
 
     std::vector<int> m_recommend;     //推荐标记

@@ -35,11 +35,11 @@ public:
 
 private:
     ThreadPool threadpool;  //线程池
-    std::shared_ptr<ControllerFactory> controlFactory;
-    std::shared_ptr<BrowseAndWatchController> m_BrowseAndWatchController;
+    ControllerFactory* controlFactory;
+    BrowseAndWatchController* m_BrowseAndWatchController;
 
     //观众控制器
-    std::shared_ptr<AudienceController> m_AudienceController;
+    AudienceController* m_AudienceController;
 };
 
 #endif // SERVER_H

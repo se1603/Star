@@ -14,15 +14,17 @@
 class MovieAndTelevisionBroker : public RelationalBroker
 {
 public:
-    static std::shared_ptr<MovieAndTelevisionBroker> getInstance()
+    static MovieAndTelevisionBroker* getInstance()
     {
         return m_instance;
     }
 
-    void initFilms();    //获取所有电影
-    Film handleFilm(std::vector<std::string> row);   //处理数据库数据
+    ~MovieAndTelevisionBroker();
+
     void splictString(const std::string& s, std::vector<std::string>& v, const std::string& c);
 
+    void initFilms();    //获取所有电影
+    Film handleFilm(std::vector<std::string> row);   //处理数据库数据
 
     std::vector<Film> getFilms(FilmType type);
     std::vector<Film> getRecommendFilms(int type);
@@ -50,14 +52,25 @@ public:
 
 //    std::vector<std::string> getVideoInfo(std::string name);
     std::vector<std::string> getVideoInfo(std::string name,int i);
+    
+    //演员
+    void initActors();
+    Actor handleActor(std::vector<std::string> row);
+    
+    //导演
+    void initDirectors();
+    Director handleDirector(std::vector<std::string> row);
 
 private:
     MovieAndTelevisionBroker();
-    static std::shared_ptr<MovieAndTelevisionBroker> m_instance;
-    std::vector<Film> m_films;   //电影
-    std::vector<Drame> m_drames;  //剧集
-    std::vector<Variety> m_varieties; //综艺
-    std::vector<Comic> m_comics;  //动漫
+    static MovieAndTelevisionBroker *m_instance;
+    std::map<std::string,Film> m_films;   //电影
+    std::map<std::string,Drame> m_drames;  //剧集
+    std::map<std::string,Variety> m_varieties; //综艺
+    std::map<std::string,Comic> m_comics;  //动漫
+
+    std::map<std::string,Actor> m_actors; //演员
+    std::map<std::string,Director> m_directors; //导演
 };
 
 #endif // MOVIEANDTELEVISIONBROKER_H

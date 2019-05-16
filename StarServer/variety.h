@@ -19,9 +19,11 @@ class Variety : public MovieAndTelevision
 public:
     Variety(std::string name,std::string introduction,
             Region region,std::vector<std::string> posts,
-            std::vector<std::string> actors,
-            std::vector<std::string> directors,std::vector<VarietyType> types,
+            std::vector<Actor *> actors,
+            std::vector<Director *> directors,std::vector<VarietyType> types,
             std::vector<int> recommends,int episodes);
+
+    Variety(){}
 
     std::vector<std::string> show(bool recommend);
     void findVarietyByType(VarietyType type,std::vector<Variety> &varieties);
@@ -29,6 +31,8 @@ public:
 
     void recodeInfo(std::string name,std::vector<std::string> &v);
     bool findByName(std::string name);
+
+    void save(std::map<std::string,Variety> &varietys);
 private:
     std::vector<VarietyType> m_type;
 };

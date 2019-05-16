@@ -1,11 +1,16 @@
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
 
-std::shared_ptr<BrowseAndWatchController> BrowseAndWatchController::m_instance = std::make_shared<BrowseAndWatchController>(BrowseAndWatchController());
+BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWatchController();
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
+}
+
+BrowseAndWatchController::~BrowseAndWatchController()
+{
+    delete m_instance;
 }
 
 std::string BrowseAndWatchController::interface(int category, int type)

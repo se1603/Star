@@ -258,7 +258,7 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
 
 void Server::sendMessage(std::string message, endpoint ep)
 {
-    std::cout << "Send message:"  << message << std::endl;
+//    std::cout << "Send message:"  << message << std::endl;
     //创建一个新的套接字指向客户端。
     socket_ptr udpsock(new boost::asio::ip::udp::socket(service,boost::asio::ip::udp::endpoint()));
     boost::asio::ip::udp::endpoint sender_ep;

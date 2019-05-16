@@ -20,9 +20,10 @@ class Comic:public MovieAndTelevision
 public:
     Comic(std::string name,std::string introduction,
           Region region,std::vector<std::string> posts,
-          std::vector<std::string> actors,
-          std::vector<std::string> directors,std::vector<ComicType> types,int episode,std::vector<int> recommends);
+          std::vector<Actor *> actors,
+          std::vector<Director *> directors,std::vector<ComicType> types,int episode,std::vector<int> recommends);
 
+    Comic(){}
 
     std::vector<std::string> show(bool recommend);  //动漫显示的消息
     void findComicByType(ComicType type, std::vector<Comic> &comics);  //获取该类动漫
@@ -31,6 +32,8 @@ public:
     void recodeInfo(std::string name,std::vector<std::string> &v);//返回播放界面信息，如影视类型，集数
 
     bool findByName(std::string name);
+
+    void save(std::map<std::string,Comic> &comics);
 private:
     std::vector<ComicType> m_type;
 };

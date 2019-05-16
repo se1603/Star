@@ -1,7 +1,7 @@
 #include "drame.h"
 
 
-Drame::Drame(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<std::string> actors, std::vector<std::string> directors, std::vector<DrameType> types, int episode, std::vector<int> recommends)
+Drame::Drame(std::string name, std::string introduction, Region region, std::vector<std::string> posts, std::vector<Actor *> actors, std::vector<Director *> directors, std::vector<DrameType> types, int episode, std::vector<int> recommends)
 {
     m_name = name;
     m_introduction = introduction;
@@ -42,6 +42,11 @@ void Drame::findDrameByRecommend(int recommend, std::vector<Drame> &drames)
             if(c == recommend){
                 drames.push_back(*this);
             }
-        }
+    }
+}
+
+void Drame::save(std::map<std::string, Drame> &drames)
+{
+    drames[m_name] = *this;
 }
 

@@ -2,8 +2,13 @@
 #include "audiencecontroller.h"
 #include "json/json.h"
 
-std::shared_ptr<AudienceController> AudienceController::m_instance =
-        std::make_shared<AudienceController>(AudienceController());
+AudienceController* AudienceController::m_instance = new AudienceController();
+
+AudienceController::~AudienceController()
+{
+    delete m_instance;
+}
+
 bool AudienceController::verifyAudience(std::string name, std::string password)
 {
     if(m_audienceBroker->verifyLoginInfo(name,password) == true)

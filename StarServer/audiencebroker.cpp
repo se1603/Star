@@ -5,8 +5,12 @@
 #include "collection.h"
 #include "record.h"
 
-std::shared_ptr<AudienceBroker> AudienceBroker::m_instance =
-        std::make_shared<AudienceBroker>(AudienceBroker());
+AudienceBroker* AudienceBroker::m_instance = new AudienceBroker();
+
+AudienceBroker::~AudienceBroker()
+{
+    delete m_instance;
+}
 
 bool AudienceBroker::verifyLoginInfo(std::string n, std::string p)
 {

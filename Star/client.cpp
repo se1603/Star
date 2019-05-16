@@ -1,3 +1,7 @@
+/*Author:王梦娟
+ *Date:2019-10-14
+ *Note:缓存客户端发送过来的消息
+*/
 #include "client.h"
 #include <iostream>
 #include <qdebug.h>
@@ -5,7 +9,7 @@
 #include <dirent.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.23.50"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.100"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -34,26 +38,26 @@ void Client::splictString(std::string &s, std::vector<std::string> &v, const std
 void Client::connectServer()
 {
     getFile();
-//    showRecommend(1);
-//    browseFilm(1,6);
+    //    showRecommend(1);
+    //    browseFilm(1,6);
 }
 
 void Client::getFile()
 {
-    std::string path = "./posts";
+    std::string path = "./images";
     DIR * dir;
     dir = opendir(path.data());
     if(dir == nullptr )
     {
         Json::Value root;
         root["request"] = "FILETRANSFER";
-        root["fileName"] = "posts.tar.gz";
+        root["fileName"] = "images.tar.gz";
         root.toStyledString();
         std::string message = root.toStyledString();
 
         receiveFile(message);
 
-        std::string commend = "tar xzvf posts.tar.gz";
+        std::string commend = "tar xzvf images.tar.gz";
         system(commend.c_str());
     }
 }
@@ -75,201 +79,185 @@ QString Client::browseMovieAndTelevision(int category,int type)
 {
     Json::Value qmlvalue;
 
-    Json::Value root;
-    root["request"] = "INTERFACE";
-    root["interface"] = std::to_string(category) ;    //电影
-    root["type"] = std::to_string(type);  //类型
-    root.toStyledString();
-    std::string message = root.toStyledString();
+    std::string result;
 
-    socket_ptr udpsock;
-    udpsock = sendMessage(message);
-
-    NetWork sock(udpsock);
-
-    Json::Value value;
-    Json::Reader reader;
-    std::string res = sock.receive();
-
-    std::vector<MovieAndTelevision> films;
-
-    if(!reader.parse(res,value))
+    bool sendRequest = true;
+    //先在缓存中找
+    if(interfaceBuffer.find(category) != interfaceBuffer.end())
     {
-        std::cerr << "Parse message failed." << std::endl;
-    }
-    else
-    {
-        const Json::Value arrayObj = value["movieAndTelevision"];
-
-        qmlvalue = value["movieAndTelevision"];
-
-        int interface = value["interface"].asInt();
-        int type = value["type"].asInt();
+        std::map<int,std::string> m1 = interfaceBuffer[category];
+        if(m1.find(type) != m1.end())
+        {
+            sendRequest = false;
+            std::string resoure = m1[type];
+            result = resoure;
+        }
     }
 
-    std::cout << qmlvalue.toStyledString() << std::endl;
+    if(sendRequest)
+    {
+        Json::Value root;
+        root["request"] = "INTERFACE";
+        root["interface"] = std::to_string(category) ;    //电影
+        root["type"] = std::to_string(type);  //类型
+        root.toStyledString();
+        std::string message = root.toStyledString();
 
-    QString t = QString::fromStdString(qmlvalue.toStyledString());
+        socket_ptr udpsock;
+        udpsock = sendMessage(message);
+
+        NetWork sock(udpsock);
+
+        Json::Value value;
+        Json::Reader reader;
+        std::string res = sock.receive();
+
+        std::vector<MovieAndTelevision> films;
+
+        if(!reader.parse(res,value))
+        {
+            std::cerr << "Parse message failed." << std::endl;
+        }
+        else
+        {
+            const Json::Value arrayObj = value["movieAndTelevision"];
+
+            qmlvalue = value["movieAndTelevision"];
+            result = qmlvalue.toStyledString();
+
+            int interface = value["interface"].asInt();
+            int type = value["type"].asInt();
+
+            if(interfaceBuffer.find(interface) == interfaceBuffer.end())
+            {
+                std::map<int,std::string> showresouce;
+                showresouce[type] = result;
+                interfaceBuffer[category] = showresouce;
+            }
+            else
+            {
+                std::map<int,std::string> showresouce;
+                showresouce = interfaceBuffer[interface];
+                if(showresouce.find(type) == showresouce.end())
+                {
+                    showresouce[type] == result;
+                }
+            }
+        }
+    }
+
+    //    std::cout << qmlvalue.toStyledString() << std::endl;
+    QString t = QString::fromStdString(result);
     return t;
-//    Json::Value qmlvalue;
-//    bool sendRequest = true;
-
-//    //先在缓存中找
-//    if(movieAndTelevision.find(category) != movieAndTelevision.end())
-//    {
-//        std::map<int,std::vector<MovieAndTelevision>> m1 = movieAndTelevision[category];
-//        if(m1.find(type) != m1.end())
-//        {
-//            sendRequest = false;
-//            std::vector<MovieAndTelevision> films = m1[type];
-//            for(int i = 0;i != films.size(); i++)
-//            {
-//                Json::Value item;
-//                item["name"] = films[i].name();
-//                item["post"] = films[i].post();
-//                qmlvalue.append(item);
-//            }
-//        }
-//    }
-//    if(sendRequest)
-//    {
-//        Json::Value root;
-//        root["request"] = "INTERFACE";
-//        root["interface"] = std::to_string(category) ;    //电影
-//        root["type"] = std::to_string(type);  //类型
-//        root.toStyledString();
-//        std::string message = root.toStyledString();
-
-//        socket_ptr udpsock;
-//        udpsock = sendMessage(message);
-
-//        NetWork sock(udpsock);
-
-//        Json::Value value;
-//        Json::Reader reader;
-//        std::string res = sock.receive();
-
-//        std::vector<MovieAndTelevision> films;
-
-//        if(!reader.parse(res,value))
-//        {
-//            std::cerr << "Parse message failed." << std::endl;
-//        }
-//        else
-//        {
-//            const Json::Value arrayObj = value["movieAndTelevision"];
-//            for (unsigned int i = 0; i < arrayObj.size(); i++)
-//            {
-//                std::string name = arrayObj[i]["name"].asString();
-//                std::string post = arrayObj[i]["post"].asString();
-
-//                MovieAndTelevision m;
-//                m.setName(name);
-//                m.setPost(post);
-//                films.push_back(m);
-//            }
-//            qmlvalue = value["movieAndTelevision"];
-
-//            int interface = value["interface"].asInt();
-//            int type = value["type"].asInt();
-
-//            if(movieAndTelevision.find(interface) == movieAndTelevision.end())
-//            {
-//                std::map<int,std::vector<MovieAndTelevision>> m1;
-//                m1[type] = films;
-//                movieAndTelevision[interface] = m1;
-//            }
-//            else
-//            {
-//                std::map<int,std::vector<MovieAndTelevision>> m1;
-//                m1 = movieAndTelevision[interface];
-//                if(m1.find(type) == m1.end())
-//                {
-//                    m1[type] = films;
-//                }
-//            }
-//        }
-//    }
-
-//    std::cout << qmlvalue.toStyledString() << std::endl;
-
-//    QString t = QString::fromStdString(qmlvalue.toStyledString());
-//    return t;
 }
 
 QString Client::showCategory(int type)
 {
-    Json::Value root;
-    root["request"] = "CATEGORY";
-    root["type"] = std::to_string(type);
-    root.toStyledString();
-    std::string message = root.toStyledString();
-
-    socket_ptr udpsock;
-    udpsock = sendMessage(message);
-
-    NetWork sock(udpsock);
-
-    Json::Value value;
     Json::Value qmlvalue;
-    Json::Reader reader;
-    std::string res = sock.receive();
+    std::string result;
+    bool sendRequest = true;
 
-    if(!reader.parse(res,value))
+    //先在缓存中找
+    if(categoryBuffer.find(type) != categoryBuffer.end())
     {
-        std::cerr << "Receive message failed." << std::endl;
+        sendRequest = false;
+        std::string resoure = categoryBuffer[type];
+        result = resoure;
     }
-    else
-    {
-        qmlvalue = value["categorys"];
-    }
-    qmlvalue.toStyledString();
-    std::cout << qmlvalue.toStyledString() << std::endl;
 
-    QString t = QString::fromStdString(qmlvalue.toStyledString());
+    if(sendRequest)
+    {
+        Json::Value root;
+        root["request"] = "CATEGORY";
+        root["type"] = std::to_string(type);
+        root.toStyledString();
+        std::string message = root.toStyledString();
+
+        socket_ptr udpsock;
+        udpsock = sendMessage(message);
+
+        NetWork sock(udpsock);
+
+        Json::Value value;
+
+        Json::Reader reader;
+        std::string res = sock.receive();
+
+        if(!reader.parse(res,value))
+        {
+            std::cerr << "Receive message failed." << std::endl;
+        }
+        else
+        {
+            qmlvalue = value["categorys"];
+            result = qmlvalue.toStyledString();
+
+            if(categoryBuffer.find(type) == categoryBuffer.end())
+            {
+
+                categoryBuffer[type] = result;
+            }
+        }
+    }
+    //    std::cout << qmlvalue.toStyledString() << std::endl;
+
+    QString t = QString::fromStdString(result);
     return t;
 }
 
 QString Client::showRecommend(int category)
 {
-    Json::Value root;
-    root["request"] = "RECOMMEND";
-    root["category"] = std::to_string(category);
-    root.toStyledString();
-    std::string message = root.toStyledString();
-
-    socket_ptr udpsock;
-    udpsock = sendMessage(message);
-
-    NetWork sock(udpsock);
-
-    std::string res = sock.receive();
-
-    Json::Value value;
     Json::Value qmlvalue;
-    Json::Reader reader;
-    if(!reader.parse(res,value))
+    std::string result;
+    bool sendRequest = true;
+
+    //先在缓存中找
+    if(recommendBuffer.find(category) != recommendBuffer.end())
     {
-        std::cerr << "Receive message failed." << std::endl;
+        sendRequest = false;
+        std::string resoure = recommendBuffer[category];
+        result = resoure;
     }
-    else
+
+    if(sendRequest)
     {
-//        const Json::Value arrayObj = value["recommends"];
-//        Json::Value titleObj;
-//        for (unsigned int i = 0; i < arrayObj.size(); i++)
-//        {
-//            Json::Value item;
-//            std::string title = arrayObj[i]["title"].asString();
-//            item["title"] = arrayObj[i]["title"];
-//            std::cout << title << std::endl;
-//            titleObj.append(item);
-//        }
-        qmlvalue["resource"] = value["resource"];
-        qmlvalue["firstRecommends"] = value["firstRecommends"];
-        qmlvalue["secondRecommends"] = value["secondRecommends"];
+        Json::Value root;
+        root["request"] = "RECOMMEND";
+        root["category"] = std::to_string(category);
+        root.toStyledString();
+        std::string message = root.toStyledString();
+
+        socket_ptr udpsock;
+        udpsock = sendMessage(message);
+
+        NetWork sock(udpsock);
+
+        std::string res = sock.receive();
+
+        Json::Value value;
+
+        Json::Reader reader;
+        if(!reader.parse(res,value))
+        {
+            std::cerr << "Receive message failed." << std::endl;
+        }
+        else
+        {
+            qmlvalue["resource"] = value["resource"];
+            qmlvalue["firstRecommends"] = value["firstRecommends"];
+            qmlvalue["secondRecommends"] = value["secondRecommends"];
+
+            result = qmlvalue.toStyledString();
+
+            if(recommendBuffer.find(category) == recommendBuffer.end())
+            {
+                recommendBuffer[category] = result;
+            }
+        }
     }
-    std::cout << qmlvalue.toStyledString() << std::endl;
-    QString t = QString::fromStdString(qmlvalue.toStyledString());
+
+//    std::cout << qmlvalue.toStyledString() << std::endl;
+    QString t = QString::fromStdString(result);
     return t;
 }
 
@@ -508,7 +496,7 @@ void Client::getAudienceInfo(std::string name)
 
     QString n = QString::fromStdString(p[0]);
     QString a = QString::fromStdString(p[1]);
-//    qDebug() << n << "------" << a;
+    //    qDebug() << n << "------" << a;
     emit loginsucceed(n,a);
 
 }

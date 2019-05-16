@@ -11,17 +11,19 @@
 class ControllerFactory
 {
 public:
-    static std::shared_ptr<ControllerFactory> getInstance(){
+    static ControllerFactory* getInstance(){
         return m_instance;
     }
 
-    std::shared_ptr<BrowseAndWatchController> createBrowseAndWatchController();
+    ~ControllerFactory();
 
-    std::shared_ptr<AudienceController> createAudienceController();
+    BrowseAndWatchController* createBrowseAndWatchController();
+
+    AudienceController *createAudienceController();
 
 private:
     ControllerFactory();
-    static std::shared_ptr<ControllerFactory> m_instance;
+    static ControllerFactory* m_instance;
 };
 
 #endif // CONTROLLERFACTORY_H
