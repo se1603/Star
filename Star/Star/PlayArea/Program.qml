@@ -47,26 +47,27 @@ Rectangle {
             id:name
             text: play.name
             width: 1/2*commentPage.width-20
-            font.pixelSize: 10
+//            font.pixelSize: 10
             wrapMode: Text.Wrap
         }
+        Text{
+            id:region
+            text: play.datas.resource.region
+        }
+
         Row{
+            id:row
             spacing: 5
             Repeater{
                 model: play.datas.resource.videotype
                 Text{
                     id:type
                     text: modelData.type
-                    font.pixelSize: 10
+//                    font.pixelSize: 10
                 }
             }
         }
-        Text {
-            id: notice
-            text: "hhhhhhhhhh"
-            font.pixelSize: 12
-            color: "#ffffff"
-        }
+
     }
 
 

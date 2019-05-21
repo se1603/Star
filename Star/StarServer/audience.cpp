@@ -5,13 +5,14 @@
 #include "audience.h"
 #include "movieandtelevision.h"
 
-Audience::Audience(std::string name, std::string password, std::string avatar, std::vector<Collection> collections, std::vector<Record> records)
+Audience::Audience(std::string name, std::string password, std::string avatar, std::vector<Collection> collections, std::vector<Record> records, std::multimap<std::string, Comment> comments)
 {
     m_name = name;
     m_password = password;
     m_avatar = avatar;
     m_collections = collections;
     m_records = records;
+    m_comments = comments;
 }
 
 bool Audience::verifyLogin(std::string name)

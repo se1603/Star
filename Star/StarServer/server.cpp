@@ -128,6 +128,10 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["name"].asString());
             parameter.push_back(value["videotype"].asString());
         }
+        else if(request == "INFOMATION"){
+            parameter.push_back(value["request"].asCString());
+            parameter.push_back(value["name"].asCString());
+        }
         else if(request == "ADDCOLLECTION"){
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["audiencename"].asString());
@@ -179,6 +183,11 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         reply = m_BrowseAndWatchController->getVideoInfo(parameters[1],atoi(parameters[2].c_str()));
         sendMessage(reply,ep);
         return reply;
+    }
+    else if(request == "INFOMATION"){
+       reply = m_BrowseAndWatchController->getActorInfo(parameters[1]);
+       sendMessage(reply,ep);
+       return reply;
     }
     else if(request == "VERIFYINFO")
     {

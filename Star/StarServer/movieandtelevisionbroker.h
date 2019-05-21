@@ -52,6 +52,7 @@ public:
 
 //    std::vector<std::string> getVideoInfo(std::string name);
     std::vector<std::string> getVideoInfo(std::string name,int i);
+     std::vector<std::string> getActorInfo(std::string name);
     
     //演员
     void initActors();

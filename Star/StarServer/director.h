@@ -19,6 +19,7 @@ public:
     Director();
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
+    void directorInfo(std::vector<std::string> &v);
 
 private:
     std::string m_name;

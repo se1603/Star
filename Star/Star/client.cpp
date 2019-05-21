@@ -9,7 +9,7 @@
 #include <dirent.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.41"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.210"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -291,6 +291,38 @@ QString Client::getMovieInfo(QString n,int i)
     QString t = QString::fromStdString(qmlvalue.toStyledString());
     return t;
 
+}
+
+QString Client::getActorInfo(QString n)
+{
+   Json::Value infomation;
+   infomation["request"] = "INFOMATION";
+   infomation["name"] = n.toStdString();
+
+   infomation.toStyledString();
+   std::string message = infomation.toStyledString();
+
+   socket_ptr udpsockptr;
+   udpsockptr = sendMessage(message);
+   NetWork sock(udpsockptr);
+
+   std::string receive;
+   receive = sock.receive();
+
+   Json::Value root;
+   Json::Value value;
+   Json::Reader reader;
+
+   if(!reader.parse(receive,value))
+   {
+       std::cerr << "Receive message failed." << std::endl;
+   }
+   else {
+       root["resource"] = value["resource"];
+   }
+   std::cout << root.toStyledString() << std::endl;
+   QString t = QString::fromStdString(root.toStyledString());
+   return t;
 }
 
 void Client::receiveFile(std::string message)

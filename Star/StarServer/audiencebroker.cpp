@@ -30,6 +30,8 @@ bool AudienceBroker::verifyLoginInfo(std::string n, std::string p, std::vector<s
 
     std::string sql = "select * from audience where name = '"+n+"' and password = '"+p+"';";
 
+    std::multimap<std::string,Comment> comment;
+
     if(mysql_query(mysql,sql.data())){
         std::cout << "查询失败(login)" << std::endl;
     }
@@ -47,7 +49,8 @@ bool AudienceBroker::verifyLoginInfo(std::string n, std::string p, std::vector<s
                 }
                 std::vector<Collection> collection;
                 std::vector<Record> record;
-                Audience a(audienceInfo[0],audienceInfo[1],audienceInfo[2],collection,record);
+
+                Audience a(audienceInfo[0],audienceInfo[1],audienceInfo[2],collection,record,comment);
                 loginedAudiences.push_back(a);
                 return true;
             }
@@ -293,7 +296,44 @@ void AudienceBroker::splictString(std::string &s, std::vector<std::string> &v, c
         v.push_back(s.substr(pos1));
 }
 
+void AudienceBroker::initComment()
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "In getAudience:Connect MYSQL failed." << std::endl;
+    }else{
+        std::cout << "In getAudience:Connect MYSQL succeed." << std::endl;
+    }
+    std::string sql = "select * from Comment";
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "Comment 获取失败"<< std::endl;
+    }else{
+        result = mysql_use_result(mysql);//获取结果集
+        while(1){
+            row = mysql_fetch_row(result);
+            if(row == nullptr) break;
+            std::vector<std::string> res;
+            for(unsigned i = 0; i < mysql_num_fields(result);++i){
+                res.push_back(row[i]);
+                std::cout << i << " " << row[i] << std::endl;
+            }
+//            Comment c = Comment()
+        }
+        mysql_free_result(result);
+        result = nullptr;
+    }
+    if(mysql != nullptr)
+            mysql_close(mysql);
+    mysql_library_end();
+}
+
 AudienceBroker::AudienceBroker()
 {
-
+//    initComment();
 }

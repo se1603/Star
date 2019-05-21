@@ -31,6 +31,8 @@ public:
 
     std::string getVideoInfo(std::string name,int i);//获取播放界面中的片库信息
 
+    std::string getActorInfo(std::string name);
+
 private:
     BrowseAndWatchController();
     static BrowseAndWatchController* m_instance;

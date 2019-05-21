@@ -55,6 +55,9 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
             }else if(i == 2){
                 value["category"] = f[2];
             }
+            else if(i==3){
+                 value["region"] = f[3];
+            }
             else{
                 type["type"] = f[i];
                 types.append(type);
@@ -63,6 +66,31 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
         value["videotype"] = types;
         root["resource"] = value;
         out = root.toStyledString();
+
+    return out;
+}
+
+std::string BrowseAndWatchController::getActorInfo(std::string name)
+{
+    Json::Value root;
+    std::string out;
+
+    root["request"] = "INFOMATION";
+    root["name"] = name;
+
+    auto info = m_movieAndTelevisionBroker->getActorInfo(name);
+    Json::Value values;
+
+//    std::cout << "information"<<info.size() << std::endl;
+    for(int i = 0;i != info.size();i+=3){
+        Json::Value value;
+        value["name"] = info[i];
+        value["type"] = info[i+1];
+        value["post"] = info[i+2];
+        values.append(value);
+    }
+    root["resource"] = values;
+    out = root.toStyledString();
 
     return out;
 }

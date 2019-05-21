@@ -37,6 +37,7 @@ public:
     void findFilmByType(FilmType type, std::vector<Film> &films);  //获取该类电影
     void findFilmByRecommend(int recommend,std::vector<Film> &films); //获取该类推荐下的电影
     void recodeInfo(std::string name,std::vector<std::string> &v);
+    void getActorInfo(std::string name,std::vector<std::string> &v);
 
     bool findByName(std::string name);
 

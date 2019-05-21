@@ -29,3 +29,13 @@ void Director::addMovieAndTelevision(MovieAndTelevision *movieAndTelevision)
 {
     m_movieAndTelevision.push_back(movieAndTelevision);
 }
+void Director::directorInfo(std::vector<std::string> &v)
+{
+    v.push_back(m_name);
+    v.push_back("导演");
+    if(m_photo == "未知"){
+        v.push_back("./images/directors/default.png");
+    }else{
+         v.push_back(m_photo);
+    }
+}

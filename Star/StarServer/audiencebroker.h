@@ -45,6 +45,8 @@ public:
     bool addAudienceCollection(std::string aName, std::string cName, std::string cTime, std::string cType);
     //处理字符串函数
     void splictString(std::string &s, std::vector<std::string> &v, const std::string &c);
+
+    void initComment(/*std::multimap<std::string,Comment> &m*/);
 private:
     AudienceBroker();
     static AudienceBroker* m_instance;

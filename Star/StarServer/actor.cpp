@@ -29,3 +29,13 @@ void Actor::addMovieAndTelevision(MovieAndTelevision *movieAndTelevision)
 {
     m_movieAndTelevision.push_back(movieAndTelevision);
 }
+void Actor::actorInfo(std::vector<std::string> &vec)
+{
+    vec.push_back(m_name);
+    vec.push_back("演员");
+    if(m_photo == "未知"){
+        vec.push_back("./images/actors/default.png");
+    }else{
+       vec.push_back(m_photo);
+    }
+}

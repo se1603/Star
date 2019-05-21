@@ -673,7 +673,46 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
     }
     return resource;
 }
+std::vector<std::string> MovieAndTelevisionBroker::getActorInfo(std::string name)
+{
+    std::vector<std::string> resource;
+    auto n = m_films.find(name);
+    if(n != m_films.end()){
+        auto tem = n->second;
+        tem.getActorInfo(name,resource);
+    }
 
+    if(resource.size() != 0){
+        return resource;
+    }
+    auto d = m_drames.find(name);
+    if(d != m_drames.end()){
+        auto tem = d->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto c = m_comics.find(name);
+    if(c != m_comics.end()){
+        auto tem = c->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto v = m_varieties.find(name);
+    if(v != m_varieties.end()){
+        auto tem = v->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    return resource;
+}
 void MovieAndTelevisionBroker::initActors()
 {
     if(!m_films.empty())
@@ -758,8 +797,9 @@ Actor MovieAndTelevisionBroker::handleActor(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
+
     
     Actor a = Actor(paramters,region);
     return a;
@@ -804,8 +844,9 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
+
 
     Director d = Director(paramters,region);
     return d;

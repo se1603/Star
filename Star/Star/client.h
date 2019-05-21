@@ -33,7 +33,9 @@ public:
     Q_INVOKABLE QString showCategory(int type);  //显示分类
     Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
-    Q_INVOKABLE QString getMovieInfo(QString n,int i);
+    Q_INVOKABLE QString getMovieInfo(QString n,int i);//获取影视信息
+    //获得演员和导演信息
+    Q_INVOKABLE QString getActorInfo(QString n);
 
     //用户操作（QML端）
     //登录
