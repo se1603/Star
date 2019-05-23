@@ -1,3 +1,6 @@
+/*author:guchangrong
+ * data:2019-05-18  增加搜索函数
+*/
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
 
@@ -62,6 +65,24 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
         root["resource"] = value;
         out = root.toStyledString();
 
+        return out;
+}
+
+std::string BrowseAndWatchController::SearchKey(std::string name)
+{
+    std::vector<Film *> q = m_movieAndTelevisionBroker->Search(name);
+    Json::Value root;
+    root["request"] = "SEARCH";
+    for (int i = 0; i < q.size(); i++){
+        std::vector<std::string> keys;
+        Json::Value search;
+        keys = q[i]->show(true);
+        search["name"] = keys[0];
+        search["post"] = keys[1];
+        search["introduction"] = keys[2];
+        root.append(search);
+    }
+    std::string out = root.toStyledString();
     return out;
 }
 std::string BrowseAndWatchController::category(int type)

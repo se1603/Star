@@ -42,6 +42,9 @@ public:
     Q_INVOKABLE void loginOut(QString n);
     //修改头像
     Q_INVOKABLE void updateAvatar(QString n, QString a);
+
+    //搜索
+    Q_INVOKABLE std::vector<QString> search(QString key);
     
     Q_INVOKABLE QString getMovieInfo(QString n,int i);
     //用户类函数（C++端）

@@ -16,7 +16,6 @@ Rectangle {
     property alias middle:middle_face.visible
 
 
-
     MiddleInterface{
         id:middle_face
     }

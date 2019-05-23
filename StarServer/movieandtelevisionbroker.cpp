@@ -1,3 +1,6 @@
+/*author:guchangrong
+ * data:2019-05-18 添加搜索函数
+*/
 #include "movieandtelevisionbroker.h"
 #include <iostream>
 #include "film.h"
@@ -809,6 +812,21 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
 
     Director d = Director(paramters,region);
     return d;
+}
+
+std::vector<Film *> MovieAndTelevisionBroker::Search(std::string name)
+{
+//    std::vector<std::vector<std::string>> result;
+    std::vector<Film *> p;
+//    std::map<std::string,Actor> m_actors;
+//    std::map<std::string,Director> m_directors;
+    for(auto it = m_films.begin(); it != m_films.end(); it++)
+    {
+        if(it->second.findByName(name)){
+            p.push_back(&it->second);  //传入film对象
+        }
+    }
+    return p;
 }
 
 

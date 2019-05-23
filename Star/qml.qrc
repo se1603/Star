@@ -69,5 +69,7 @@
         <file>PlayArea/CommentPop.qml</file>
         <file>PlayArea/AllComment.qml</file>
         <file>PlayArea/DetailPop.qml</file>
+        <file>MiddleArea/SearchMovie.qml</file>
+        <file>MiddleArea/Search.qml</file>
     </qresource>
 </RCC>

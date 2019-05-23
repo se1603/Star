@@ -60,6 +60,8 @@ public:
     //导演
     void initDirectors();
     Director handleDirector(std::vector<std::string> row);
+    
+    std::vector<Film *> Search(std::string name); //从map中读取数据，返回给controller
 
 private:
     MovieAndTelevisionBroker();

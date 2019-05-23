@@ -23,7 +23,7 @@ Rectangle {
             id: page_display
             width: 54 / 60 * parent.width
             height: parent.height
-//            color: "red"
+            //            color: "red"
 
             StackView {
                 id: middle_stack
@@ -63,7 +63,12 @@ Rectangle {
 
                 }
             }
+            Component{
+                id:search_page
+                Search{
 
+                }
+            }
         }
     }
 }

@@ -23,7 +23,8 @@ SOURCES += \
     record.cpp \
     region.cpp \
     variety.cpp \
-    comic.cpp
+    comic.cpp \
+    drame.cpp
 
 RESOURCES += qml.qrc
 
@@ -51,4 +52,5 @@ HEADERS += \
     record.h \
     region.h \
     variety.h \
-    comic.h
+    comic.h \
+    drame.h

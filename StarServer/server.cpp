@@ -118,6 +118,10 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["name"].asString());
             parameter.push_back(value["videotype"].asString());
         }
+        else if(request == "SEARCH"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
         else
         {
             parameter.push_back("invalidMessage");
@@ -252,6 +256,11 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
     {
         reply = m_AudienceController->audienceInfo(parameters[1]);
         sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "SEARCH"){
+        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);
+        sendMessage(reply, ep);
         return reply;
     }
 }

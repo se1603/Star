@@ -9,10 +9,11 @@ Item{
     anchors.verticalCenter: parent.verticalCenter
     visible: true
     signal search
-
-    property var searchList: []     //存放读取的影视资源
+    
+    property var searchtext
+    property var searchcount
     property string text: searchEdit.text
-    property alias searchText: searchEdit.text
+    property alias searchmodel: searchMovieModel
     //search输入框
 
     Rectangle{
@@ -25,7 +26,7 @@ Item{
         anchors.left: medialButton.left
         anchors.verticalCenter: medialButton.verticalCenter
         color:"white"
-        TextEdit{    //输入文本框
+        TextInput{    //输入文本框
             id:searchEdit
             width: parent.width
             height: parent.height
@@ -39,13 +40,14 @@ Item{
             focus: false
             onFocusChanged: {
                 if (focus == true){
-                    text = ""
                     topSearch.border.color = "lightblue"
                 }
             }
-            onTextChanged: {
-                text = searchEdit.text   //text为搜索框的输入内容
-//                console.log(text)
+            onAccepted: {
+                searchtext = client.search(text) //text为搜索框的输入内容
+                search()
+//                searchKeys(searchtext)
+                console.log(text)
             }
         }
 
@@ -63,18 +65,8 @@ Item{
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                      if (text === "") {   //跳转到错误提示页面
-                        interfaceS.falsetip.visible = true
-                        interfaceS.main.visible = false
-                        topArea.visible = true
-                        mainMenu.visible = true
-                    } else {            //跳转到搜索结果显示页面
-                        interfaceS.main.visible = false
-                        topArea.visible = false
-                        mainMenu.visible = false
-                        interfaceS.search.visible = true
-                        searchCategory(text)
-                    }
+//                    client.search(text)
+                    console.log(text)
                 }
             }
         }
@@ -105,18 +97,19 @@ Item{
             }
         }
     }
-
-    function searchCategory(text) {    //实现输入内容与categorys内容匹配，并存入数组  2019.1.3
-                                       //修改函数，实现预定匹配功能  2019.1.6
-
-        for (var i = 0; i <= categorys[0].movies.length; i++){
-            if (text === categorys[0].movies[i].name){    //全文本匹配成功显示搜索结果，单字搜索匹配未实现
-                var tmp
-                tmp = categorys[0].movies[i]
-                searchList.push(tmp)
-                interfaceS.search.movie = searchList
-            }
-        }
+    ListModel{
+        id:searchMovieModel
     }
 
+    function searchKeys(searchtext){
+        var key = searchtext
+        searchMovieModel.clear()
+        for(var i = 0; i < key.size(); i++){
+            searchMovieModel.append({
+                                        name:key[i].name,
+                                        post:key[i].post,
+                                        introduction:key[i].introduction
+                                    })
+        }
+    }
 } //medialButton
