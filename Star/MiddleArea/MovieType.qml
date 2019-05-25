@@ -74,6 +74,7 @@ Rectangle {
                                     play.visible = true
                                     play.name = modelData.name
                                     play.image = modelData.post
+                                    play.rtspUrl = modelData.rtspURL
                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name,1))
                                     console.log(play.datas.resource.videotype.type)
                                 }

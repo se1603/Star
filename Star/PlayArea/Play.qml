@@ -1,9 +1,15 @@
-//time :2019.4.27
-//author:xudan
-
-//time :2019.4.27
-//author:xudan
-//内容：播放主界面
+/*
+ * Date :2019.4.27
+ * Author:xudan
+ *
+ * Date :2019.4.27
+ * Author:xudan
+ * 内容：播放主界面
+ *
+ * Author:王梦娟
+ * Date:2019-5-25
+ * Note:修改MouseArea覆盖的问题
+*/
 
 import QtQuick 2.9
 import QtQuick.Controls 2.0
@@ -19,6 +25,7 @@ Item {
     property bool xRflag: true
     property string name:""
     property string type: ""
+    property string rtspUrl: ""
     property string infoma:""
     property string image:""
 
@@ -41,8 +48,7 @@ Item {
         anchors.right: rightRec.left
         anchors.left: leftRect.right
         height: parent.height
-        color:"black"
-
+        color:"green"
 
         MouseArea{
             anchors.fill: parent
@@ -58,6 +64,7 @@ Item {
         Rectangle{
             id:rightbt
             y:play.height/2
+            z:2
             anchors.right: center.right
             width: 20
             height: 30
@@ -89,6 +96,7 @@ Item {
         Rectangle{
             id:leftbu
             y:play.height/2
+            z:2
             anchors.left: center.left
             width: 20
             height: 30
@@ -115,10 +123,11 @@ Item {
                 }
             }
         }
-
         PlayVideo{
             id:playVideo
+            path: rtspUrl
         }
+
     }
 
 

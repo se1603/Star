@@ -36,6 +36,7 @@ private:
     BrowseAndWatchController();
     static BrowseAndWatchController* m_instance;
     MovieAndTelevisionBroker* m_movieAndTelevisionBroker;
+    std::string m_rtspAddress;
 };
 
 #endif // BROWSEANDWATCHCONTROLLER_H

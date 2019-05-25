@@ -32,7 +32,6 @@ void Server::acceptMessage()
         std::cout << "message:" << message << std::endl;
 
         threadpool.append(std::bind(&Server::processMessage, this,message,sender_ep));
-
     }
 }
 
