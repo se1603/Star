@@ -96,10 +96,11 @@ Rectangle {
                                                 console.log(modelData.name)
                                                 console.log(modelData.post)
                                                 play.visible = true
-                                                play.name = modelData.name
-                                                play.image = modelData.post
-                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,4))
+//                                                play.name = modelData.name
+//                                                play.image = modelData.post
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
                                                 console.log(play.datas.resource.videotype.type)
+//                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                             }
                                         }
                                     }

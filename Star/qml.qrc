@@ -79,5 +79,6 @@
         <file>image/videoController/stop.png</file>
         <file>image/videoController/volumeOff.png</file>
         <file>image/videoController/volumeUp.png</file>
+        <file>PlayArea/CommentPopup.qml</file>
     </qresource>
 </RCC>

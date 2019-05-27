@@ -1,5 +1,5 @@
 //董梦丹 4-25
-//最后修改于 5-17
+//最后修改于 5-25
 #include "audiencebroker.h"
 #include "audience.h"
 #include "collection.h"
@@ -266,16 +266,16 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
 
 
     std::string collections = audienceInfo[3];// + "/" + cName + " " + cTime + " " + cType;
-    std::cout << "--------" << std::endl << collections << std::endl;
+//    std::cout << "--------" << std::endl << collections << std::endl;
 
-    std::string newcollections = "/" + cName + " " + cTime + " " + cType;
-    std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
+    std::string newcollections = cName + " " + cTime + " " + cType+"/";
+//    std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
 
     std::string newnew = collections + newcollections;
-    std::cout << "!!!!!" << std::endl << newnew << std::endl;
+//    std::cout << "!!!!!" << std::endl << newnew << std::endl;
 
     std::string sql2 = "update audience set collection='"+newnew+"' where name='"+aName+"';";
-    std::cout << "?????????" << std::endl << sql2 << std::endl;
+//    std::cout << "?????????" << std::endl << sql2 << std::endl;
 
     if(mysql_query(mysql,sql2.data())){
         std::cout << "更新收藏失败" << std::endl;
@@ -287,6 +287,51 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
 
     std::cout << "更新收藏成功" << std::endl;
     return true;
+}
+
+void AudienceBroker::initAudience()
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "In init:Connect MYSQL failed." << std::endl;
+    }else{
+        std::cout << "In init:Connect MYSQL succeed." << std::endl;
+    }
+
+    std::string sql = "select * from audience;";
+
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "查询失败(init)" << std::endl;
+    }
+    else
+    {
+        std::cout << "我进来了" << std::endl;
+        std::cout << std::endl;
+        result = mysql_use_result(mysql);
+        while(1)
+        {
+            row = mysql_fetch_row(result);
+            if(row == nullptr){
+                break;
+            }else{
+                std::string aname;
+                for(unsigned int i=0;i<mysql_num_fields(result);++i){
+                    if(i == 0){
+                        aname = std::string(row[i]);
+                        break;
+                    }
+                }
+                Audience *a = new Audience(aname);
+                allaudiences.insert(std::pair<std::string,Audience*>(aname,a));
+            }
+        }
+    }
 }
 
 void AudienceBroker::splictString(std::string &s, std::vector<std::string> &v, const std::string &c)
@@ -302,6 +347,18 @@ void AudienceBroker::splictString(std::string &s, std::vector<std::string> &v, c
     }
     if(pos1 != s.length())
         v.push_back(s.substr(pos1));
+}
+
+void AudienceBroker::findAudience(std::string name, Audience *a)
+{
+    auto n = allaudiences.find(name);
+    (*a) = *(n->second);
+//    for(auto all = allaudiences.begin();all != allaudiences.end();all++){
+//        if(all->first == name){
+//            a = all->second;
+//        }
+//    }
+
 }
 
 AudienceBroker::AudienceBroker()

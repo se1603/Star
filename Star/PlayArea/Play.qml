@@ -29,9 +29,20 @@ Item {
     property string infoma:""
     property string image:""
 
-
     property var datas
+    property var commentModel
 
+
+//    onVisibleChanged: {
+//        commentModel = JSON.parse(client.showCommentInfo(play.name))
+//        var length = Object.keys(commentModel.resource).length
+//        var c = commentModel.resource
+//        for(var i = 0; i != length;i++){
+//            listComment.append({name1:c[i].audienceName,message:c[i].comment,time:c[i].time})
+//            console.log(c[i].audienceName+"  hdsd")
+//        }
+//         console.log(length+"jfjdj")
+//    }
 
     Timer{
         id:timer1
@@ -220,7 +231,7 @@ Item {
         Component{
             id:summary_page
             Comment{
-
+//                vect:commentModel
             }
         }
         Component{
@@ -229,6 +240,11 @@ Item {
                 id:e
             }
         }
+    }
+
+    onVisibleChanged: {
+
+        right_stack.push(comment_page,StackView.Immediate)
     }
 
     Rectangle{

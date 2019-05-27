@@ -75,7 +75,8 @@ Rectangle {
                                     play.name = modelData.name
                                     play.image = modelData.post
                                     play.rtspUrl = modelData.rtspURL
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name,1))
+                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+//                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)
                                 }
                             }

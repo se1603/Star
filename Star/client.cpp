@@ -9,7 +9,7 @@
 #include <dirent.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.43.168"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.241.199"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -261,12 +261,12 @@ QString Client::showRecommend(int category)
     return t;
 }
 
-QString Client::getMovieInfo(QString n,int i)
+QString Client::getMovieInfo(QString n)
 {
     Json::Value recode;
-    recode["request"] = "RECODE";
+    recode["request"] = "MOVIEINFO";
     recode["name"] = n.toStdString();
-    recode["videotype"] = std::to_string(i);
+//    recode["videotype"] = std::to_string(i);
     recode.toStyledString();
     std::string message = recode.toStyledString();
 
@@ -581,6 +581,89 @@ void Client::getAudienceInfo(std::string name)
     //    qDebug() << n << "------" << a;
     emit loginsucceed(n,a);
 
+}
+
+QString Client::showCommentInfo(QString name)
+{
+    Json::Value comment;
+    comment["request"] = "SHOWCOMMENT";
+    comment["name"] = name.toStdString();
+
+    comment.toStyledString();
+    std::string message = comment.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string receive;
+    receive = sock.receive();
+
+    Json::Value root;
+    Json::Value value;
+    Json::Reader reader;
+    if(!reader.parse(receive,value)){
+          std::cerr << "Receive message failed." << std::endl;
+    } else{
+        root["resource"] = value["resource"];
+    }
+    std::cout << root.toStyledString() << std::endl;
+    QString t = QString::fromStdString(root.toStyledString());
+    return t;
+}
+
+QString Client::showGoodComment(QString name)
+{
+    Json::Value comment;
+    comment["request"] = "SHOWGOODCOMMENT";
+    comment["name"] = name.toStdString();
+
+    comment.toStyledString();
+    std::string message = comment.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string receive;
+    receive = sock.receive();
+
+    Json::Value root;
+    Json::Value value;
+    Json::Reader reader;
+    if(!reader.parse(receive,value)){
+          std::cerr << "Receive message failed." << std::endl;
+    } else{
+        root["resource"] = value["resource"];
+    }
+    std::cout << root.toStyledString() << std::endl;
+    QString t = QString::fromStdString(root.toStyledString());
+    return t;
+}
+
+void Client::addComment(QString aName, QString videoname, QString t, QString c)
+{
+    Json::Value root;
+    std::cout << aName.toStdString() <<":" << t.toStdString()
+              << ":" << videoname.toStdString() << ":" << c.toStdString() << std::endl;
+    root["request"] = "INSERTCOMMENT";
+    root["audiencename"] = aName.toStdString();
+    root["name"] = videoname.toStdString();
+    root["time"] = t.toStdString();
+    root["comment"] = c.toStdString();
+    root.toStyledString();
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsock;
+    udpsock = sendMessage(message);
+    NetWork sock(udpsock);
+
+    std::string res = sock.receive();
+    if(res == "FAILED"){
+        emit insertFailed();
+    }else{
+        emit insertSuccessed();
+    }
 }
 QString Client::getActorInfo(QString n)
 {

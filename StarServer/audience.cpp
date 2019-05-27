@@ -14,6 +14,16 @@ Audience::Audience(std::string name, std::string password, std::string avatar, s
     m_records = records;
 }
 
+Audience::Audience(std::string name)
+{
+    m_name = name;
+}
+
+Audience::Audience()
+{
+
+}
+
 bool Audience::verifyLogin(std::string name)
 {
     if(m_name == name)
@@ -67,4 +77,9 @@ void Audience::showRecord(std::map<std::string, MovieAndTelevision *> &recordmap
         std::string m = r.m_startPlayTime+"/"+r.m_duration;
         recordmap.insert(std::make_pair(m,r.m_movieAndTelevision));
     }
+}
+
+void Audience::showname(std::vector<std::string> &a)
+{
+    a.push_back(m_name);
 }

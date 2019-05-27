@@ -15,6 +15,8 @@ public:
     Audience(std::string name,std::string password,std::string avatar,
              std::vector<Collection> collections,
              std::vector<Record> records);
+    Audience(std::string name);
+    Audience();
 
     bool verifyLogin(std::string name);
     bool verifyName(std::string name);
@@ -25,6 +27,7 @@ public:
     void addRecord(Record r);
     void showCollection(std::map<std::string,MovieAndTelevision*> &collectionmap);
     void showRecord(std::map<std::string,MovieAndTelevision*> &recordmap);
+    void showname(std::vector<std::string> &a);//获取用户名字
 private:
     std::string m_name;
     std::string m_password;

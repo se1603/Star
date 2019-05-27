@@ -37,13 +37,13 @@ std::string BrowseAndWatchController::interface(int category, int type)
 
     return reply;
 }
-std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
+std::string BrowseAndWatchController::getVideoInfo(std::string name)
 {
     Json::Value root;
     std::string out;
     root["request"] = "RECODE";
     root["name"] = name;
-        auto f = m_movieAndTelevisionBroker->getVideoInfo(name,i);
+        auto f = m_movieAndTelevisionBroker->getVideoInfo(name);
         Json::Value value;
         Json::Value types;
         root["videotype"] = 1;

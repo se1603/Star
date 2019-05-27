@@ -73,7 +73,8 @@ Rectangle {
                                     play.image = modelData.post
                                     console.log(modelData.name)
                                     console.log(modelData.post)
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name,3))
+                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+//                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)
                                 }
                             }

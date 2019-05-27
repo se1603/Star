@@ -108,7 +108,8 @@ Rectangle {
                                                 play.visible = true
                                                 play.name = modelData.name
                                                 play.image = modelData.post
-                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,3))
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+//                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                                 console.log(play.datas.resource.videotype.type)
                                             }
                                         }

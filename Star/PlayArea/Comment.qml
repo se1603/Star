@@ -1,18 +1,18 @@
-//Author:徐丹
-//time：2019.4.28
-//评论界面
 
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
-//import QtQuick 2.12
 Rectangle{
     id:recordPage
-    width: 59/60*right_stack.width
-    height: 59/60*right_stack.height
+    width: /*59/60**/right_stack.width
+    height: /*59/60**/right_stack.height
+//    color: "red"
 
     color: "#8B8378"
+    property var commentData:new Date()
+
+    property var vect:JSON.parse(client.showCommentInfo(play.name))
 
     Rectangle{
         id:topRec
@@ -28,7 +28,7 @@ Rectangle{
                 anchors.top: parent.top
                 font.family: "Beta Dance"
                 font.pixelSize: 24
-                text: "name"
+                text: audienceInterface.audienceName//"name"
             }
             Rectangle{
                 id:record_edit
@@ -37,6 +37,10 @@ Rectangle{
                 height: 2/17*recordPage.height
                 border.color: "black"
                 color: "#8B8378"
+                CommentPopup{
+                    id:commentpop
+                }
+
                 TextEdit{
                     id:edit
                     width: parent.width
@@ -66,9 +70,20 @@ Rectangle{
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        add(edit.text)
-                        //                        nametext.text = edit.text
-                        edit.clear()
+                        var year = commentData.getFullYear()
+                        var month = commentData.getMonth()+1
+                        var day = commentData.getDate()
+                        var hours = commentData.getHours()
+                        var minutes = commentData.getMinutes()
+                        var commenttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
+                        if(nametext.text == ""){
+                            commentpop.open()
+                        }else{
+                            //addComment(nametext.text,edit.text,commenttime)
+                           client.addComment(nametext.text,play.name,commenttime,edit.text)
+                           vect = JSON.parse(client.showCommentInfo(play.name))
+                            edit.clear()
+                        }
                     }
                 }
             }
@@ -90,6 +105,12 @@ Rectangle{
                         font.family: "Beta Dance"
                         font.pixelSize: 18
                     }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showCommentInfo(play.name))
+                        }
+                    }
                 }
                 Rectangle{
                     width: recordPage.width/2-1
@@ -101,6 +122,12 @@ Rectangle{
                         text: "精华评论"
                         font.family: "Beta Dance"
                         font.pixelSize: 18
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showGoodComment(play.name))
+                        }
                     }
                 }
             }
@@ -124,17 +151,34 @@ Rectangle{
         Component{
             id:allRecord
             AllComment{
-                model: list
+                models:vect.resource
             }
         }
     }
 
-    ListModel{
-        id:list
-    }
+//    Connections{
+//        target: client
+//        onInsertSuccessed: {
+//            summary_stack.push(allRecord,StackView.Immediate)
+////            vect = JSON.parse(client.showCommentInfo(play.name))
+//        }
+//    }
 
-    function add(text){
-        list.append({name:"ff",message:text,time:"3.1"})
-    }
+//    ListModel{
+//        id:list
+//    }
 
+//   Component.onCompleted: {
+//       var length = Object.keys(vect.resource).length
+//       var c = vect.resource
+//       for(var i = 0; i != length;i++){
+//           list.append({name1:c[i].audienceName,message:c[i].comment,time:c[i].time})
+//           console.log(c[i].audienceName+"  hdsd")
+//       }
+//        console.log(length+"jfjdj")
+//   }
+
+//    function addComment(an,c,t){
+//        list.append({audienceName:an,comment:c,time:t})
+//    }
 }
