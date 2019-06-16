@@ -52,6 +52,7 @@ public:
 
 //    std::vector<std::string> getVideoInfo(std::string name);
     std::vector<std::string> getVideoInfo(std::string name,int i);
+     std::vector<std::string> getActorInfo(std::string name);
     
     //演员
     void initActors();
@@ -60,9 +61,17 @@ public:
     //导演
     void initDirectors();
     Director handleDirector(std::vector<std::string> row);
-    
+    //搜索
     std::vector<Film *> Search(std::string name); //从map中读取数据，返回给controller
 
+
+    //用户操作
+    //处理用户信息
+    void processAudienceCollection(std::vector<std::string> tmp,MovieAndTelevision *m);
+    void processAudienceRecord(std::vector<std::string> tmp,MovieAndTelevision *m);
+    //获取用户具体信息
+    void showCollection(MovieAndTelevision* m, std::vector<std::string> &collections);
+    void showRecord(MovieAndTelevision* m, std::vector<std::string> &records);
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;

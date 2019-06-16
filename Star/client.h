@@ -33,6 +33,10 @@ public:
     Q_INVOKABLE QString showCategory(int type);  //显示分类
     Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
+    Q_INVOKABLE QString getMovieInfo(QString n,int i);//获取影视信息
+    //获得演员和导演信息
+    Q_INVOKABLE QString getActorInfo(QString n);
+
     //用户操作（QML端）
     //登录
     Q_INVOKABLE void sendLoginInfo(QString n,QString p);
@@ -42,13 +46,17 @@ public:
     Q_INVOKABLE void loginOut(QString n);
     //修改头像
     Q_INVOKABLE void updateAvatar(QString n, QString a);
-
-    //搜索
-    Q_INVOKABLE std::vector<QString> search(QString key);
-    
-    Q_INVOKABLE QString getMovieInfo(QString n,int i);
+    //获取收藏
+    Q_INVOKABLE QString audienceCollection(QString name);
+    //获取记录
+    Q_INVOKABLE QString audienceRecord(QString name);
+    //添加收藏
+    Q_INVOKABLE void addCollection(QString name, QString collecttime, QString videoname, QString type);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
+
+    //搜索
+    Q_INVOKABLE QString search(QString key);
 
     //获取文件
     void getFile();
@@ -65,7 +73,8 @@ signals:
     void haslogined();
     void updateAvatarFailed();
     void updateAvatarSucceed(QString newsource);
-
+    void collectsucceed();
+    void collectfailed();
 private:
     //文件
     FILE *fp;

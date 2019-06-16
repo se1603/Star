@@ -15,7 +15,11 @@ class MovieAndTelevision
 public:
     MovieAndTelevision();
 
-
+    //用户操作
+    //判断
+    bool isSame(std::string n);
+    //收藏与记录
+    void showInfo(std::vector<std::string> &a_collections);
 protected:
     std::string m_name;             //名称
     std::string m_introduction;       //简介

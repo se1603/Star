@@ -52,6 +52,39 @@ void Variety::recodeInfo(std::string name, std::vector<std::string> &v)
         auto i = std::to_string(m_episode);
         v.push_back(i);
         v.push_back(m_introduction);
+        v.push_back("4");
+        auto regin = m_region;
+        switch(regin){
+        case Region::American:{
+            v.push_back("美国");
+            break;
+        }
+        case Region::Britain:{
+            v.push_back("英国");
+            break;
+        }
+        case Region::China:{
+            v.push_back("中国");
+            break;
+        }
+        case Region::India:{
+            v.push_back("印度");
+            break;
+        }
+        case Region::Korea:{
+            v.push_back("韩国");
+            break;
+        }
+        case Region::THailand:{
+            v.push_back("泰国");
+            break;
+        }
+        case Region::Japan:{
+            v.push_back("日本");
+            break;
+        }
+        default:break;
+        }
         for(auto t: m_type){
             switch(t){
             case VarietyType::Food:{
@@ -89,6 +122,24 @@ void Variety::recodeInfo(std::string name, std::vector<std::string> &v)
     }else{
         return;
     }
+}
+
+void Variety::getActorInfo(std::string name, std::vector<std::string> &v)
+{
+    std::vector<std::string> resource;
+
+    auto a = m_actors;
+    for(int i = 0;i != a.size();i++){
+        auto tem = a[i];
+        tem->actorInfo(resource);
+    }
+
+    auto d = m_director;
+    for(int i = 0;i != d.size();i++){
+        auto tem = d[i];
+        tem->directorInfo(resource);
+    }
+    v = resource;
 }
 
 bool Variety::findByName(std::string name)

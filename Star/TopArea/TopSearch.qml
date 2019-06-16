@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "../MiddleArea"
 
 Item{
     id:medialButton
@@ -8,12 +9,11 @@ Item{
     anchors.leftMargin: 1/7 * parent.width
     anchors.verticalCenter: parent.verticalCenter
     visible: true
-    signal search
-    
+    //signal search
+
     property var searchtext
     property var searchcount
     property string text: searchEdit.text
-    property alias searchmodel: searchMovieModel
     //search输入框
 
     Rectangle{
@@ -44,10 +44,11 @@ Item{
                 }
             }
             onAccepted: {
-                searchtext = client.search(text) //text为搜索框的输入内容
-                search()
-//                searchKeys(searchtext)
-                console.log(text)
+                middleArea.middleface.searchMovie = JSON.parse(client.search(text)) //text为搜索框的输入内容
+                middleArea.middleface.middlemenu.load_page(1)
+//                console.log("aaaaa")
+//                console.log(text)
+//                console.log(middleArea.middleface.searchMovie)
             }
         }
 
@@ -63,10 +64,13 @@ Item{
             MouseArea{
                 id: searchmousearea
                 anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 hoverEnabled: true
                 onClicked: {
-//                    client.search(text)
-                    console.log(text)
+                    middleArea.middleface.searchMovie = JSON.parse(client.search(searchEdit.text))
+                    middleArea.middleface.middlemenu.load_page(1)
+//                    console.log(text)
+//                    console.log(middleArea.middleface.searchMovie)  //searchMovie已存入内容
                 }
             }
         }
@@ -97,19 +101,20 @@ Item{
             }
         }
     }
-    ListModel{
-        id:searchMovieModel
-    }
+//    ListModel{
+//        id:searchMovieModel
+//    }
 
-    function searchKeys(searchtext){
-        var key = searchtext
-        searchMovieModel.clear()
-        for(var i = 0; i < key.size(); i++){
-            searchMovieModel.append({
-                                        name:key[i].name,
-                                        post:key[i].post,
-                                        introduction:key[i].introduction
-                                    })
-        }
-    }
+//    function searchKeys(searchtext){
+//        var key = searchtext
+//        var a = key.split(",")
+//        console.log(a)
+//        searchMovieModel.clear()
+//        for(var i = 0; i < key.size(); i++){
+//            searchMovieModel.append({
+//                                        name:key[i].name,
+//                                        post:key[i].post,
+//                                    })
+//        }
+//    }
 } //medialButton

@@ -9,7 +9,7 @@ Rectangle{
     z:1
 
     property alias rightButton:rightButton
-    property alias toparea: topSearch
+    property alias topsearch: topSearch
     Rectangle{
         id:icon
         width: 1/14 * parent.width

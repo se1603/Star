@@ -1,8 +1,13 @@
 /*author:guchangrong
- * data:2019-05-18  增加搜索函数
-*/
+ * data:2019-05-20
+ * 接收数据，从broker中获取对象
+ * author:guchangrong
+ * data:2019-05-15
+ * 添加剧集类别相关函数
+ */
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
+#include <iostream>
 
 BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWatchController();
 
@@ -54,7 +59,12 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
             if(i == 0){
                 value["esipode"] = f[0];
             }else if(i == 1){
-               value["introduction"] = f[1];
+                value["introduction"] = f[1];
+            }else if(i == 2){
+                value["category"] = f[2];
+            }
+            else if(i==3){
+                 value["region"] = f[3];
             }
             else{
                 type["type"] = f[i];
@@ -65,24 +75,52 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
         root["resource"] = value;
         out = root.toStyledString();
 
-        return out;
+    return out;
+}
+
+std::string BrowseAndWatchController::getActorInfo(std::string name)
+{
+    Json::Value root;
+    std::string out;
+
+    root["request"] = "INFOMATION";
+    root["name"] = name;
+
+    auto info = m_movieAndTelevisionBroker->getActorInfo(name);
+    Json::Value values;
+
+//    std::cout << "information"<<info.size() << std::endl;
+    for(int i = 0;i != info.size();i+=3){
+        Json::Value value;
+        value["name"] = info[i];
+        value["type"] = info[i+1];
+        value["post"] = info[i+2];
+        values.append(value);
+    }
+    root["resource"] = values;
+    out = root.toStyledString();
+
+    return out;
 }
 
 std::string BrowseAndWatchController::SearchKey(std::string name)
 {
     std::vector<Film *> q = m_movieAndTelevisionBroker->Search(name);
     Json::Value root;
+    Json::Value searchs;
     root["request"] = "SEARCH";
     for (int i = 0; i < q.size(); i++){
         std::vector<std::string> keys;
         Json::Value search;
-        keys = q[i]->show(true);
+        q[i]->showInfo(keys);
         search["name"] = keys[0];
         search["post"] = keys[1];
-        search["introduction"] = keys[2];
-        root.append(search);
+        searchs.append(search);
+//        search["introduction"] = keys[2];        
     }
+    root["searchResult"] = searchs;
     std::string out = root.toStyledString();
+    std::cout << "aaa:" << out << std::endl;
     return out;
 }
 std::string BrowseAndWatchController::category(int type)

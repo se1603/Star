@@ -30,7 +30,9 @@ public:
     std::string comicInterface(int type);//动漫界面显示信息
 
     std::string getVideoInfo(std::string name,int i);//获取播放界面中的片库信息
-    std::string SearchKey(std::string name);
+
+    std::string getActorInfo(std::string name);
+     std::string SearchKey(std::string name); //搜索关键字
 
 private:
     BrowseAndWatchController();

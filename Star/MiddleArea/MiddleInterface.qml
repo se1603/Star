@@ -1,6 +1,9 @@
 //time：2019.4.30
 //内容：页面跳转组件
 //author：徐丹
+//author:guchangrong
+//data:2019-05-21
+//增加搜索组件
 
 import QtQuick 2.0
 import QtQuick.Controls 2.2
@@ -9,6 +12,9 @@ Rectangle {
     width: 59 / 60 * parent.width
     height: 59 / 60 * parent.height
     anchors.centerIn: parent
+
+    property var searchMovie
+    property alias middlemenu: middle_Menu
 
     Row {
         width: parent.width
@@ -23,7 +29,7 @@ Rectangle {
             id: page_display
             width: 54 / 60 * parent.width
             height: parent.height
-            //            color: "red"
+//            color: "red"
 
             StackView {
                 id: middle_stack
@@ -69,6 +75,7 @@ Rectangle {
 
                 }
             }
+
         }
     }
 }

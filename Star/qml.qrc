@@ -8,7 +8,6 @@
         <file>Audience/AudienceMessage.qml</file>
         <file>Audience/AudiencePoupItem.qml</file>
         <file>Audience/AudienceRecord.qml</file>
-        <file>Audience/AudienceVideoRec.qml</file>
         <file>Audience/Dir.qml</file>
         <file>Audience/LoginItem.qml</file>
         <file>Audience/MessageReceiveView.qml</file>
@@ -39,7 +38,6 @@
         <file>image/TopArea/user.png</file>
         <file>PlayArea/Comment.qml</file>
         <file>PlayArea/Local.qml</file>
-        <file>PlayArea/Menu.qml</file>
         <file>PlayArea/Play.qml</file>
         <file>PlayArea/Record.qml</file>
         <file>MiddleArea/Comic.qml</file>
@@ -69,7 +67,8 @@
         <file>PlayArea/CommentPop.qml</file>
         <file>PlayArea/AllComment.qml</file>
         <file>PlayArea/DetailPop.qml</file>
-        <file>MiddleArea/SearchMovie.qml</file>
         <file>MiddleArea/Search.qml</file>
+        <file>MiddleArea/SearchMovie.qml</file>
+        <file>image/TopArea/close.png</file>
     </qresource>
 </RCC>

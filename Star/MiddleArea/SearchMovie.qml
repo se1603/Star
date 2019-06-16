@@ -1,13 +1,27 @@
+/*author:guchanrong
+ *data:2019-05-21
+ *显示搜索的电影
+ */
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
+import "../TopArea"
 
 Rectangle {
-    id: searchmovie
+    id: movie
     height: parent.height
     width: parent.width
     anchors.fill: parent
-    property var searchMovie: []
+    property var searchMovie: middleArea.middleface.searchMovie
+//    MouseArea{
+//        anchors.fill: parent
+//        hoverEnabled: true
+//        onClicked: {
+//            console.log(searchMovie.searchResult[0].name)
+//        }
+//    }
+
+
 
     Rectangle{
         id:toprectangle
@@ -32,7 +46,7 @@ Rectangle {
                 anchors.rightMargin: 0
                 anchors.verticalCenter: parent.verticalCenter
                 opacity: bakcmousearea.containsMouse ? 1.0 : 0.5
-                source: "qrc:/back.jpg"
+                source: "qrc:/image/TopArea/back.jpg"
                 MouseArea{
                     id:bakcmousearea
                     anchors.fill: parent
@@ -60,7 +74,7 @@ Rectangle {
                 anchors.rightMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
                 opacity: closemousearea.containsMouse ? 1.0 : 0.5
-                source: "qrc:/close.png"
+                source: "qrc:/image/TopArea/close.png"
                 MouseArea{
                     id:closemousearea
                     anchors.fill: parent
@@ -164,8 +178,16 @@ Rectangle {
                                 width:120
                                 height: 180
                                 anchors.fill: parent
-                                source: searchMovie.post
+                                source: "file:" + modelData.post
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        console.log(poster.source)
+                                    }
+                                }
                             }
+
+
                         }
                         Text{   //显示影视节目名称
                             id: movietitle
@@ -177,21 +199,21 @@ Rectangle {
                             anchors.topMargin: 20
                             font.pixelSize: 24
                             color: "lightblue"
-                            text: searchMovie.name
+                            text: modelData.name
                         }
-                        Text{     //显示简介
-                            id: movieintro
-                            width: parent.width - 240
-                            height: 50
-                            anchors.left: showposter.right
-                            anchors.leftMargin: 20
-                            anchors.top: movietitle.bottom
-                            anchors.topMargin: 20
-                            font.pixelSize: 12
-                            wrapMode: Text.WrapAnywhere
-                            lineHeight: 1
-                            text:searchMovie.introduction
-                        }
+//                        Text{     //显示简介
+//                            id: movieintro
+//                            width: parent.width - 240
+//                            height: 50
+//                            anchors.left: showposter.right
+//                            anchors.leftMargin: 20
+//                            anchors.top: movietitle.bottom
+//                            anchors.topMargin: 20
+//                            font.pixelSize: 12
+//                            wrapMode: Text.WrapAnywhere
+//                            lineHeight: 1
+//                            text:searchMovie.introduction
+//                        }
                         Rectangle{   //播放按钮
                             id: playbutton
                             width: 80
@@ -199,18 +221,15 @@ Rectangle {
                             color: "#FFEFD5"
                             anchors.left: showposter.right
                             anchors.leftMargin: 50
-                            anchors.top: movieintro.bottom
-                            anchors.topMargin: 30
+//                            anchors.top: movieintro.bottom
+//                            anchors.topMargin: 30
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 30
                             MouseArea{
                                 id:playmousearea
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
-//                                    play.visible =true
-//                                    search.visible = false
-//                                    play.thesource = movie[0].url
-//                                    mainMenu.visible = true
-//                                    topArea.visible = true
                                 }
                             }
 
@@ -229,4 +248,7 @@ Rectangle {
 
         }  //showlist
     }//showrectangle
+    function load_page(page){
+            search_stack.push(searchmovie, StackView.Immediate)
+    }
 }//searchpage

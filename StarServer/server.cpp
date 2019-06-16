@@ -113,10 +113,31 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
         }
+        else if(request == "GETCOLLECTION")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "GETRECORD")
+        {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
         else if(request == "RECODE"){
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
             parameter.push_back(value["videotype"].asString());
+        }
+        else if(request == "INFOMATION"){
+            parameter.push_back(value["request"].asCString());
+            parameter.push_back(value["name"].asCString());
+        }
+        else if(request == "ADDCOLLECTION"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audiencename"].asString());
+            parameter.push_back(value["collectname"].asString());
+            parameter.push_back(value["collecttime"].asString());
+            parameter.push_back(value["collecttype"].asString());
         }
         else if(request == "SEARCH"){
             parameter.push_back(value["request"].asString());
@@ -166,6 +187,11 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         reply = m_BrowseAndWatchController->getVideoInfo(parameters[1],atoi(parameters[2].c_str()));
         sendMessage(reply,ep);
         return reply;
+    }
+    else if(request == "INFOMATION"){
+       reply = m_BrowseAndWatchController->getActorInfo(parameters[1]);
+       sendMessage(reply,ep);
+       return reply;
     }
     else if(request == "VERIFYINFO")
     {
@@ -257,6 +283,36 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         reply = m_AudienceController->audienceInfo(parameters[1]);
         sendMessage(reply,ep);
         return reply;
+    }
+    else if(request == "GETCOLLECTION")
+    {
+        std::vector<std::string> collectlist;
+        m_AudienceController->audienceCollection(parameters[1],collectlist);
+        reply = m_AudienceController->pakageCollection(collectlist);
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "GETRECORD")
+    {
+        std::vector<std::string> recordlist;
+        m_AudienceController->audienceRecord(parameters[1],recordlist);
+        reply = m_AudienceController->pakageRecord(recordlist);
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "ADDCOLLECTION")
+    {
+        if(m_AudienceController->addAudienceCollection(parameters[1],parameters[2],parameters[3],
+                                                       parameters[4]) == true)
+        {
+            reply = "COLLECTSUCCEED";
+            sendMessage(reply,ep);
+            return reply;
+        }else{
+            reply = "COLLECTFAILED";
+            sendMessage(reply,ep);
+            return reply;
+        }
     }
     else if(request == "SEARCH"){
         reply = m_BrowseAndWatchController->SearchKey(parameters[1]);

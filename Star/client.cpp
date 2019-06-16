@@ -1,9 +1,9 @@
 /*Author:王梦娟
  *Date:2019-10-14
  *Note:缓存客户端发送过来的消息
- * Author:guchangrong
- * Date:2019-05-18
- * Note:搜索关键字
+ *author:guchangrong
+ * data:2019-05-21
+ * 获取用户输入的关键词，传给服务端
 */
 #include "client.h"
 #include <iostream>
@@ -12,7 +12,7 @@
 #include <dirent.h>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.23.50"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.31.232"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -293,6 +293,39 @@ QString Client::getMovieInfo(QString n,int i)
     std::cout << qmlvalue.toStyledString() << std::endl;
     QString t = QString::fromStdString(qmlvalue.toStyledString());
     return t;
+
+}
+
+QString Client::getActorInfo(QString n)
+{
+   Json::Value infomation;
+   infomation["request"] = "INFOMATION";
+   infomation["name"] = n.toStdString();
+
+   infomation.toStyledString();
+   std::string message = infomation.toStyledString();
+
+   socket_ptr udpsockptr;
+   udpsockptr = sendMessage(message);
+   NetWork sock(udpsockptr);
+
+   std::string receive;
+   receive = sock.receive();
+
+   Json::Value root;
+   Json::Value value;
+   Json::Reader reader;
+
+   if(!reader.parse(receive,value))
+   {
+       std::cerr << "Receive message failed." << std::endl;
+   }
+   else {
+       root["resource"] = value["resource"];
+   }
+   std::cout << root.toStyledString() << std::endl;
+   QString t = QString::fromStdString(root.toStyledString());
+   return t;
 }
 
 void Client::receiveFile(std::string message)
@@ -466,35 +499,87 @@ void Client::updateAvatar(QString n,QString a)
         emit updateAvatarFailed();
     }
 }
-//搜索匹配关键字
-std::vector<QString> Client::search(QString key)
+
+QString Client::audienceCollection(QString name)
 {
-    Json::Value SearchKey;
-    SearchKey["request"] = "SEARCH";
-    SearchKey["name"] = key.toStdString();
-    SearchKey.toStyledString();
-    std::string message = SearchKey.toStyledString();  //获取qml端信息转换为json对象
+    auto aN = name.toStdString();
+    Json::Value root;
+    root["request"] = "GETCOLLECTION";
+    root["name"] = aN;
+    root.toStyledString();
+    std::string message = root.toStyledString();
 
-    socket_ptr udpsockptr;
-    udpsockptr = sendMessage(message);
-    NetWork sock(udpsockptr);
+    socket_ptr udpsock;
+    udpsock = sendMessage(message);
+    NetWork sock(udpsock);
+    std::string res = sock.receive();
 
-    std::string search;
-    search = sock.receive();   //将json对象传给服务端并接收服务端读取的Json对象
-
-    Json::Value values;   //解析Json对象
+    Json::Value value;
+    Json::Value qmlvalue;
     Json::Reader reader;
-    std::vector<QString> searchResult;
-    if(!reader.parse(search, values)){
-        std::cerr << "Receive info failed." << std::endl;
-    } else {
-        for (int i = 0; i < values.size(); i++){
-            searchResult.push_back(QString::fromStdString(values[i]["name"].asString()));
-            searchResult.push_back(QString::fromStdString(values[i]["post"].asString()));
-            searchResult.push_back(QString::fromStdString(values[i]["introduction"].asString()));
-        }
+
+    if(!reader.parse(res,value)){
+        std::cerr << "Receive collection message failed." << std::endl;
+    }else{
+        qmlvalue = value["collections"];
     }
-    return searchResult;
+
+    qmlvalue.toStyledString();
+    QString c = QString::fromStdString(qmlvalue.toStyledString());
+    return c;
+}
+
+QString Client::audienceRecord(QString name)
+{
+    std::string aN = name.toStdString();
+    Json::Value root;
+    root["request"] = "GETRECORD";
+    root["name"] = aN;
+    root.toStyledString();
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsock;
+    udpsock = sendMessage(message);
+    NetWork sock(udpsock);
+    std::string res = sock.receive();
+
+    Json::Value value;
+    Json::Value qmlvalue;
+    Json::Reader reader;
+    if(!reader.parse(res,value)){
+        std::cerr << "Receive record message failed." << std::endl;
+    }else{
+        qmlvalue = value["records"];
+    }
+
+    qmlvalue.toStyledString();
+    QString r = QString::fromStdString(qmlvalue.toStyledString());
+    return r;
+}
+
+void Client::addCollection(QString name, QString collecttime, QString videoname, QString type)
+{
+    Json::Value root;
+    std::cout << name.toStdString() <<":" << collecttime.toStdString()
+              << ":" << videoname.toStdString() << ":" << type.toStdString() << std::endl;
+    root["request"] = "ADDCOLLECTION";
+    root["audiencename"] = name.toStdString();
+    root["collecttime"] = collecttime.toStdString();
+    root["collectname"] = videoname.toStdString();
+    root["collecttype"] = type.toStdString();
+    root.toStyledString();
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsock;
+    udpsock = sendMessage(message);
+    NetWork sock(udpsock);
+
+    std::string res = sock.receive();
+    if(res == "COLLECTSUCCEED"){
+        emit collectsucceed();
+    }else if(res == "COLLECTFAILED"){
+        emit collectfailed();
+    }
 }
 
 
@@ -531,4 +616,34 @@ void Client::getAudienceInfo(std::string name)
     //    qDebug() << n << "------" << a;
     emit loginsucceed(n,a);
 
+}
+
+QString Client::search(QString key)
+{
+    Json::Value qmlValues;
+    Json::Value SearchKey;
+    SearchKey["request"] = "SEARCH";
+    SearchKey["name"] = key.toStdString();
+    SearchKey.toStyledString();
+    std::string message = SearchKey.toStyledString();  //获取qml端信息转换为json对象
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string search;
+    search = sock.receive();   //将json对象传给服务端并接收服务端读取的Json对象
+
+    Json::Value values;   //解析Json对象
+    Json::Reader reader;
+
+    if(!reader.parse(search, values)){
+        std::cerr << "Receive info failed." << std::endl;
+    } else {
+        qmlValues = values["searchResult"];
+        std::cout << "aaa:" << qmlValues.toStyledString() << std::endl;
+    }
+
+    QString searchResult = QString::fromStdString(qmlValues.toStyledString());
+    return searchResult;
 }

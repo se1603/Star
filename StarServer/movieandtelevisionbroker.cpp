@@ -1,6 +1,10 @@
 /*author:guchangrong
- * data:2019-05-18 添加搜索函数
-*/
+ * data:2019-05-20
+ * 获取电影的对象
+ * author:guchangrong
+ * data:2019-05-15
+ * 添加剧集类别相关函数
+ */
 #include "movieandtelevisionbroker.h"
 #include <iostream>
 #include "film.h"
@@ -676,7 +680,46 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
     }
     return resource;
 }
+std::vector<std::string> MovieAndTelevisionBroker::getActorInfo(std::string name)
+{
+    std::vector<std::string> resource;
+    auto n = m_films.find(name);
+    if(n != m_films.end()){
+        auto tem = n->second;
+        tem.getActorInfo(name,resource);
+    }
 
+    if(resource.size() != 0){
+        return resource;
+    }
+    auto d = m_drames.find(name);
+    if(d != m_drames.end()){
+        auto tem = d->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto c = m_comics.find(name);
+    if(c != m_comics.end()){
+        auto tem = c->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto v = m_varieties.find(name);
+    if(v != m_varieties.end()){
+        auto tem = v->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    return resource;
+}
 void MovieAndTelevisionBroker::initActors()
 {
     if(!m_films.empty())
@@ -761,8 +804,9 @@ Actor MovieAndTelevisionBroker::handleActor(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
+
     
     Actor a = Actor(paramters,region);
     return a;
@@ -807,8 +851,9 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
+
 
     Director d = Director(paramters,region);
     return d;
@@ -816,17 +861,17 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
 
 std::vector<Film *> MovieAndTelevisionBroker::Search(std::string name)
 {
-//    std::vector<std::vector<std::string>> result;
-    std::vector<Film *> p;
-//    std::map<std::string,Actor> m_actors;
-//    std::map<std::string,Director> m_directors;
-    for(auto it = m_films.begin(); it != m_films.end(); it++)
-    {
-        if(it->second.findByName(name)){
-            p.push_back(&it->second);  //传入film对象
+    //    std::vector<std::vector<std::string>> result;
+        std::vector<Film *> p;
+    //    std::map<std::string,Actor> m_actors;
+    //    std::map<std::string,Director> m_directors;
+        for(auto it = m_films.begin(); it != m_films.end(); it++)
+        {
+            if(it->second.findByName(name)){
+                p.push_back(&it->second);  //传入film对象
+            }
         }
-    }
-    return p;
+        return p;
 }
 
 
@@ -1017,4 +1062,94 @@ void MovieAndTelevisionBroker::splictString(const std::string &s, std::vector<st
     }
     if(pos1 != s.length())
         v.push_back(s.substr(pos1));
+}
+
+//识别用户收藏
+void MovieAndTelevisionBroker::processAudienceCollection(std::vector<std::string> tmp, MovieAndTelevision *m)
+{
+    auto n = atoi(tmp[2].c_str());
+    switch(n) {
+    case 1:{
+        for(auto item = m_films.begin();item != m_films.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 2:{
+        for(auto item = m_drames.begin();item != m_drames.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 3:{
+        for(auto item = m_comics.begin();item != m_comics.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 4:{
+        for(auto item = m_varieties.begin();item != m_varieties.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    }
+}
+
+//识别用户记录
+void MovieAndTelevisionBroker::processAudienceRecord(std::vector<std::string> tmp, MovieAndTelevision* m)
+{
+    auto n = atoi(tmp[3].c_str());
+    switch(n) {
+    case 1:{
+        for(auto item = m_films.begin();item != m_films.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 2:{
+        for(auto item = m_drames.begin();item != m_drames.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 3:{
+        for(auto item = m_comics.begin();item != m_comics.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 4:{
+        for(auto item = m_varieties.begin();item != m_varieties.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    }
+}
+
+void MovieAndTelevisionBroker::showCollection(MovieAndTelevision *m, std::vector<std::string> &collections)
+{
+    m->showInfo(collections);
+}
+
+void MovieAndTelevisionBroker::showRecord(MovieAndTelevision *m, std::vector<std::string> &records)
+{
+    m->showInfo(records);
 }

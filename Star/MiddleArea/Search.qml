@@ -8,9 +8,10 @@ import QtQuick.Layouts 1.3
 import "../TopArea"
 
 Item {
-    id:search
+    id:search111
     width: page_display.width
     height: page_display.height
+//    property alias search: searchmovie
 
 
     StackView{
@@ -23,11 +24,8 @@ Item {
     Component{
         id:searchmovie
         SearchMovie{
-            searchMovie:topArea.toparea.searchmodel
+            id:search
         }
     }
-//    ListModel{
-//        id:searchMovieModel
-//    }
 
 }

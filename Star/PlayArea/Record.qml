@@ -1,3 +1,5 @@
+//autor:徐丹
+//time：2019.5.10
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2

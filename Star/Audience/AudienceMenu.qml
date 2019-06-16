@@ -95,6 +95,14 @@ Rectangle {
                         parent.opacity = 0.5
                     }
                     onClicked: {
+                        if(parent.text === '收藏'){
+                            audience.videos = JSON.parse
+                                    (client.audienceCollection(audienceInterface.audienceName))
+                        }else if(parent.text === '浏览历史'){
+                            audience.videos = JSON.parse
+                                    (client.audienceRecord(audienceInterface.audienceName))
+                        }
+
                         load_page(parent.text)
                     }
                 }
@@ -134,6 +142,7 @@ Rectangle {
             break
         case '退出':{
             client.loginOut(audience_name.text)
+            audienceInterface.audienceName = ""
             middleArea.audienceInterface.visible = false
             }
         }

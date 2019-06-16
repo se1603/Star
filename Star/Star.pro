@@ -53,4 +53,5 @@ HEADERS += \
     region.h \
     variety.h \
     comic.h \
+    drame.h \
     drame.h

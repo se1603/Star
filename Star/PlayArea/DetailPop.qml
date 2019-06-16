@@ -1,3 +1,7 @@
+//autor:徐丹
+//time：2019.5.15
+//内容：详细信息展示
+
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
@@ -6,8 +10,7 @@ import QtQuick.Layouts 1.3
 Popup {
     id:detailPop
 
-    //    width: 59/60*right_stack.width-500
-    //    height: 59/60*right_stack.height
+    property var dataModel: JSON.parse(client.getActorInfo(play.name))
 
     width: 59/60*right_stack.width
     height:59/60*right_stack.height-200
@@ -28,15 +31,14 @@ Popup {
             width: parent.width
             height: parent.height
             Rectangle{
+                id:allre
                 width: parent.width
-                height:info.implicitHeight+rigin.implicitHeight+imagRect.implicitHeight+500
-//                height: 1000
-
+                height:info.implicitHeight+rigin.implicitHeight+imagRect.implicitHeight+1000+column1.implicitHeight
                 Rectangle{
                     id:imagRect
                     width: parent.width
                     height:text_name.implicitHeight
-    //                color: "#8B8378"
+                    //                color: "#8B8378"
                     Text{
                         id:text_name
                         anchors.top:parent.top
@@ -49,50 +51,52 @@ Popup {
                         text:play.name//"Name"
                     }
                 }
-    //            Row{
-    //                spacing: 5
-                    Rectangle{
-                        id:rigin
-                        width: text_regin.implicitWidth
-                        height: text_regin.implicitHeight
-                        anchors.top: imagRect.bottom
-                        anchors.topMargin: 10
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        color: "#8B8378"
-                        Text{
-                            id:text_regin
-                            text: "China"
-                        }
+                //            Row{
+                //                spacing: 5
+                Rectangle{
+                    id:rigin
+                    width: text_regin.implicitWidth
+                    height: text_regin.implicitHeight
+                    anchors.top: imagRect.bottom
+                    anchors.topMargin: 10
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    color: "#8B8378"
+                    Text{
+                        id:text_regin
+                        text:play.datas.resource.region /*"China"*/
+
                     }
-                    Rectangle{
-                        id:rec_imag
-                        width: 150
-                        height: 15//text_type.implicitHeight
-                        anchors.top:imagRect.bottom
-                        anchors.topMargin: 10
-                        anchors.left: rigin.right
-                        anchors.leftMargin:4
-                        color: "#8B8378"
-                        Row{
-                            spacing: 5
-                            Repeater{
-                                model: play.datas.resource.videotype
-                                Rectangle{
-                                    color: "#8B8378"
-                                    width: text_type.implicitWidth
-                                    height: text_type.implicitHeight
-                                    Text{
-                                        id:text_type
-                                        text: "/"+modelData.type
-                                    }
+                }
+                Rectangle{
+                    id:rec_imag
+                    width: 150
+                    height: 15//text_type.implicitHeight
+                    anchors.top:imagRect.bottom
+                    anchors.topMargin: 10
+                    anchors.left: rigin.right
+                    anchors.leftMargin:4
+                    color: "#8B8378"
+                    Row{
+                        spacing: 5
+                        Repeater{
+                            model: play.datas.resource.videotype
+                            Rectangle{
+                                color: "#8B8378"
+                                width: text_type.implicitWidth
+                                height: text_type.implicitHeight
+                                Text{
+                                    id:text_type
+                                    text: "/"+modelData.type
                                 }
                             }
                         }
                     }
-    //            }
+                }
+
                 Rectangle{
                     id:info
+                    //                    anchors.top: grid.bottom
                     anchors.top:rec_imag.bottom
                     anchors.topMargin: 10
                     anchors.left: parent.left
@@ -115,111 +119,89 @@ Popup {
                         text:play.datas.resource.introduction//"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
                     }
                 }
-            }
 
+                Column{
+                    id:column1
+                    anchors.top: info.bottom
+                    anchors.topMargin: 40
+                    spacing: 10
+                    Repeater{
+                        model: dataModel.resource
+                        Rectangle{
+                            width: 150
+                            height: 200
+                            color: "#8B8378"
+                            Rectangle{
+                                id:imge
+                                width: 150
+                                height: 150
+                                radius: width/2
+                                color: "#8B8378"
+                                Image{
+                                    width: 150
+                                    height: 150
+                                    source: "file:"+modelData.post
+                                }
+                            }
+
+
+                            Text{
+                                id:namete
+                                anchors.top: imge.bottom
+                                anchors.topMargin: 6
+                                text: modelData.name
+                            }
+                            Text{
+                                id:type
+                                anchors.top: namete.bottom
+                                anchors.topMargin: 6
+                                text: modelData.type
+                            }
+                        }
+                    }
+                }
+
+//                GridLayout{
+//                    id:grid
+////                    width: column.width
+//                    anchors.top: info.bottom
+//                    anchors.topMargin: 40
+//                    anchors.left: parent.left
+//                    columns:2
+//                    rowSpacing:mainWindow.width < 1200 ? 5 : 20
+//                    columnSpacing: mainWindow.width < 1200 ? 10 : 60
+//                    Repeater{
+//                        model: model.resource.length
+//                        Rectangle{
+//                            id:bigRec
+//                            width:  mainWindow.width < 1200 ? 80 : 120
+//                            height: 120
+//                            Rectangle{
+//                                id:image
+//                                width: parent.width
+//                                height:80// width
+//                                radius: 100//width/2
+//                                color: "#8B8378"
+
+//                            }
+//                            Text{
+//                                id:name
+//                                anchors.top: image.bottom
+//                                anchors.topMargin: 2
+//                                text: "name"
+//                            }
+//                            Text{
+//                                id:type
+//                                anchors.top: name.bottom
+//                                anchors.topMargin: 2
+//                                text: "type"
+//                            }
+
+//                        }
+//                    }
+//                }
+            }
 
         }
     }
-
-    //    Rectangle{
-    //        id:imagRect
-    //        width: parent.width
-    //        height:25
-    //        color: "#8B8378"
-
-    //        Text{
-    //            id:text_name
-    //            anchors.top:parent.top
-    //            anchors.topMargin: 10
-    //            anchors.left: parent.left
-    //            anchors.leftMargin: 5
-    //            font.pixelSize: 24
-    //            font.family: "宋体"
-    //            color: "black"
-    //            text:play.name//"Name"
-    //        }
-    //    }
-
-    //    Rectangle{
-    //        id:rigin
-    //        width: text_regin.implicitWidth
-    //        height: text_regin.implicitHeight
-    //        anchors.top: imagRect.bottom
-    //        anchors.topMargin: 10
-    //        anchors.left: parent.left
-    //        anchors.leftMargin: 5
-    //        color: "#8B8378"
-    //        Text{
-    //            id:text_regin
-    //            text: "China"
-    //        }
-    //    }
-
-    //    Rectangle{
-    //        id:rec_imag
-    //        width: 150
-    //        height: 15//text_type.implicitHeight
-    //        anchors.top:imagRect.bottom
-    //        anchors.topMargin: 10
-    //        anchors.left: rigin.right
-    //        anchors.leftMargin:4
-    //        color: "#8B8378"
-    //        Row{
-    //            spacing: 5
-    //        Repeater{
-    //            model: play.datas.resource.videotype
-
-    //                Rectangle{
-    //                    color: "#8B8378"
-    //                    width: text_type.implicitWidth
-    //                    height: text_type.implicitHeight
-    //                    Text{
-    //                        id:text_type
-    //                        text: "/"+modelData.type
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    Rectangle{
-    //        id:info
-    //        anchors.top:rec_imag.bottom
-    //        anchors.topMargin: 10
-    //        anchors.left: parent.left
-    //        height: infoma.implicitHeight
-    //        width: detailPop.width
-    //        color: "#8B8378"
-    //        Text{
-    //            id:text_in
-    //            anchors.left: parent.left
-    //            anchors.top:parent.top
-    //            text: "简介"
-    //            font.pixelSize: 24
-    //        }
-
-    //        Text{
-    //            id:infoma
-    //            anchors.top: text_in.bottom
-    //            wrapMode: Text.Wrap
-    //            width: mainWindow.width < 1200 ? 180 : 240
-    //            text:play.datas.resource.introduction//"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
-    //        }
-    //    }
-
-    //    Rectangle{
-    //        width: 60
-    //        height: 20
-    //        color: "yellow"
-    //        anchors.bottom:parent.bottom
-    //        anchors.left: parent.left
-    //        anchors.leftMargin: 25
-    //        Button{
-    //            anchors.fill: parent
-    //            text: "关闭"
-    //            onClicked: {
-    //                pop.close()
-    //            }
-    //        }
-    //    }
 }
