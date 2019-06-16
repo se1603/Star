@@ -58,9 +58,9 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('风之神痕','4,5,7','7','24','坂田纯一','小野大辅','./comics/fengZhiShenHen.jpg','日本炎术师名门神凪宗家的继承人神凪和麻因为没有炎术的才能而被家族赶出日本，然而无家可归的和麻在海外却意外地遇见了风的精灵王并与之签定契约由此成为最强的风术师。 离开日本4年后和麻改名为八神和麻后又回到家乡，他个性轻率浮躁，胸无大志，只想靠除灵这样的简单工作混日子，然而当他与16岁的美少女炎术师神凪绫乃开始搭档工作时命运就逐渐改变了……','5,99');
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Clannad','4,5,7','7','25','石原立也','中村悠一','./comics/clannad.jpg','作为日本著名游戏品牌Key最著名的四季四部曲之一的《CLANNAD》第二部作品。 在某个小镇，主角冈崎朋也因为家庭的因素成为不良少年。某一天，他在学校坡道前发现了一个止步不前的女孩，在朋也认识了这个名为古河渚的女孩后，他的生活开始有了重大的变化。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Clannad','4,5,7','7','25','石原立也','中村悠一','./recommend/clannad.jpg','作为日本著名游戏品牌Key最著名的四季四部曲之一的《CLANNAD》第二部作品。 在某个小镇，主角冈崎朋也因为家庭的因素成为不良少年。某一天，他在学校坡道前发现了一个止步不前的女孩，在朋也认识了这个名为古河渚的女孩后，他的生活开始有了重大的变化。','99');
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('人鱼之森','4','7','13','奥胁雅晴','山寺宏一','./comics/renYuZhiSen.jpg','涌太，曾经只是一个平凡的渔夫，原本和许多人一样，平平凡凡的过日子。但是有一天，他的两位捕鱼的同伴带回了一块奇怪的肉——人鱼的肉。相传人鱼的肉是不老不死的灵药，也正出于此，三人试探性的分吃了这快肉。但是不幸的是一人变成了怪物，暴毙而亡，另一人则在隔日吐血而死。目睹了这一切的涌太也害怕自己会象他们一样突然而亡……上天对涌太是残忍的吧，它并没有赐予涌太死亡，反而给了他永生（孤单）。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('人鱼之森','4','7','13','奥胁雅晴','山寺宏一','./recommend/renYuZhiSen.jpg','涌太，曾经只是一个平凡的渔夫，原本和许多人一样，平平凡凡的过日子。但是有一天，他的两位捕鱼的同伴带回了一块奇怪的肉——人鱼的肉。相传人鱼的肉是不老不死的灵药，也正出于此，三人试探性的分吃了这快肉。但是不幸的是一人变成了怪物，暴毙而亡，另一人则在隔日吐血而死。目睹了这一切的涌太也害怕自己会象他们一样突然而亡……上天对涌太是残忍的吧，它并没有赐予涌太死亡，反而给了他永生（孤单）。','99');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('守护甜心','5','7','25','安田贤司','中村悠一','./comics/shouHuTianXin.jpg','圣夜学园的亚梦被谣传为很棘手的小学生，外表酷酷的她实际上是个不善言辞的女孩，为了掩饰自己还经常以过分的行为来掩盖自己的怯弱。终于亚梦决定正视自己并祈求守护灵能赐给她改变自己的勇气，令她感到惊讶的是第二天床上出现了三只彩蛋，而这三只彩蛋到底能不能帮上亚梦呢？','99');
@@ -75,7 +75,7 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('轻音少女','5','7','13','山田尚子','丰崎爱生','./comics/qingYinShaoNv.jpg','新学年开始，除了小梓，大家都升上三年级，还被分到了同一个班级。然而要是再不招揽新成员入部，来年四名成员毕业离校，轻音部就要面临废部的命运了。新学期樱高的各大社团都开始紧锣密鼓地招新，轻音部也使尽了各种办法，她们在新生欢迎会上的演出，能否吸引新人加入呢？','99');
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Wake Up,Girls','5','7','12','山本宽','永野爱理','./comics/wakeUpGirls.jpg','故事的舞台便设定在日本东北区，7位以成为偶像为目标的少女将为观众演绎属于她们的的青春物语。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Wake Up,Girls','5','7','12','山本宽','永野爱理','./recommend/wakeUpGirls.jpg','故事的舞台便设定在日本东北区，7位以成为偶像为目标的少女将为观众演绎属于她们的的青春物语。','99');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('火影忍者','3,6','7','720','伊达勇登','竹内顺子','./comics/huoYingRenZhe.jpg','故事从主人公漩涡鸣人的孤儿生活开始，他的父母为了保护村子，将攻击村子九尾妖狐封印到了他体内，鸣人因此受尽了村人的冷落，只是拼命用各种恶作剧试图吸引大家的注意力。好在还是有依鲁卡老师的关心，鸣人的性格才没有变得扭曲，他总是干劲十足、非常乐观。 为了让更多的人认可自己，鸣人的目标是成为火影。','99');
@@ -99,10 +99,10 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Charlotte','5,7','7','103','浅井义之','内山昂辉','./comics/charlotte.jpg','主人公乙坂有宇拥有着只在极少一部分的青春期少年少女身上诱发产生的罕见特殊能力，仅凭这份能力盲目虚度着一帆风顺的学园生活的他，经由与神秘少女友利奈绪的邂逅，揭开了特殊能力者们身上的宿命。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Charlotte','5,7','7','103','浅井义之','内山昂辉','./recommend/charlotte.jpg','主人公乙坂有宇拥有着只在极少一部分的青春期少年少女身上诱发产生的罕见特殊能力，仅凭这份能力盲目虚度着一帆风顺的学园生活的他，经由与神秘少女友利奈绪的邂逅，揭开了特殊能力者们身上的宿命。','99');
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Angel Beats','7','7','103','岸诚二','神谷浩史','./comics/angelbeats.jpg','故事从男主角死亡之后在“死后的世界”醒来开始，在“死后的世界”中的学校里，他与一位名为由理的少女相遇了。 原来，由理在“死后的世界”率领着一个名为“死后世界战线”简称“SSS”的组织。“SSS”成立的主要目的是与赐予他们生前悲哀命运的神以及神之使者交战，在天使超乎常理的异能面前，“SSS”只能用枪来反抗。 就这样一场发生在“死后的世界”的学校里的超能大战物语开始了……','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Angel Beats','7','7','103','岸诚二','神谷浩史','./recommend/angelbeats.jpg','故事从男主角死亡之后在“死后的世界”醒来开始，在“死后的世界”中的学校里，他与一位名为由理的少女相遇了。 原来，由理在“死后的世界”率领着一个名为“死后世界战线”简称“SSS”的组织。“SSS”成立的主要目的是与赐予他们生前悲哀命运的神以及神之使者交战，在天使超乎常理的异能面前，“SSS”只能用枪来反抗。 就这样一场发生在“死后的世界”的学校里的超能大战物语开始了……','99');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('十字架与吸血鬼','5,7','7','103','稻垣隆行','岸尾大辅','./comics/shiZiJiaYuXiXueGui.jpg','平凡的少年青野月音高中应试失败，却奇怪的收到了阳海学园的录取单，由此进入了这所怪异的学校。 在开学第一天的入学仪式上，原本想逃离这所怪学校的月音遇见了美丽可爱的女吸血鬼赤夜萌香，于是又决定留了下来。阳海学园是不允许学生透露自己的真实身份的，萌香和月音却不幸得知了彼此的真身。 为了能继续留在这个学校，月音不得不拼命隐藏着自己身为人类的属性，他在这个满是妖怪的学校真的能够平安无事的生活下去吗？','99');
@@ -115,9 +115,9 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('斗罗大陆2','4,5','7','25','苏华平','山新南','./comics/douLuoDaLu1.jpg,./comics/douLuoDaLu.jpg','根据唐家三少小说改编的同名漫画《斗罗大陆2绝世唐门》改编创作。新史莱克七怪预备役在斗魂大赛上的成长。史莱克的正选队员在一次任务中伤亡惨重，作为新史莱克七怪预备役的霍雨浩等人不得不顶替他们参加比赛，在一场又一场的比赛中，大家渐渐懂得了团队的意义，霍雨浩也终于开窍，发现了自己对王冬的异样情感。','0,3');
 
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('百鬼幼儿园','7','7','6','赵真','刘明月','./comics/baiGuiYouErYuan1.jpg,./comics/baiGuiYouErYuan.jpg','有趣的幼儿园第二学期开学啦！神秘的教导主任究竟是谁？幼年的崽崽们是否都能顺利通过惠比寿爷爷的健康体检？是谁故意扰乱原本公平公正的运动大会？新来的转校生是否能和大家和平相处？对崽崽们来说，真正的挑战才正要开始，让我们拭目以待吧！','0,1,7');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('百鬼幼儿园','7','7','6','赵真','刘明月','./comics/baiGuiYouErYuan1.jpg,./recommend/baiGuiYouErYuan.jpg','有趣的幼儿园第二学期开学啦！神秘的教导主任究竟是谁？幼年的崽崽们是否都能顺利通过惠比寿爷爷的健康体检？是谁故意扰乱原本公平公正的运动大会？新来的转校生是否能和大家和平相处？对崽崽们来说，真正的挑战才正要开始，让我们拭目以待吧！','0,1,7');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('一拳超人2','3,6','7','6','樱井亲良','古川慎,石川界人,梶裕贵','./comics/yiQuanChaoRen1.jpg,./comics/yiQuanChaoRen.jpg','因兴趣而开始做英雄的男人，埼玉。他通过3年的特训获得了无敌的力量，成为仅凭一击就能打倒任何敌人的英雄。他和偶然成为自己弟子的杰诺斯一起，开始在英雄协会正式展开英雄活动。在怪人发生率异常上升的同时，英雄协会想到大预言家皱巴巴婆婆留下的“地球完蛋了”的灾害的可能...','0,1');
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('博人传','6,7','7','105','阿部记之','水树奈奈,竹内顺子','./comics/boRenZhuan1.jpg,./comics/boRenZhuan.jpg','经历漫长的战争之后以七代目火影漩涡鸣人治理的木叶村为中心，成立了新的忍者5大国，本作主要讲述鸣人的儿子、虽然有才能却把鸣人叫做臭老爸的漩涡博人；佐助的女儿、对鸣人抱持憧憬的宇智波佐良娜；以及充满了谜团的超级优秀忍者巳月三人一组，在村子里努力修炼成长的故事。','0,7');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('博人传','6,7','7','105','阿部记之','水树奈奈,竹内顺子','./comics/boRenZhuan1.jpg,./recommend/boRenZhuan.jpg','经历漫长的战争之后以七代目火影漩涡鸣人治理的木叶村为中心，成立了新的忍者5大国，本作主要讲述鸣人的儿子、虽然有才能却把鸣人叫做臭老爸的漩涡博人；佐助的女儿、对鸣人抱持憧憬的宇智波佐良娜；以及充满了谜团的超级优秀忍者巳月三人一组，在村子里努力修炼成长的故事。','0,7');

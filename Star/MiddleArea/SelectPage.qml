@@ -13,6 +13,7 @@ Rectangle {
     height: page_display.height
 
     property var recommendFilms:JSON.parse(client.showRecommend(0))
+
     ScrollView{
         anchors.fill: parent
         clip: true
@@ -34,7 +35,7 @@ Rectangle {
                     MouseArea{
                         anchors.fill: parent
                         onClicked: {
-
+                            console.log(film_image.source)
                         }
                     }
                 }
@@ -85,6 +86,7 @@ Rectangle {
                                         color: "red"
 
                                         Image {
+                                            id:showPost
                                             anchors.fill: parent
                                             anchors.top: parent.top
                                             source:"file:" + modelData.post
@@ -93,7 +95,7 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
-
+//                                                console.log(showPost.source)
                                                 if(playInterface.playCommponent.playing)
                                                 {
                                                     playInterface.playCommponent.stopPlay()
