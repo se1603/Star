@@ -45,7 +45,7 @@ typedef struct VideoState{
     //一帧
     AVFormatContext *formatCtx;
 
-    int video_stream, audio_stream;
+    int video_stream, audio_stream;  //对应流的下标
 
     //视频
     AVCodecContext *videoCodecCtx;
@@ -80,7 +80,6 @@ typedef struct VideoState{
     int audioTargetSampleRate;
 
     uint8_t *audioBuffer; //音频缓冲
-//    DECLARE_ALIGNED(16,uint8_t,audioBuffer) [AVCODEC_MAX_AUDIO_FRAME_SIZE * 4];
     DECLARE_ALIGNED(16,uint8_t,audioSourceBuffer) [AVCODEC_MAX_AUDIO_FRAME_SIZE * 4]; //解码音频缓冲区
 
     struct SwrContext *swrCtx; //用于解码后的音频格式转换
@@ -111,6 +110,7 @@ class VideoDecode : public QThread
     Q_OBJECT
 public:
     VideoDecode(VideoPlayer *vp);
+    ~VideoDecode();
 
     bool startPlay(QString path);
     void displayVideo(QImage image);
@@ -124,7 +124,7 @@ public:
 
     bool play();
     bool pause();
-    bool stop(bool isWait = false);  //参数表示是否等待所有的线程执行完毕再返回
+    bool stop(bool isWait, int width, int height);  //参数表示是否等待所有的线程执行完毕再返回
 
     int64_t getTotalTime(); //单位微秒
     double getCurrentTime(); //单位秒
@@ -132,17 +132,15 @@ public:
     void seek(int64_t pos);  //拖动进度条
 
 protected:
-    void run();   //重载函数
+    void run();   //线程重载函数
 
 signals:
     void getOneFrame(QImage);   //获取到一帧发送信号
-//    void sig_totalTime(qint64 duration);   //获取到视频时长发送信号
-    void sig_StateChanged(VideoDecode::PlayerState state);
 
 private:
     VideoPlayer *mPlayer;
     QString mVideoName;
-    VideoState mVideoState;
+    VideoState mVideoState;   //视频状态
 
     PlayerState mPlayerState;   //播放状态
 };

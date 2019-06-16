@@ -6,19 +6,139 @@ import QtQuick 2.0
 import Star 1.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.5
+import QtQuick.Window 2.12
 
 Rectangle {
+    id:mainPlay
     width: parent.width
     height: parent.height
 
     property string path: ""
-    property bool pause: false
+
+    property bool noResurce: false
+
+    property bool pauseVideo: false
     property bool playing: false
+    property bool firstPlay: false
+    property bool stopVideo: false
+    property bool isFullScreen: false
+
+    property alias noteRectangle: note
+
+    property var previousWidth: 1075
+    property var previousHeight: 670
+
+    //    property alias videoPlayer: player
+
+    Timer{
+        id:timer1
+        interval: 2000
+        running: false
+        onTriggered: {
+            leftbu.width = 0
+            rightbt.width=0
+        }
+    }
+
+    MouseArea{
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: {
+            leftbu.width = 20
+            rightbt.width = 20
+        }
+        onExited: {
+            timer1.start()
+        }
+    }
+
+    Rectangle{
+        id:rightbt
+        y:parent.height/2
+        z:3
+        anchors.right: parent.right
+        width: 20
+        height: 30
+        opacity: 0.5
+        Image{
+            id:rightButton
+            opacity: 1
+            mirror: true
+            anchors.fill: parent
+            source: "qrc:/image/img/left.png"
+        }
+        MouseArea{
+            id:rightMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: {
+                if(rightRec.x === mainWindow.width){
+                    menuStopAnim.start()
+                    xflag = true
+                }else{
+                    menuStartAnim.start()
+                    xflag = false
+                }
+            }
+        }
+    }
+
+    //左箭头，点击，会回到前一张图片
+    Rectangle{
+        id:leftbu
+        y:parent.height/2
+        z:3
+        anchors.left: parent.left
+        width: 20
+        height: 30
+        opacity: 0.5
+        Image{
+            id:leftButton
+            anchors.fill: parent
+            opacity: 1
+            source: "qrc:/image/img/left.png"
+        }
+        MouseArea{
+            id:leftMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            propagateComposedEvents: true
+            onClicked: {
+                if(leftRect.x === 0){
+                    leftStartAnim.start()
+                    xRflag = false
+                }else{
+                    leftStopAnim.start()
+                    xRflag = true
+                }
+            }
+        }
+    }
+
+    Rectangle{
+        id:note
+        z:3
+        color: "white"
+        visible: false
+        width: 200
+        height: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        Text {
+            id: noteText
+            text: "暂无资源"
+            font.pixelSize: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
 
     Rectangle{
         id: playVideo
         width: parent.width
         height: parent.height
+        color: "black"
         VideoPlayer{
             id:player
             anchors.fill: parent
@@ -30,10 +150,15 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                console.log(path)
-                playing = true
-                player.startPlay(path)
-                //                console.log(allController.height)
+//                console.log(path)
+
+                if(!firstPlay)
+                {
+                    player.startPlay(path)
+                    playing = true
+                    firstPlay = true
+                    stopVideo = false
+                }
             }
         }
     }
@@ -45,26 +170,21 @@ Rectangle {
             console.log(player.showTotalTime())
             duation.text = player.showTotalTime()
         }
-    }
-
-    Connections{
-        target: player
         onSigShowCurrentTime:
         {
-            //            console.log(player.showCurrentTime())
             timing.text = player.showCurrentTime()
         }
-    }
-
-    Connections{
-        target: player
         onSigSliderTotalValue:{
             progressBar.to = value
             console.log(progressBar.to)
         }
         onSigSliderValue:{
             progressBar.value = currentvalue
-//            console.log(progressBar.value)
+        }
+        onNoResource:{
+            console.log("收到信号")
+            note.visible = true
+            noResurce = true
         }
     }
 
@@ -120,7 +240,7 @@ Rectangle {
             anchors.top: parent.top
             from: 0
             to:100
-//            value: 0
+            //            value: 0
 
             background: Rectangle {
                 x: progressBar.leftPadding
@@ -170,23 +290,29 @@ Rectangle {
                     width: parent.height
                     height: parent.height
                     anchors.fill: parent
-                    source: playing ? "../image/videoController/pause.png" : "../image/videoController/play.png"
+                    source: playing && !noResurce ? "../image/videoController/pause.png" : "../image/videoController/play.png"
                 }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-
-                        if(pause)
+                        if(!firstPlay)
+                        {
+                            player.startPlay(path)
+                            playing = true
+                            firstPlay = true
+                            stopVideo = false
+                        }
+                        else if(pauseVideo)
                         {
                             player.play()
-                            pause = false
+                            pauseVideo = false
                             playing = true
                         }
                         else if(playing)
                         {
                             player.pause()
                             playing = false
-                            pause = true
+                            pauseVideo = true
                         }
                     }
                 }
@@ -211,7 +337,10 @@ Rectangle {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        player.stop()
+                        if(!stopVideo)
+                        {
+                            stopPlay()
+                        }
                     }
                 }
             }
@@ -274,6 +403,41 @@ Rectangle {
                     height: parent.height
                     anchors.fill: parent
                     source: "../image/videoController/fullScreen.png"
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        if(isFullScreen)
+                        {
+                            isFullScreen = false
+
+
+                            mainWindow.width = previousWidth
+                            mainWindow.height = previousHeight
+
+                            xflag = true
+                            xRflag = true
+
+                            mainItem.exitfullScreen()
+                            rightbt.visible = true
+                            leftbu.opacity = 0.5
+
+                        }
+                        else{
+                            //                            console.log("全屏")
+                            isFullScreen = true
+
+                            mainWindow.width = Screen.desktopAvailableWidth
+                            mainWindow.height = Screen.desktopAvailableHeight
+
+                            xflag = false
+                            xRflag = false
+
+                            mainItem.fullScreen()
+                            rightbt.visible = false
+                            leftbu.opacity = 0
+                        }
+                    }
                 }
             }
 
@@ -356,6 +520,24 @@ Rectangle {
                 }
             }
         }
+    }
+
+    function stopPlay(){
+        note.visible = false
+        stopVideo = true
+        firstPlay = false
+        playing = false
+
+        progressBar.value = 0
+        duation.text = "00:00:00"
+        timing.text = "00:00:00"
+
+        if(!noResurce)
+            player.stop(true,player.width,player.height)
+        else
+            player.stop(false,player.width,player.height)
+
+        noResurce = false
     }
 
 }

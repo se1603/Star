@@ -5,7 +5,7 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "192.168.43.169";
+    m_rtspAddress = "10.253.182.51";
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
@@ -37,13 +37,13 @@ std::string BrowseAndWatchController::interface(int category, int type)
 
     return reply;
 }
-std::string BrowseAndWatchController::getVideoInfo(std::string name, int i)
+std::string BrowseAndWatchController::getVideoInfo(std::string name)
 {
     Json::Value root;
     std::string out;
     root["request"] = "RECODE";
     root["name"] = name;
-        auto f = m_movieAndTelevisionBroker->getVideoInfo(name,i);
+        auto f = m_movieAndTelevisionBroker->getVideoInfo(name);
         Json::Value value;
         Json::Value types;
         root["videotype"] = 1;

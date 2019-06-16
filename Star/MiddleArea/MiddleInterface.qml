@@ -3,12 +3,12 @@
 //author：徐丹
 
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 
 Rectangle {
-    width: 59 / 60 * parent.width
-    height: 59 / 60 * parent.height
-    anchors.centerIn: parent
+    width: 59 / 60 * middleArea.width
+    height: 59 / 60 * middleArea.height
+    anchors.centerIn: middleArea
 
     Row {
         width: parent.width
