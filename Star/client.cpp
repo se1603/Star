@@ -38,11 +38,8 @@ void Client::splictString(std::string &s, std::vector<std::string> &v, const std
 
 void Client::connectServer()
 {
-
     std::thread t(std::bind(&Client::getFile,this));
     t.detach();
-    //    showRecommend(1);
-    //    browseFilm(1,6);
 }
 
 void Client::getFile()
@@ -279,7 +276,6 @@ QString Client::getMovieInfo(QString n)
     Json::Value recode;
     recode["request"] = "MOVIEINFO";
     recode["name"] = n.toStdString();
-
     recode.toStyledString();
     std::string message = recode.toStyledString();
 
@@ -577,7 +573,6 @@ void Client::addRecord(QString name, QString recordname, QString startPlaytime, 
         recordupdatefailed();
     }
 }
-
 
 void Client::getAudienceInfo(std::string name)
 {

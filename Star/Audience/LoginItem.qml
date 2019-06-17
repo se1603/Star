@@ -44,19 +44,19 @@ Page {
 
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 1 / 10 * login.width
+            spacing: 1 / 30 * login.width
             Column {
-                spacing: 1 / 6 * login.height
+                anchors.top: parent.top
+                anchors.topMargin: 5
+                spacing: 1 / 5 * login.height
 
                 Text {
                     text: "用户名："
-                    font.family: "Times"
                     font.pixelSize: 20
                 }
 
                 Text {
                     text: "密码："
-                    font.family: "Times"
                     font.pixelSize: 20
                 }
             }

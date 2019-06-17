@@ -56,6 +56,22 @@ Rectangle {
 
 //    }
 
+//    SwipeView{
+//        id: view
+
+//        currentIndex: 0
+//        anchors.fill: parent
+
+//        MiddleInterface{
+//            id:middle_face
+//        }
+
+//        Play{
+//            id:play
+//        }
+
+//    }
+
     MiddleInterface{
         id:middle_face
     }

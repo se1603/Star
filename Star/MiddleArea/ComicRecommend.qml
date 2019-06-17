@@ -104,9 +104,9 @@ Rectangle {
                                             anchors.fill: parent
                                             onClicked: {
                                                 middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
-//                                                console.log(modelData.name)
-//                                                console.log(modelData.post)
+                                            console.log(modelData.post)
 
+                                                middleArea.middle = false
                                                 if(playInterface.playCommponent.playing)
                                                 {
                                                     playInterface.playCommponent.stopPlay()

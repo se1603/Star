@@ -35,6 +35,7 @@ Rectangle {
 
             Component {
                 id: select_page
+
                 SelectPage {
                 }
             }

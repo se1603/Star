@@ -53,6 +53,9 @@ Rectangle{
             onClicked: {
                 middleArea.play = false
                 middleArea.middle = true
+                if(middleArea.audienceInterface.visible === true){
+                    middleArea.audienceInterface.visible = false
+                }
             }
         }
     }
@@ -83,6 +86,9 @@ Rectangle{
             onClicked: {
                 middleArea.middle = false
                 middleArea.play = true
+                if(middleArea.audienceInterface.visible === true){
+                    middleArea.audienceInterface.visible = false
+                }
             }
         }
     }
