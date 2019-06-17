@@ -24,8 +24,10 @@ Rectangle {
                 id:slide_row
                 Rectangle{
                     id:slideImage
-                    width: mainWindow.width < 1200 ? 702 : 950
-                    height: mainWindow.width < 1200 ? 342 : 442
+                     height: mainWindow.width < 1200 ? 342 : 442
+                     width: selectPage.width
+//                    width: mainWindow.width < 1200 ? 702 : 950
+//                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: film_image
@@ -42,10 +44,15 @@ Rectangle {
 
             ListView{
                 id: slide_films
-                width: parent.width
-                height: 4/15 * parent.height
-                anchors.left: slide_row.right
-                anchors.top:slide_row.top
+                width:  mainWindow.width < 1200 ? 1000 : 1200
+                height: 40
+                opacity: 0.8
+                anchors.top: slide_row.top
+                anchors.left: slide_row.left
+                anchors.right: slide_row.right
+                anchors.topMargin: mainWindow.width < 1200 ? 302 : 404
+                orientation: ListView.Horizontal
+                z:5
                 model:recommendFilms.firstRecommends
                 delegate: show_slide
             }
@@ -146,8 +153,8 @@ Rectangle {
         id:show_slide
         Rectangle{
             id: slideRect
-            width: 250
-            height: slideImage.height / 5
+            height: 40
+            width: slide_row.width/5
             color:ListView.isCurrentItem ? "lightblue" : "white"
             onColorChanged: {
                 film_image.source = "file:" + modelData.post

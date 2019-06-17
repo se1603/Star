@@ -81,8 +81,10 @@ Rectangle{
                 id:row_image_drame
                 Rectangle{
                     id:slide_drame_image
-                    width: mainWindow.width < 1200 ? 702 : 950
                     height: mainWindow.width < 1200 ? 342 : 442
+                    width: drame.width
+//                    width: mainWindow.width < 1200 ? 702 : 950
+//                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: drame_image
@@ -99,10 +101,15 @@ Rectangle{
 
             ListView{
                 id: slide_drame
-                width: parent.width
-                height: 4/15 * parent.height
-                anchors.left: row_image_drame.right
-                anchors.top:row_image_drame.top
+                width:  mainWindow.width < 1200 ? 1000 : 1200
+                height: 40
+                opacity: 0.8
+                anchors.top: row_image_drame.top
+                anchors.left: row_image_drame.left
+                anchors.right: row_image_drame.right
+                anchors.topMargin: mainWindow.width < 1200 ? 302 : 404
+                orientation: ListView.Horizontal
+                z:5
                 model:recommendDrames.firstRecommends
                 delegate: show_drame_slide
             }
@@ -111,8 +118,8 @@ Rectangle{
                 id:show_drame_slide
                 Rectangle{
                     id: slideRect_drame
-                    width: 250
-                    height: slide_drame_image.height / 5
+                    width: row_image_drame.width/5
+                    height: 40//slide_drame_image.height / 5
                     color:ListView.isCurrentItem ? "lightblue" : "white"
                     onColorChanged: {
                         drame_image.source = "file:" + modelData.post

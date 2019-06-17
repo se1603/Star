@@ -36,7 +36,7 @@ Rectangle {
                 id:row_image_comic
                 Rectangle{
                     id:slide_comic_image
-                    width: mainWindow.width < 1200 ? 702 : 950
+                    width: comic_recommend.width
                     height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
@@ -54,10 +54,15 @@ Rectangle {
 
             ListView{
                 id: slide_comic
-                width: parent.width
-                height: 4/15 * parent.height
-                anchors.left: row_image_comic.right
-                anchors.top:row_image_comic.top
+                width:  mainWindow.width < 1200 ? 1000 : 1200
+                height: 40
+                opacity: 0.8
+                anchors.top: row_image_comic.top
+                anchors.left: row_image_comic.left
+                anchors.right: row_image_comic.right
+                anchors.topMargin: mainWindow.width < 1200 ? 302 : 404
+                orientation: ListView.Horizontal
+                z:5
                 model:recommendComics.firstRecommends
                 delegate: show_comic_slide
             }
@@ -103,8 +108,6 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
-//                                                console.log(modelData.name)
-//                                                console.log(modelData.post)
 
                                                 if(playInterface.playCommponent.playing)
                                                 {
@@ -205,8 +208,8 @@ Rectangle {
         id:show_comic_slide
         Rectangle{
             id: slideRect_comic
-            width: 250
-            height: slide_comic_image.height / 5
+            height: 40
+            width: row_image_comic.width/5
             color:ListView.isCurrentItem ? "lightblue" : "white"
             onColorChanged: {
                 film_comic_image.source = "file:" + modelData.post
@@ -227,7 +230,6 @@ Rectangle {
                 anchors.fill: parent
 
                 onClicked: {
-
                     console.log(parent.width)
                 }
 
@@ -240,7 +242,6 @@ Rectangle {
                 }
                 onExited: {
                     time_comic.restart()
-
                 }
             }
         }
