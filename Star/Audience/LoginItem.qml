@@ -30,20 +30,13 @@ Page {
         }
     }
 
-    Image {
-        width: parent.width
-        height: parent.height
-        source: "../image/audience/popup_background.jpg"
-        opacity: 0.5
-    }
-
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 1 / 12 * login.height
 
         Text {
             id:titleText
-            text: "Login"
+            text: "登录"
             font.pixelSize: 25
             font.family: "Times"
             anchors.horizontalCenter: parent.horizontalCenter
@@ -56,13 +49,13 @@ Page {
                 spacing: 1 / 6 * login.height
 
                 Text {
-                    text: "Name:"
+                    text: "用户名："
                     font.family: "Times"
                     font.pixelSize: 20
                 }
 
                 Text {
-                    text: "Password:"
+                    text: "密码："
                     font.family: "Times"
                     font.pixelSize: 20
                 }
@@ -86,7 +79,7 @@ Page {
             id: registerText
             anchors.horizontalCenter: parent.horizontalCenter
 
-            text:"No account? Click this to register"
+            text:"没有帐号？点击这里注册"
             opacity: 0.5
             font.pixelSize: 16
 
@@ -123,7 +116,7 @@ Page {
             spacing: 1 / 12 * login.width
 
             Button {
-                text: "Login"
+                text: "登录"
                 onClicked: {
                     if(nameInput.text ==="" || passwordInput.text === ""){
                         noticeText.text = "the content is empty,please input again"
@@ -137,7 +130,7 @@ Page {
             }
 
             Button {
-                text: "Close"
+                text: "关闭"
                 onClicked: {
                     noticeText.text = ""
                     nameInput.text=""

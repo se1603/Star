@@ -57,7 +57,6 @@
         <file>MiddleArea/VarietyRecommend.qml</file>
         <file>MiddleArea/ComicRecommend.qml</file>
         <file>MiddleArea/ComicType.qml</file>
-        <file>image/play/collect.jpg</file>
         <file>image/play/share.jpg</file>
         <file>image/play/download.png</file>
         <file>MiddleArea/Drama.qml</file>
@@ -80,5 +79,6 @@
         <file>image/videoController/volumeOff.png</file>
         <file>image/videoController/volumeUp.png</file>
         <file>PlayArea/CommentPopup.qml</file>
+        <file>image/play/collect.png</file>
     </qresource>
 </RCC>

@@ -1,4 +1,5 @@
 #include "videoplayer.h"
+#include <iostream>
 
 VideoPlayer::VideoPlayer()
 {
@@ -17,6 +18,8 @@ VideoPlayer::VideoPlayer()
 
     mTimer = new QTimer;  //获取当前视频播放的时间
     connect(mTimer,&QTimer::timeout,this,&VideoPlayer::getCurrentTime);
+
+    noResurce = false;
 }
 
 VideoPlayer::~VideoPlayer()
@@ -36,7 +39,6 @@ void VideoPlayer::setVheight(int value)
 
 void VideoPlayer::startPlay(QString path)
 {
-
     decoder->startPlay(path);
     mTimer->start();
 }
@@ -51,9 +53,10 @@ void VideoPlayer::play()
     decoder->play();
 }
 
-void VideoPlayer::stop()
+void VideoPlayer::stop(bool wait,int mwidth,int mheight)
 {
-    decoder->stop(true);
+    mTimer->stop();
+    decoder->stop(wait,mwidth,mheight);
 }
 
 void VideoPlayer::sliderMoved(int position)
@@ -133,6 +136,11 @@ QString VideoPlayer::showCurrentTime()
     QString str = QString("%1:%2:%3").arg(hStr.right(2)).arg(mStr.right(2)).arg(sStr.right(2));
 
     return str;
+}
+
+void VideoPlayer::snedNoResouce()
+{
+    emit noResource();
 }
 
 int VideoPlayer::vwidth() const

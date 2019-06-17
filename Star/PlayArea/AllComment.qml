@@ -11,21 +11,21 @@ ScrollView{
     id:all_scroll
     background: Rectangle{
         anchors.fill: parent
-        color: "#8B8378"
+        color: "#424242"
     }
 
     clip: true
     property var models
     property bool listFlag: false
 
-//    property var vect:JSON.parse(client.showCommentInfo(play.name))
     Rectangle{
         width: parent.width
         height: 100
-        color: "#8B8378"
+        color: "#424242"
         visible: listFlag ? false : true
         Text{
             text: "暂无评论"
+            color: "#A9A9A9"
             font.pixelSize: 24
             anchors.centerIn: parent
         }
@@ -43,9 +43,8 @@ ScrollView{
         id:dele
         Rectangle{
             width: all_scroll.width
-            height: 100
-            border.color: "#dddddd"
-            color: "#8B8378"
+            height: 84
+            color:"#424242" //"#8B8378"
 
             CommentPop{
                 id:dd
@@ -55,16 +54,27 @@ ScrollView{
                 anchors.top:parent.top
                 anchors.left: parent.left
                 text:modelData.audienceName
-                color: "blue"
+                font.pixelSize: 14
+                color: "#00BFFF"
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    enabled: true
+
+                    onEntered: {
+                        parent.color = "red"
+                    }
+                    onExited: {
+                        parent.color= "#00BFFF"
+                    }
+                }
             }
             Rectangle{
                 id:all_message
                 anchors.top: all_name.bottom
                 width: parent.width
                 height: parent.height/2
-                border.color: "#55ddaa"
-                color: "#8B8378"
-
+                color: "#424242"
                 Text{
                     id:all_te
                     width: parent.width-10
@@ -72,10 +82,10 @@ ScrollView{
                     anchors.topMargin: 2
                     anchors.left: parent.left
                     anchors.leftMargin: 2
-                    font.family: "Beta Dance"
-                    font.pixelSize: 18
+                    font.pixelSize: 14
                     text: modelData.comment
                     wrapMode: Text.Wrap
+                    color: "#A9A9A9"
                 }
             }
             Text{
@@ -83,24 +93,24 @@ ScrollView{
                 anchors.top: all_message.bottom
                 anchors.left: parent.left
                 text:modelData.time
-                font.pixelSize: 10
+                font.pixelSize: 12
+                color: "#A9A9A9"
             }
             Rectangle{
                 id:all_reply
                 anchors.top:all_message.bottom
                 anchors.right: parent.right
-                anchors.rightMargin: 18
-
-                width: 50
-                height: 30
-                color: "blue"
-
-
+                anchors.rightMargin: 14
+                width: replys.implicitWidth
+                height: replys.implicitHeight
+                color: "#424242"
+//                opacity:0.4
                 Text{
-                    font.family: "Beta Dance"
-                    font.pixelSize: 18
+                    id:replys
+                    font.pixelSize: 14
                     anchors.fill: parent
                     text: "回复"
+                    color:"#00BFFF"
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -112,6 +122,14 @@ ScrollView{
                         }
                     }
                 }
+            }
+            Rectangle{
+                width: parent.width
+                height: 2
+                color: "#8B8378"
+                anchors.top: all_reply.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
             }
         }
     }

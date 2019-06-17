@@ -69,12 +69,19 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
-                                    console.log(modelData.name)
-                                    console.log(modelData.post)
+
+                                    if(playInterface.playCommponent.playing)
+                                    {
+                                        playInterface.playCommponent.stopPlay()
+                                        console.log("true")
+                                    }
+
+                                    play.rtspUrl = modelData.rtspURL
+
                                     play.visible = true
                                     play.name = modelData.name
                                     play.image = modelData.post
-                                    play.rtspUrl = modelData.rtspURL
+
                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)

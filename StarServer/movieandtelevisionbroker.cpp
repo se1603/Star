@@ -52,14 +52,14 @@ void MovieAndTelevisionBroker::initDrame()
 
     mysql_init(mysql);
     if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
-        cout << "(Drame)Connect MYSQL failed." << endl;
+        cout << "(Drama)Connect MYSQL failed." << endl;
     }else{
-        cout << "(Drame)Connect MYSQL succeed." << endl;
+        cout << "(Drama)Connect MYSQL succeed." << endl;
     }
 
-    std::string sql = "select * from Drame;";
+    std::string sql = "select * from Drama;";
     if(mysql_query(mysql,sql.data())){
-        cout << "(Drame)获取失败" << endl;
+        cout << "(Drama)获取失败" << endl;
     }else{
         result = mysql_use_result(mysql);
         while(1){

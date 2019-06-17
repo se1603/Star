@@ -110,6 +110,8 @@ static void packet_queue_flush(PacketQueue *q)
     SDL_UnlockMutex(q->mutex);
 }
 
+
+//解码音频
 static int decodeAudio(VideoState *videostate,double *pts_ptr)
 {
     AVPacket *packet = &videostate->audioPacket;
@@ -126,6 +128,7 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
 
         while (videostate->audioPacketSize > 0)
         {
+            //判断暂停
             if(videostate->pause == true)
             {
                 SDL_Delay(10);
@@ -142,10 +145,9 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
             }
             else {
                 av_frame_unref(videostate->audioFrame); //清空
-
-                //                av_frame_free(&videostate->audioFrame);
             }
 
+            //解码，数据存在audioFrame
             int length = avcodec_decode_audio4(videostate->audioStream->codec,
                                                videostate->audioFrame,&got_frame,packet);
             if(length < 0)
@@ -155,8 +157,8 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
                 break;
             }
 
-            videostate->audioPacketData += length;
-            videostate->audioPacketSize -= length;
+            videostate->audioPacketData += length;   //指针 ++
+            videostate->audioPacketSize -= length;   //缓存 --
 
             if(!got_frame)  //未获取到帧跳过
                 continue;
@@ -167,7 +169,7 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
                                                           videostate->audioFrame->nb_samples,
                                                           (AVSampleFormat)videostate->audioFrame->format,1);
 
-            //输出声道个数
+            //输出声道布局
             channel_layout = (videostate->audioFrame->channel_layout &&
                               videostate->audioFrame->channels == av_get_channel_layout_nb_channels(
                                   videostate->audioFrame->channel_layout)) ?
@@ -214,6 +216,7 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
             {
                 const uint8_t **in = (const uint8_t **)videostate->audioFrame->extended_data;
                 uint8_t *out[] = {videostate->audioSourceBuffer};
+
                 if(nb_samples != videostate->audioFrame->nb_samples)
                 {
                     int sample_delta = (nb_samples - videostate->audioFrame->nb_samples) *
@@ -239,10 +242,14 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
                     std::cout << "转化音频数据失败。" << std::endl;
                 }
 
+                datalen = sizeof (videostate->audioSourceBuffer)
+                        / videostate->audioTargetChannels /
+                        av_get_bytes_per_sample(videostate->audioTargetFormat);
                 if(data == datalen)
                 {
                     swr_init(videostate->swrCtx);
                 }
+                //解码转化后得到的数据
                 videostate->audioBuffer = videostate->audioSourceBuffer;
                 resampled_data_size = data * videostate->audioTargetChannels *
                         av_get_bytes_per_sample(videostate->audioTargetFormat);
@@ -252,6 +259,7 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
                 videostate->audioBuffer = videostate->audioFrame->data[0];
             }
 
+            //计算时间
             pts = videostate->audioClock;
             *pts_ptr = pts;
 
@@ -262,14 +270,14 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
             if (videostate->seek_flag_audio)
             {
                 //发生了跳转 则跳过关键帧到目的时间的这几帧
-               if (videostate->audioClock < videostate->seek_time)
-               {
-                   break;
-               }
-               else
-               {
-                   videostate->seek_flag_audio = 0;
-               }
+                if (videostate->audioClock < videostate->seek_time)
+                {
+                    break;
+                }
+                else
+                {
+                    videostate->seek_flag_audio = 0;
+                }
             }
 
             return resampled_data_size;
@@ -314,6 +322,7 @@ static int decodeAudio(VideoState *videostate,double *pts_ptr)
 
 static void audio_callback(void *userdata,Uint8 *stream,int bufferSize)
 {
+    //传入的结构体
     VideoState *videostate = (VideoState *) userdata;
 
     int audio_data_size = 0;
@@ -322,27 +331,31 @@ static void audio_callback(void *userdata,Uint8 *stream,int bufferSize)
     int size;
 
     //bufferSize是由SDL传入的SDL缓冲区大小，若缓冲区没满，就往里面填数据
+    /*audioBufferIndex 和 audioBufferSize 标示我们自己用来放置解码出来的数据的缓冲区，
+      这些数据待复制到SDL缓冲区， 当audioBufferIndex >= audioBufferSize的时候意味着我
+      们的缓冲为空，没有数据可供复制，这时候需要调用audio_decode_frame来解码出更
+      多的桢数据 */
     while (bufferSize > 0) {
-        /*  audioBufferIndex 和 audioBufferSize 标示我们自己用来放置解码出来的数据的缓冲区，
-          这些数据待复制到SDL缓冲区， 当audioBufferIndex >= audioBufferSize的时候意味着我
-          们的缓冲为空，没有数据可供复制，这时候需要调用audio_decode_frame来解码出更
-          多的桢数据 */
 
-        //音频解码
+        //若audioBufferSize为空就解码更多数据
         if(videostate->audioBufferIndex >= videostate->audioBufferSize)
         {
+            //解码后数据存在audioBuffer
             audio_data_size = decodeAudio(videostate,&pts);
 
+            //未解码出数据，播放静音
             if(audio_data_size < 0)
             {
                 videostate->audioBufferSize = 1024;
                 //清零，静音
-                if(videostate->audioBuffer == NULL) return;
+                if(videostate->audioBuffer == NULL)
+                    return;
                 memset(videostate->audioBuffer,0,videostate->audioBufferSize);
             }
             else {
                 videostate->audioBufferSize = audio_data_size;
             }
+            //指针归零
             videostate->audioBufferIndex = 0;
         }
 
@@ -352,7 +365,8 @@ static void audio_callback(void *userdata,Uint8 *stream,int bufferSize)
             size = bufferSize;
         }
 
-        if (videostate->audioBuffer == NULL) return;
+        if (videostate->audioBuffer == NULL)
+            return;
 
         //将解码后的音频复制到SDL缓冲区
         memcpy(stream,(uint8_t*)videostate->audioBuffer + videostate->audioBufferIndex,size);
@@ -408,9 +422,10 @@ int openAudioStreamCompent(VideoState *videostate, int streamIndex)
     AVCodecContext *aCodecContext;
     AVCodec *aCodec;
 
-    SDL_AudioSpec need_spec,spec;
-    int64_t need_channel_layout = 0;
-    int need_nb_channnels;
+    SDL_AudioSpec wanted_spec;   //期望设置的属性
+    SDL_AudioSpec spec;   //系统最终接收的参数
+    int64_t wanted_channel_layout = 0;
+    int wanted_nb_channnels;  //声道数
 
     /*  SDL支持的声道数为 1, 2, 4, 6 */
     /*  后面会使用这个数组来纠正不支持的声道数目 */
@@ -423,40 +438,51 @@ int openAudioStreamCompent(VideoState *videostate, int streamIndex)
 
     //解码器
     aCodecContext = aFormatContext->streams[streamIndex]->codec;
-    need_nb_channnels = aCodecContext->channels;
-    if(!need_channel_layout || need_nb_channnels !=
-            av_get_channel_layout_nb_channels(need_channel_layout))
+
+    //解码的音频期望的声道
+    wanted_nb_channnels = aCodecContext->channels;
+
+    //根据解码出来的音频期望的声道数获取期望的声道布局
+    if(!wanted_channel_layout || wanted_nb_channnels !=
+            av_get_channel_layout_nb_channels(wanted_channel_layout))
     {
-        need_channel_layout = av_get_default_channel_layout(need_nb_channnels);
-        need_channel_layout &= ~AV_CH_LAYOUT_STEREO_DOWNMIX;
+        wanted_channel_layout = av_get_default_channel_layout(wanted_nb_channnels);
+        wanted_channel_layout &= ~AV_CH_LAYOUT_STEREO_DOWNMIX;
     }
 
-    need_spec.channels = av_get_channel_layout_nb_channels(need_channel_layout);
-    need_spec.freq = aCodecContext->sample_rate;
-    if(need_spec.freq <= 0 || need_spec.channels <=0)
+    //根据期望的声道布局获得期望的声道数
+    wanted_spec.channels = av_get_channel_layout_nb_channels(wanted_channel_layout);
+    //频率，根据传入的音频流获得
+    wanted_spec.freq = aCodecContext->sample_rate;
+
+    if(wanted_spec.freq <= 0 || wanted_spec.channels <=0)
     {
         std::cout << "Invalid sample rate or channel count!" << std::endl;
         return -1;
     }
 
-    need_spec.format = AUDIO_S16SYS;   //格式
-    need_spec.silence = 0;   //静音
-    need_spec.samples = SDL_AUDIO_BUFFER_SIZE; //SDL缓冲区大小
-    need_spec.callback = audio_callback; //音频解码的回调函数
-    need_spec.userdata = videostate;  //传回外带数据
+    //设置期望属性
+    wanted_spec.format = AUDIO_S16SYS;   //格式
+    wanted_spec.silence = 0;   //静音
+    wanted_spec.samples = SDL_AUDIO_BUFFER_SIZE; //SDL缓冲区大小
+    wanted_spec.callback = audio_callback; //音频解码的关键 回调函数
+    wanted_spec.userdata = videostate;  //传给回调函数的外带数据
 
     /*  打开音频设备，这里使用一个while来循环尝试打开不同的声道数
      * (由上面next_nb_channels数组指定）直到成功打开，或者全部失败 */
     do{
         videostate->audioID = SDL_OpenAudioDevice(SDL_GetAudioDeviceName(0,0),0,
-                                                  &need_spec,&spec,0);
-        need_spec.channels = next_nb_channels[FFMIN(7,need_spec.channels)];
-        if(!need_spec.channels)
+                                                  &wanted_spec,&spec,0);
+        fprintf(stderr,"SDL_OpenAudio (%d channels): %s\n",wanted_spec.channels, SDL_GetError());
+
+        // 7 和 wanted_spec.channels的最小值
+        wanted_spec.channels = next_nb_channels[FFMIN(7,wanted_spec.channels)];
+        if(!wanted_spec.channels)
         {
             std::cout << "No more channel combinations to tyu, audio open failed." << std::endl;
             break;
         }
-        need_channel_layout = av_get_default_channel_layout(need_spec.channels);
+        wanted_channel_layout = av_get_default_channel_layout(wanted_spec.channels);
     }while(videostate->audioID == 0);
 
     /* 检查实际使用的配置（保存在spec,由SDL_OpenAudio()填充） */
@@ -467,10 +493,11 @@ int openAudioStreamCompent(VideoState *videostate, int streamIndex)
         return -1;
     }
 
-    if(spec.channels != need_spec.channels)
+    // 看二者的channels是否相同  得到最终的wanted_channel_layout  该参数需要传给VideoPlayer
+    if(spec.channels != wanted_spec.channels)
     {
-        need_channel_layout = av_get_default_channel_layout(spec.channels);
-        if(!need_channel_layout)
+        wanted_channel_layout = av_get_default_channel_layout(spec.channels);
+        if(!wanted_channel_layout)
         {
             std::cout << "SDL advised channel count "
                       << spec.channels << " is not supported!" << std::endl;
@@ -483,23 +510,31 @@ int openAudioStreamCompent(VideoState *videostate, int streamIndex)
     /* 把设置好的参数保存到大结构中 */
     videostate->audioSourceFormat = videostate->audioTargetFormat = AV_SAMPLE_FMT_S16;
     videostate->audioSourceSampleRate = videostate->audioTargetSampleRate = spec.freq;
-    videostate->audioSourceChannelLayout = videostate->audioTargetChannelLayout = need_channel_layout;
+    videostate->audioSourceChannelLayout = videostate->audioTargetChannelLayout = wanted_channel_layout;
     videostate->audioSourceChannels = videostate->audioTargetChannels = spec.channels;
 
+    //查找解码器
     aCodec = avcodec_find_decoder(aCodecContext->codec_id);
+
+    //打开解码器
     if(!aCodec || (avcodec_open2(aCodecContext,aCodec,nullptr) < 0))
     {
         std::cout << "Unsupported codec!\n";
         return -1;
     }
+
+    //丢掉大小为0的数据流
     aFormatContext->streams[streamIndex]->discard = AVDISCARD_DEFAULT;
+
     switch (aCodecContext->codec_type) {
     case AVMEDIA_TYPE_AUDIO:
         videostate->audioStream = aFormatContext->streams[streamIndex];
         videostate->audioBufferSize = 0;
         videostate->audioBufferIndex = 0;
         memset(&videostate->audioPacket,0,sizeof (videostate->audioPacket));
+        //初始化音频队列，清零
         packet_queue_init(&videostate->audioQueue);
+        //开始播放，调用回调函数
         SDL_PauseAudioDevice(videostate->audioID,0);
         break;
     default:
@@ -598,15 +633,15 @@ int decodeVideo(void *arg)
         if (vs->seek_flag_video)
         {
             //发生了跳转 则跳过关键帧到目的时间的这几帧
-           if (video_pts < vs->seek_time)
-           {
-               av_free_packet(packet);
-               continue;
-           }
-           else
-           {
-               vs->seek_flag_video = 0;
-           }
+            if (video_pts < vs->seek_time)
+            {
+                av_free_packet(packet);
+                continue;
+            }
+            else
+            {
+                vs->seek_flag_video = 0;
+            }
         }
 
         while(1)
@@ -662,30 +697,21 @@ VideoDecode::VideoDecode(VideoPlayer *vp)
 {
     mPlayer = vp;
     mPlayerState = Stop;
-    //    mVideoState.audioBuffer = NULL;
-    //    bzero(mVideoState.audioSourceBuffer,sizeof (mVideoState.audioSourceBuffer));
-    //    mVideoState.audioBufferIndex = 0;
-    //    mVideoState.audioBufferSize = 0;
-    //    mVideoState.audioFrame = 0;
-    //    mVideoState.audioPacketSize = NULL;
-    //    mVideoState.formatCtx = NULL;
-    //    packet_queue_init(&mVideoState.audioQueue);
-    //    packet_queue_init(&mVideoState.videoQueue);
-    //    mVideoState.audioPacketData = NULL;
-    //    mVideoState.audioStream = NULL;
-    //    mVideoState.audioCodec = NULL;
-    //    mVideoState.audioCodecCtx = NULL;
-    //    mVideoState.audioID = 0;
-    //    mVideoState.audioSourceChannels = 0;
-    //    mVideoState.audioSourceChannelLayout = 0;
-    //    mVideoState.audioSourceSampleRate = 0;
-    //    mVideoState.audioTargetChannels = 0;
-    //    mVideoState.audioTargetChannelLayout = 0;
-    //    mVideoState.audioTargetSampleRate = 0;
-    //    mVideoState.audio_hw_buffer_size = 0;
-    //    mVideoState.videoCodec = NULL;
-    //    mVideoState.videoCodecCtx = NULL;
-    //    mVideoState.videoStream = NULL;
+}
+
+VideoDecode::~VideoDecode()
+{
+    memset(&mVideoState,0,sizeof (mVideoState));
+    //关闭SDL音频播放器
+    if(mVideoState.audioID != 0)
+    {
+        SDL_LockAudio();
+        SDL_PauseAudioDevice(mVideoState.audioID,1);
+        SDL_UnlockAudio();
+
+        mVideoState.audioID = 0;
+    }
+    this->deleteLater();
 }
 
 bool VideoDecode::startPlay(QString path)
@@ -737,8 +763,14 @@ bool VideoDecode::pause()
     return true;
 }
 
-bool VideoDecode::stop(bool isWait)
+bool VideoDecode::stop(bool isWait,int width,int height)
 {
+
+    QImage tmpImg(width,height,QImage::Format_RGB32);
+    tmpImg.fill(Qt::black);
+    QImage image = tmpImg.copy();
+    displayVideo(image);
+
     if(mPlayerState == Stop)
     {
         return false;
@@ -756,6 +788,7 @@ bool VideoDecode::stop(bool isWait)
     //关闭SDL音频播放器
     if(mVideoState.audioID != 0)
     {
+        mVideoState.pause = false;
         SDL_LockAudio();
         SDL_PauseAudioDevice(mVideoState.audioID,1);
         SDL_UnlockAudio();
@@ -792,9 +825,9 @@ void VideoDecode::run()
     char video[512] = {0};
     strcpy(video,mVideoName.toUtf8().data());
 
-    memset(&mVideoState,0,sizeof (VideoState));
+    memset(&mVideoState,0,sizeof (VideoState));    //初始化结构体
 
-    VideoState *vs = &mVideoState;
+    //    VideoState *vs = &mVideoState;
 
     //一帧
     AVFormatContext *pFormatCtx;
@@ -815,9 +848,11 @@ void VideoDecode::run()
 
     //打开视频
     if (avformat_open_input(&pFormatCtx,video, NULL, NULL) != 0) {
-        std::cout << "can't open the file. \n";
+        mPlayer->snedNoResouce();
+        std::cout << "can't open the file." << std::endl;
         return;
     }
+
 
     //获取视频信息
     if (avformat_find_stream_info(pFormatCtx, NULL) < 0) {
@@ -849,6 +884,7 @@ void VideoDecode::run()
         std::cout << "Didn't find a audio stream.\n";
         return;
     }
+
     mVideoState.formatCtx = pFormatCtx;
     mVideoState.video_stream = videoStream;
     mVideoState.audio_stream = audioStream;
@@ -1007,7 +1043,7 @@ void VideoDecode::run()
         SDL_Delay(100);
     }
 
-    stop();
+    stop(false,0,0);
 
     avcodec_close(pCodecCtx);
     avformat_close_input(&pFormatCtx);

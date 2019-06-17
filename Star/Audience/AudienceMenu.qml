@@ -7,6 +7,9 @@ Rectangle {
     height: parent.height
     border.color: "gray"
 
+    property var myvideos:[]
+    property var emptyvideos:[]
+
     Column {
         width: parent.width
         height: parent.height
@@ -56,7 +59,7 @@ Rectangle {
             id:audience_name
             text: audienceInterface.audienceName
             font.pixelSize: 35
-            font.family: "Beta Dance"
+            //font.family: "Beta Dance"
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -98,6 +101,7 @@ Rectangle {
                         if(parent.text === '收藏'){
                             audience.videos = JSON.parse
                                     (client.audienceCollection(audienceInterface.audienceName))
+
                         }else if(parent.text === '浏览历史'){
                             audience.videos = JSON.parse
                                     (client.audienceRecord(audienceInterface.audienceName))

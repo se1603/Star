@@ -369,8 +369,9 @@ void Server::sendFile(std::string filename, endpoint ep)
     socket_ptr sock(new boost::asio::ip::udp::socket(service,boost::asio::ip::udp::endpoint()));
     boost::asio::ip::udp::endpoint sender_ep;
     
-    std::string path = "../StarServer/";
+    std::string path = "../StarServer/images/";
     path += filename;
+    std::cout << path << std::endl;
     auto fileName = path.data();
     FILE *fp = fopen(fileName,"rb");
     

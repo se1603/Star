@@ -87,6 +87,8 @@ bool AudienceBroker::registeAccount(std::string n, std::string p)
         {
             row = mysql_fetch_row(result);
             if(row == nullptr){
+                Audience *a = new Audience(n);
+                allaudiences.insert(std::pair<std::string,Audience*>(n,a));
                 return insertNewAudience(n,p);
             }else{
                 return false;

@@ -14,45 +14,29 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import"../MiddleArea"
-Item {
+
+import "../MiddleArea"
+
+Rectangle {
     id:play
     visible: true
-    width: parent.width
-    height: parent.height
+    width: middleArea.width
+    height: middleArea.height
 
+    property alias playwidth: play.width
     property bool xflag: true
     property bool xRflag: true
     property string name:""
     property string type: ""
-    property string rtspUrl: ""
     property string infoma:""
     property string image:""
 
     property var datas
     property var commentModel
 
-
-//    onVisibleChanged: {
-//        commentModel = JSON.parse(client.showCommentInfo(play.name))
-//        var length = Object.keys(commentModel.resource).length
-//        var c = commentModel.resource
-//        for(var i = 0; i != length;i++){
-//            listComment.append({name1:c[i].audienceName,message:c[i].comment,time:c[i].time})
-//            console.log(c[i].audienceName+"  hdsd")
-//        }
-//         console.log(length+"jfjdj")
-//    }
-
-    Timer{
-        id:timer1
-        interval: 2000
-        running: false
-        onTriggered: {
-            leftbu.width = 0
-            rightbt.width=0
-        }
-    }
+    property string rtspUrl: ""
+//    property bool playing: false
+    property alias playCommponent: playVideo
 
     Rectangle{
         id:center
@@ -61,86 +45,11 @@ Item {
         height: parent.height
         color:"green"
 
-        MouseArea{
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: {
-                leftbu.width = 20
-                rightbt.width = 20
-            }
-            onExited: {
-                timer1.start()
-            }
-        }
-        Rectangle{
-            id:rightbt
-            y:play.height/2
-            z:2
-            anchors.right: center.right
-            width: 20
-            height: 30
-            opacity: 0.5
-            Image{
-                id:rightButton
-                opacity: 1
-                mirror: true
-                anchors.fill: parent
-                source: "qrc:/image/img/left.png"
-            }
-            MouseArea{
-                id:rightMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: {
-                    if(rightRec.x === play.width){
-                        menuStopAnim.start()
-                        xflag = ture
-                    }else{
-                        menuStartAnim.start()
-                        xflag = false
-                    }
-                }
-            }
-        }
-
-        //左箭头，点击，会回到前一张图片
-        Rectangle{
-            id:leftbu
-            y:play.height/2
-            z:2
-            anchors.left: center.left
-            width: 20
-            height: 30
-            opacity: 0.5
-            Image{
-                id:leftButton
-                anchors.fill: parent
-                opacity: 1
-                source: "qrc:/image/img/left.png"
-            }
-            MouseArea{
-                id:leftMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                propagateComposedEvents: true
-                onClicked: {
-                    if(leftRect.x === 0){
-                        leftStartAnim.start()
-                        xRflag = false
-                    }else{
-                        leftStopAnim.start()
-                        xRflag = true
-                    }
-                }
-            }
-        }
         PlayVideo{
             id:playVideo
             path: rtspUrl
         }
-
     }
-
 
     //组合动画
     ParallelAnimation{
@@ -168,19 +77,19 @@ Item {
 
     Rectangle{
         id:rightRec
-        x:xflag ? 4/5*play.width : play.width//200
+        x: xflag ? 4/5*play.width : play.width//200
         y:0
         width: 1/5*play.width//200
         height: play.height
-//        color:"red"
+        color:"red"
         radius: 5
 
         Rectangle {
             id:rightmenu
             anchors.top: parent.top
             width: parent.width
-            height: 1/13*leftRect.height - 10
-            color: "black"
+            height: 1/13*play.height //- 10
+            color: "#424242"
             Rectangle{
                 id:leftM
                 anchors.left: parent.left
@@ -188,6 +97,7 @@ Item {
                 anchors.topMargin: 10
                 width: 1/2*parent.width-8
                 height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: "简介"
@@ -204,6 +114,7 @@ Item {
                 anchors.leftMargin: 15
                 width: 1/2*parent.width-8
                 height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: "评论"
@@ -214,24 +125,28 @@ Item {
             }
         }
 
+
         StackView{
             width: parent.width
-            height: 12/13*parent.height
+            height: 12/13*play.height
             anchors{
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-            anchors.topMargin: 20
+           // anchors.topMargin: 20
             id:right_stack
             initialItem: comment_page
+            MouseArea{
+                anchors.fill: parent
+            }
         }
 
         Component{
             id:summary_page
             Comment{
-//                vect:commentModel
+                //                vect:commentModel
             }
         }
         Component{
@@ -253,12 +168,13 @@ Item {
         y:0
         width: 1/5*play.width
         height: play.height
+        color: "#424242"
         Rectangle{
             id:toolBar
             anchors.top: parent.top
             width: parent.width
-            height: 1/13*leftRect.height - 10
-            color: "black"
+            height: 1/13*play.height
+            color: "#424242"
             Rectangle{
                 id:libraryRec
                 anchors.left: parent.left
@@ -266,8 +182,8 @@ Item {
                 anchors.top:parent.top
                 anchors.topMargin: 5
                 width: 1/4*parent.width
-                height: parent.height-10
-                color: "red"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: qsTr("片库")
@@ -283,8 +199,8 @@ Item {
                 anchors.right: recordRect.left
                 anchors.rightMargin: 15
                 width: 1/4*parent.width
-                height: parent.height-10
-//                color: "red"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill:parent
                     text: qsTr("本地")
@@ -298,8 +214,8 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 10
                 width: 1/4*parent.width
-                height: parent.height-10
-                color: "gray"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill:parent
                     text: qsTr("记录")
@@ -308,16 +224,20 @@ Item {
             }
         }
 
+
         StackView{
             width: parent.width
-            height: 12/13*parent.height
+            height: 12/13*play.height
             anchors{
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-            anchors.topMargin: 20
+
+            MouseArea{
+                anchors.fill: parent
+            }
             id:left_stack
             initialItem: library_page
         }
@@ -337,7 +257,6 @@ Item {
             FilmLibraty{
             }
         }
-
     }
 
     //组合动画
@@ -360,6 +279,8 @@ Item {
             from:-1/5*play.width
             to: 0
             duration: 500
-            easing.type: Easing.Linear }
+            easing.type: Easing.Linear
+        }
     }
+
 }

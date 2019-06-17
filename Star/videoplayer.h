@@ -25,7 +25,7 @@ public:
     Q_INVOKABLE void startPlay(QString path);
     Q_INVOKABLE void pause();
     Q_INVOKABLE void play();
-    Q_INVOKABLE void stop();
+    Q_INVOKABLE void stop(bool wait, int mwidth, int mheight);
 
     Q_INVOKABLE void sliderMoved(int position);
 
@@ -34,6 +34,8 @@ public:
 
     void getCurrentTime();
     Q_INVOKABLE QString showCurrentTime();
+
+    void snedNoResouce();
 
 protected:
     void paint(QPainter *painter);
@@ -48,6 +50,8 @@ signals:
     void sigShowCurrentTime();
     void sigSliderTotalValue(qint64 value);
     void sigSliderValue(qint64 currentvalue);
+    void noResource();
+    void updateFrame();
 
 private:
     QImage frame;
@@ -57,6 +61,7 @@ private:
     qint64 mDuration;
     qint64 mCurrentTime;
     QTimer *mTimer;
+    bool noResurce;
 };
 
 #endif // VIDEOPLAYER_H

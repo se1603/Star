@@ -7,9 +7,10 @@
 #include <qdebug.h>
 #include "film.h"
 #include <dirent.h>
+#include <thread>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.241.199"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.210"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -37,28 +38,40 @@ void Client::splictString(std::string &s, std::vector<std::string> &v, const std
 
 void Client::connectServer()
 {
-    getFile();
+
+    std::thread t(std::bind(&Client::getFile,this));
+    t.detach();
     //    showRecommend(1);
     //    browseFilm(1,6);
 }
 
 void Client::getFile()
 {
-    std::string path = "./images";
-    DIR * dir;
-    dir = opendir(path.data());
-    if(dir == nullptr )
+    std::string pathStart = "./";
+
+    std::vector<std::string> pathNames{"recommend","films","comics","drama","varietyshow","actors","directors"};
+
+    std::string pathEnd = ".tar.gz";
+
+    for(int i = 0; i != pathNames.size();i++)
     {
-        Json::Value root;
-        root["request"] = "FILETRANSFER";
-        root["fileName"] = "images.tar.gz";
-        root.toStyledString();
-        std::string message = root.toStyledString();
+        std::string path = pathStart + pathNames[i];
+        DIR * dir;
+        dir = opendir(path.data());
+        if(dir == nullptr )
+        {
+            Json::Value root;
+            root["request"] = "FILETRANSFER";
+            root["fileName"] =
+                    pathNames[i] + pathEnd;
+            root.toStyledString();
+            std::string message = root.toStyledString();
 
-        receiveFile(message);
+            receiveFile(message);
 
-        std::string commend = "tar xzvf images.tar.gz";
-        system(commend.c_str());
+            std::string commend = "tar xzvf " + pathNames[i] + pathEnd;
+            system(commend.c_str());
+        }
     }
 }
 
@@ -367,7 +380,6 @@ void Client::sendLoginInfo(QString n, QString p)
     audience["request"] = "VERIFYINFO";
     audience["name"] = aN;
     audience["password"] = aPW;
-    audience.toStyledString();
     std::string message = audience.toStyledString();
 
     socket_ptr udpsockptr;
