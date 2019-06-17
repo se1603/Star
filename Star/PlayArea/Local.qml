@@ -6,7 +6,7 @@ Rectangle {
 
     width: left_stack.width
     height: left_stack.height
-    color: "#8B8378"
+    color: "#424242"
     Text{
         anchors.centerIn: parent
         text: "No Local"

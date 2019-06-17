@@ -10,7 +10,7 @@
 #include <thread>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.41"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.133.196"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -279,7 +279,7 @@ QString Client::getMovieInfo(QString n)
     Json::Value recode;
     recode["request"] = "MOVIEINFO";
     recode["name"] = n.toStdString();
-    //    recode["videotype"] = std::to_string(i);
+
     recode.toStyledString();
     std::string message = recode.toStyledString();
 

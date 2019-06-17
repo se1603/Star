@@ -65,7 +65,7 @@ Rectangle {
                                 onClicked: {
 //                                    console.log(modelData.name)
 //                                    console.log(modelData.post)
-
+                                    middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
                                     if(playInterface.playCommponent.playing)
                                     {
                                         playInterface.playCommponent.stopPlay()
@@ -79,13 +79,14 @@ Rectangle {
                                     play.image = modelData.post
                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name))
                                     console.log(play.datas.resource.videotype.type)
-//                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+
 
                                     if(modelData.name !== middleArea.playingName
                                             && middleArea.playingName!==""){
                                         client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
                                         middleArea.playingName = ""
                                     }
+
                                 }
                             }
                         }

@@ -10,7 +10,7 @@ Rectangle{
     width: left_stack.width
     height: left_stack.height
 
-    color: "#8B8378"
+    color: "#424242"
     property string playname: ""
     property string playtype: ""
     property string img:""
@@ -21,8 +21,8 @@ Rectangle{
         anchors.topMargin: 10
         anchors.left: parent.left
         anchors.leftMargin: 10
-        text: "Playing"
-        font.family: "Beta Dance"
+        text: "正在播放"
+        color: "white"
         font.pixelSize: 24
     }
 
@@ -53,15 +53,17 @@ Rectangle{
                 id:name_te
                 width: 3/5*play_page.width-30
                 anchors.top: parent.top
-                font.family: "Beta Dance"
+                color: "white"
+//                font.family: "Beta Dance"
                 font.pixelSize: 14
                 text: play.name
                 wrapMode: Text.Wrap
             }
             Text{
                 anchors.top:name_te.bottom
-                font.family: "Beta Dance"
+                //font.family: "Beta Dance"
                 font.pixelSize: 14
+                color: "white"
                 text: play.datas.resource.esipode+"集全"
             }
         }
@@ -85,6 +87,7 @@ Rectangle{
                 Text{
                     anchors.centerIn: parent
                     text: modelData+1
+                    color: "white"
                 }
             }
         }

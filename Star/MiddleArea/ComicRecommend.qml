@@ -103,6 +103,7 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
+                                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
 //                                                console.log(modelData.name)
 //                                                console.log(modelData.post)
 

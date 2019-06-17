@@ -126,7 +126,6 @@ std::vector<std::string> Server::jsonParse(char message[])
         else if(request == "MOVIEINFO"){
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
-            //            parameter.push_back(value["videotype"].asString());
         }
         else if(request == "ADDCOLLECTION"){
             parameter.push_back(value["request"].asString());

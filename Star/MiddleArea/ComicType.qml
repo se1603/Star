@@ -68,7 +68,7 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
-
+                                    middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
                                     if(playInterface.playCommponent.playing)
                                     {
                                         playInterface.playCommponent.stopPlay()

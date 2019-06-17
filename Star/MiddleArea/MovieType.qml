@@ -9,88 +9,87 @@ import QtQuick.Layouts 1.3
 Rectangle {
     width: page_display.width
     height: page_display.height
-//    color: "yellow"
+    //    color: "yellow"
     property var films: movie.films
 
     ScrollView {
-            anchors.fill: parent
-            clip: true
-            ColumnLayout {
-                width: parent.width
-                height: parent.height
+        anchors.fill: parent
+        clip: true
+        ColumnLayout {
+            width: parent.width
+            height: parent.height
 
-                Row{
-                    id: row_menu
-                    anchors.left:parent.left
-                    spacing: 50
-                    Repeater {
-                        model:JSON.parse(client.showCategory(1))
-                        delegate: categoryDelegate
-                    }
+            Row{
+                id: row_menu
+                anchors.left:parent.left
+                spacing: 50
+                Repeater {
+                    model:JSON.parse(client.showCategory(1))
+                    delegate: categoryDelegate
                 }
+            }
 
-                GridLayout {
-                    id: film_grid
-                    anchors.top: collection_title.bottom
-                    anchors.topMargin: 15
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    columns: page_display.width < 1000 ? 4 : 5
-                    columnSpacing: page_display.width < 1000 ? 15 : 20
-                    rowSpacing: 15
-                    Repeater {
-                        model: films
+            GridLayout {
+                id: film_grid
+                anchors.top: collection_title.bottom
+                anchors.topMargin: 15
+                anchors.left: parent.left
+                anchors.leftMargin: 15
+                columns: page_display.width < 1000 ? 4 : 5
+                columnSpacing: page_display.width < 1000 ? 15 : 20
+                rowSpacing: 15
+                Repeater {
+                    model: films
+                    Rectangle {
+                        id:image
+                        width: 220
+                        height: 330
+                        //                            border.color: "red"
+                        Image {
+                            anchors.fill: parent
+                            anchors.top: parent.top
+                            source:"file:" + modelData.post
+                        }
                         Rectangle {
-                            id:image
-                            width: 220
-                            height: 330
-//                            border.color: "red"
-                            Image {
-                                anchors.fill: parent
-                                anchors.top: parent.top
-                                source:"file:" + modelData.post
-                            }
-                            Rectangle {
-                                id: filmname
-                                width: parent.width
-                                height: 30
-                                anchors.bottom: parent.bottom
-//                                border.color : "green"
-                            }
-                            Text {
-                                id: collection_text
-                                width: parent.width
-                                text: modelData.name
-                                font.pixelSize: 15
-                                wrapMode: Text.Wrap
-                                anchors.top: filmname.top
-                            }
+                            id: filmname
+                            width: parent.width
+                            height: 30
+                            anchors.bottom: parent.bottom
+                            //                                border.color : "green"
+                        }
+                        Text {
+                            id: collection_text
+                            width: parent.width
+                            text: modelData.name
+                            font.pixelSize: 15
+                            wrapMode: Text.Wrap
+                            anchors.top: filmname.top
+                        }
 
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+                                if(playInterface.playCommponent.playing)
+                                {
+                                    playInterface.playCommponent.stopPlay()
+                                    console.log("true")
+                                }
 
-                                    if(playInterface.playCommponent.playing)
-                                    {
-                                        playInterface.playCommponent.stopPlay()
-                                        console.log("true")
-                                    }
+                                play.rtspUrl = modelData.rtspURL
 
-                                    play.rtspUrl = modelData.rtspURL
+                                play.visible = true
+                                play.name = modelData.name
+                                play.image = modelData.post
 
-                                    play.visible = true
-                                    play.name = modelData.name
-                                    play.image = modelData.post
+                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+                                //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+                                console.log(play.datas.resource.videotype.type)
 
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
-//                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
-                                    console.log(play.datas.resource.videotype.type)
-
-                                    if(modelData.name !== middleArea.playingName
-                                            && middleArea.playingName!==""){
-                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
-                                        middleArea.playingName = ""
-                                    }
+                                if(modelData.name !== middleArea.playingName
+                                        && middleArea.playingName!==""){
+                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    middleArea.playingName = ""
                                 }
                             }
                         }
@@ -98,6 +97,7 @@ Rectangle {
                 }
             }
         }
+    }
 
     Component{
         id:categoryDelegate

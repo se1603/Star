@@ -87,6 +87,8 @@ bool AudienceBroker::registeAccount(std::string n, std::string p)
         {
             row = mysql_fetch_row(result);
             if(row == nullptr){
+                Audience *a = new Audience(n);
+                allaudiences.insert(std::pair<std::string,Audience*>(n,a));
                 return insertNewAudience(n,p);
             }else{
                 return false;
@@ -266,16 +268,16 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
 
 
     std::string collections = audienceInfo[3];// + "/" + cName + " " + cTime + " " + cType;
-        std::cout << "--------" << std::endl << collections << std::endl;
+    std::cout << "--------" << std::endl << collections << std::endl;
 
     std::string newcollections = cName + " " + cTime + " " + cType+"/";
-        std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
+    std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
 
     std::string newnew = collections + newcollections;
-        std::cout << "!!!!!" << std::endl << newnew << std::endl;
+    std::cout << "!!!!!" << std::endl << newnew << std::endl;
 
     std::string sql2 = "update audience set collection='"+newnew+"' where name='"+aName+"';";
-        std::cout << "?????????" << std::endl << sql2 << std::endl;
+    std::cout << "?????????" << std::endl << sql2 << std::endl;
 
     if(mysql_query(mysql,sql2.data())){
         std::cout << "更新收藏失败" << std::endl;
@@ -409,11 +411,6 @@ void AudienceBroker::findAudience(std::string name, Audience *a)
 {
     auto n = allaudiences.find(name);
     (*a) = *(n->second);
-    //    for(auto all = allaudiences.begin();all != allaudiences.end();all++){
-    //        if(all->first == name){
-    //            a = all->second;
-    //        }
-    //    }
 
 }
 

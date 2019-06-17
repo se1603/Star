@@ -5,7 +5,7 @@ Popup {
     background:  Rectangle{
         width: parent.width
         height: parent.height
-        color: "#8B8378"
+        color: "#424242"
     }
 
     x:0
