@@ -8,14 +8,15 @@
 #include <map>
 #include "collection.h"
 #include "record.h"
-#include "comment.h"
 
 class Audience
 {
 public:
     Audience(std::string name,std::string password,std::string avatar,
              std::vector<Collection> collections,
-             std::vector<Record> records,std::multimap<std::string,Comment> comments);
+             std::vector<Record> records);
+    Audience(std::string name);
+    Audience();
 
     bool verifyLogin(std::string name);
     bool verifyName(std::string name);
@@ -26,13 +27,13 @@ public:
     void addRecord(Record r);
     void showCollection(std::map<std::string,MovieAndTelevision*> &collectionmap);
     void showRecord(std::map<std::string,MovieAndTelevision*> &recordmap);
+    void showname(std::vector<std::string> &a);//获取用户名字
 private:
     std::string m_name;
     std::string m_password;
     std::string m_avatar;
 
-    std::multimap<std::string,Comment> m_comments;
-    std::vector<Record> m_records;
     std::vector<Collection> m_collections;
+    std::vector<Record> m_records;
 };
 #endif // AUDIENCE_H

@@ -161,47 +161,7 @@ Popup {
                     }
                 }
 
-//                GridLayout{
-//                    id:grid
-////                    width: column.width
-//                    anchors.top: info.bottom
-//                    anchors.topMargin: 40
-//                    anchors.left: parent.left
-//                    columns:2
-//                    rowSpacing:mainWindow.width < 1200 ? 5 : 20
-//                    columnSpacing: mainWindow.width < 1200 ? 10 : 60
-//                    Repeater{
-//                        model: model.resource.length
-//                        Rectangle{
-//                            id:bigRec
-//                            width:  mainWindow.width < 1200 ? 80 : 120
-//                            height: 120
-//                            Rectangle{
-//                                id:image
-//                                width: parent.width
-//                                height:80// width
-//                                radius: 100//width/2
-//                                color: "#8B8378"
-
-//                            }
-//                            Text{
-//                                id:name
-//                                anchors.top: image.bottom
-//                                anchors.topMargin: 2
-//                                text: "name"
-//                            }
-//                            Text{
-//                                id:type
-//                                anchors.top: name.bottom
-//                                anchors.topMargin: 2
-//                                text: "type"
-//                            }
-
-//                        }
-//                    }
-//                }
             }
-
         }
     }
 }

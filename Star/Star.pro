@@ -1,5 +1,5 @@
 QT += quick
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -24,7 +24,8 @@ SOURCES += \
     region.cpp \
     variety.cpp \
     comic.cpp \
-    drame.cpp
+    videodecode.cpp \
+    videoplayer.cpp
 
 RESOURCES += qml.qrc
 
@@ -40,7 +41,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-LIBS += -lboost_system -ljsoncpp
+LIBS += -lboost_system -ljsoncpp -lavcodec -lavformat -lavdevice -lavfilter -lavutil -lswresample -lswscale -lpostproc \
+        -lSDL2
 
 HEADERS += \
     audience.h \
@@ -53,5 +55,5 @@ HEADERS += \
     region.h \
     variety.h \
     comic.h \
-    drame.h \
-    drame.h
+    videodecode.h \
+    videoplayer.h

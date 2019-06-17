@@ -33,7 +33,7 @@ bool AudienceController::verifyAudience(std::string name, std::string password)
             splictString(c[i],tmp," ");
             m_movieAndTelevisionBroker->processAudienceCollection(tmp,mp);
             if(mp!=nullptr){
-//                m_movieAndTelevisionBroker->showCollection(mp);
+                //                m_movieAndTelevisionBroker->showCollection(mp);
                 m_audienceBroker->createAudienceCollection(aname,tmp[1],mp);
             }
         }
@@ -44,7 +44,7 @@ bool AudienceController::verifyAudience(std::string name, std::string password)
             splictString(r[i],tmp," ");
             m_movieAndTelevisionBroker->processAudienceRecord(tmp,ap);
             if(ap!=nullptr){
-//                m_movieAndTelevisionBroker->showCollection(ap);
+                //                m_movieAndTelevisionBroker->showCollection(ap);
                 m_audienceBroker->createAudienceRecord(aname,tmp[1],tmp[2],ap);
             }
         }
@@ -155,15 +155,22 @@ std::string AudienceController::pakageCollection(std::vector<std::string> a_coll
     Json::Value root;
     Json::Value arry;
     root["request"] = "COLLECTIONINFO";
-    for(int i=0;i < a_collections.size(); i+=3){
+    if(a_collections.size()!=0){
+        for(int i=0;i < a_collections.size(); i+=3){
+            Json::Value value;
+            value["name"] = a_collections[i+1];
+            value["post"] = a_collections[i+2];
+            value["collecttime"] = a_collections[i];
+            arry.append(value);
+        }
+    }else{
         Json::Value value;
-        value["name"] = a_collections[i+1];
-        value["post"] = a_collections[i+2];
-        value["collecttime"] = a_collections[i];
+        value["name"] = "空";
+        value["post"] = "空";
+        value["collecttime"] = "空";
         arry.append(value);
     }
     root["collections"] = arry;
-
     root.toStyledString();
     std::string res = root.toStyledString();
     return res;
@@ -174,12 +181,21 @@ std::string AudienceController::pakageRecord(std::vector<std::string> a_records)
     Json::Value root;
     Json::Value arry;
     root["request"] = "RECORDINFO";
-    for(int i=0;i < a_records.size(); i+=4){
+    if(a_records.size()!=0){
+        for(int i=0;i < a_records.size(); i+=4){
+            Json::Value value;
+            value["name"] = a_records[i+2];
+            value["post"] = a_records[i+3];
+            value["startPlayTime"] = a_records[i];
+            value["duration"] = a_records[i+1];
+            arry.append(value);
+        }
+    }else{
         Json::Value value;
-        value["name"] = a_records[i+2];
-        value["post"] = a_records[i+3];
-        value["startPlayTime"] = a_records[i];
-        value["duration"] = a_records[i+1];
+        value["name"] = "空";
+        value["post"] = "空";
+        value["startPlayTime"] = "空";
+        value["duration"] = "空";
         arry.append(value);
     }
     root["records"] = arry;

@@ -19,12 +19,30 @@ Item {
         anchors {
             fill: parent
         }
-        initialItem: searchmovie
+        initialItem: searchdirector
     }
     Component{
         id:searchmovie
         SearchMovie{
-            id:search
+            id:search1
+        }
+    }
+    Component{
+        id:searchdrama
+        SearchDrama{
+            id:search2
+        }
+    }
+    Component{
+        id:searchactor
+        SearchActor{
+            id:search3
+        }
+    }
+    Component{
+        id:searchdirector
+        SearchDirector{
+            id:search4
         }
     }
 

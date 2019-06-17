@@ -123,7 +123,6 @@ void Variety::recodeInfo(std::string name, std::vector<std::string> &v)
         return;
     }
 }
-
 void Variety::getActorInfo(std::string name, std::vector<std::string> &v)
 {
     std::vector<std::string> resource;
@@ -141,7 +140,6 @@ void Variety::getActorInfo(std::string name, std::vector<std::string> &v)
     }
     v = resource;
 }
-
 bool Variety::findByName(std::string name)
 {
     if(m_name == name){

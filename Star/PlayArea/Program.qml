@@ -14,7 +14,7 @@ Rectangle {
 
 
     property var date:new Date()
-    property var collections:JSON.parse(client.audienceCollection(audienceInterface.audienceName))
+    property var collections
 
     width: /*59/60**/right_stack.width
     height: /*59/60**/right_stack.height
@@ -47,27 +47,30 @@ Rectangle {
             id:name
             text: play.name
             width: 1/2*commentPage.width-20
-//            font.pixelSize: 10
+            font.pixelSize: 10
             wrapMode: Text.Wrap
         }
         Text{
             id:region
             text: play.datas.resource.region
         }
-
         Row{
-            id:row
             spacing: 5
             Repeater{
                 model: play.datas.resource.videotype
                 Text{
                     id:type
                     text: modelData.type
-//                    font.pixelSize: 10
+                    font.pixelSize: 10
                 }
             }
         }
-
+        Text {
+            id: notice
+            text: "hhhhhhhhhh"
+            font.pixelSize: 12
+            color: "#ffffff"
+        }
     }
 
 
@@ -158,6 +161,7 @@ Rectangle {
 
     function search(cName,collecttime){
         var flag = 0
+        collections = JSON.parse(client.audienceCollection(audienceInterface.audienceName))
         for(var i=0;i<collections.length;i++){
             if(cName === collections[i].name){
                 notice.text = "已经收藏过了"

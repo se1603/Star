@@ -29,6 +29,22 @@ void Director::addMovieAndTelevision(MovieAndTelevision *movieAndTelevision)
 {
     m_movieAndTelevision.push_back(movieAndTelevision);
 }
+
+bool Director::findByName(std::string name)
+{
+    if(m_name == name){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Director::searchDirectorInfo(std::vector<std::string> &d_searchdirectors)
+{
+    d_searchdirectors.push_back(m_name);
+    d_searchdirectors.push_back(m_photo);
+}
+
 void Director::directorInfo(std::vector<std::string> &v)
 {
     v.push_back(m_name);

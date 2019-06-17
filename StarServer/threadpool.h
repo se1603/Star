@@ -20,7 +20,7 @@ typedef std::function<void(void)> Task;
 class ThreadPool
 {
 public:
-    ThreadPool(int number = 5);   //默认开一个线程
+    ThreadPool(int number = 100);   //默认开一个线程
     ~ThreadPool();
 
     bool append(Task task);    //添加任务

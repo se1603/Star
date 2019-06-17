@@ -1,7 +1,3 @@
-/*Author:古长蓉
- * Data:2019-5-12
- * Note:剧集（drame）
- */
 #include "drame.h"
 
 

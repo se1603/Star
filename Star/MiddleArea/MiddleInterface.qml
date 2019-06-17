@@ -1,19 +1,19 @@
 //time：2019.4.30
 //内容：页面跳转组件
 //author：徐丹
-//author:guchangrong
-//data:2019-05-21
-//增加搜索组件
 
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 
 Rectangle {
-    width: 59 / 60 * parent.width
-    height: 59 / 60 * parent.height
-    anchors.centerIn: parent
+    width: 59 / 60 * middleArea.width
+    height: 59 / 60 * middleArea.height
+    anchors.centerIn: middleArea
 
     property var searchMovie
+    property var searchDrama
+    property var searchActor
+    property var searchDirector
     property alias middlemenu: middle_Menu
 
     Row {

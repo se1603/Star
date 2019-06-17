@@ -128,6 +128,7 @@ void Film::recodeInfo(std::string name, std::vector<std::string> &v)
         return;
     }
 }
+
 void Film::getActorInfo(std::string name, std::vector<std::string> &v)
 {
     std::vector<std::string> resource;

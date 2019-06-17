@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.5
 
 Rectangle{
     id:toparea
@@ -9,7 +10,6 @@ Rectangle{
     z:1
 
     property alias rightButton:rightButton
-    property alias topsearch: topSearch
     Rectangle{
         id:icon
         width: 1/14 * parent.width
@@ -18,6 +18,7 @@ Rectangle{
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
     }
+
     Rectangle{
         id:mainpage
         width: 1/16 * parent.width

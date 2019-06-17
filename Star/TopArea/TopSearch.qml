@@ -45,10 +45,11 @@ Item{
             }
             onAccepted: {
                 middleArea.middleface.searchMovie = JSON.parse(client.search(text)) //text为搜索框的输入内容
+                middleArea.middleface.searchDrama = JSON.parse(client.search(text))
+                middleArea.middleface.searchActor = JSON.parse(client.search(text))
+                middleArea.middleface.searchDirector = JSON.parse(client.search(text))
                 middleArea.middleface.middlemenu.load_page(1)
-//                console.log("aaaaa")
-//                console.log(text)
-//                console.log(middleArea.middleface.searchMovie)
+                console.log(middleArea.middleface.searchDirector)
             }
         }
 
@@ -68,9 +69,11 @@ Item{
                 hoverEnabled: true
                 onClicked: {
                     middleArea.middleface.searchMovie = JSON.parse(client.search(searchEdit.text))
+                    middleArea.middleface.searchDrama = JSON.parse(client.search(searchEdit.text))
+                    middleArea.middleface.searchActor = JSON.parse(client.search(searchEdit.text))
+                    middleArea.middleface.searchDirector = JSON.parse(client.search(searchEdit.text))
                     middleArea.middleface.middlemenu.load_page(1)
-//                    console.log(text)
-//                    console.log(middleArea.middleface.searchMovie)  //searchMovie已存入内容
+                    console.log(middleArea.middleface.searchDirector)
                 }
             }
         }
@@ -101,20 +104,4 @@ Item{
             }
         }
     }
-//    ListModel{
-//        id:searchMovieModel
-//    }
-
-//    function searchKeys(searchtext){
-//        var key = searchtext
-//        var a = key.split(",")
-//        console.log(a)
-//        searchMovieModel.clear()
-//        for(var i = 0; i < key.size(); i++){
-//            searchMovieModel.append({
-//                                        name:key[i].name,
-//                                        post:key[i].post,
-//                                    })
-//        }
-//    }
 } //medialButton

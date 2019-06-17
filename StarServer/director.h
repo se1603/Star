@@ -19,8 +19,11 @@ public:
     Director();
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
-    void directorInfo(std::vector<std::string> &v);
+    //查找导演信息
+     bool findByName(std::string name);
+     void searchDirectorInfo(std::vector<std::string> &d_searchdirectors);
 
+    void directorInfo(std::vector<std::string> &v);//导演信息
 private:
     std::string m_name;
     std::string m_birthday;

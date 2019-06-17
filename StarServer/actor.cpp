@@ -29,6 +29,22 @@ void Actor::addMovieAndTelevision(MovieAndTelevision *movieAndTelevision)
 {
     m_movieAndTelevision.push_back(movieAndTelevision);
 }
+
+bool Actor::findByName(std::string name)
+{
+    if(m_name == name){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Actor::searchActorInfo(std::vector<std::string> &s_searchactors)
+{
+    s_searchactors.push_back(m_name);
+    s_searchactors.push_back(m_photo);
+}
+
 void Actor::actorInfo(std::vector<std::string> &vec)
 {
     vec.push_back(m_name);

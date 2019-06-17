@@ -2,6 +2,7 @@ import QtQuick 2.0
 import "TopArea"
 import "MiddleArea"
 import "Audience"
+import "PlayArea"
 
 Rectangle {
     width: parent.width
@@ -16,10 +17,22 @@ Rectangle {
 
     MiddleArea {
         id:middleArea
-        visible:visible
     }
 
     AudiencePoupItem {
         id:audienceItem
     }
+
+    function fullScreen(){
+        topArea.visible = false
+        topArea.z = -1
+        fullScreenFlag = false
+    }
+
+    function exitfullScreen(){
+        topArea.visible = true
+        topArea.z = 1
+        fullScreenFlag = true
+    }
+
 }

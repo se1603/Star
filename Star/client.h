@@ -33,9 +33,7 @@ public:
     Q_INVOKABLE QString showCategory(int type);  //显示分类
     Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
-    Q_INVOKABLE QString getMovieInfo(QString n,int i);//获取影视信息
-    //获得演员和导演信息
-    Q_INVOKABLE QString getActorInfo(QString n);
+    Q_INVOKABLE QString getMovieInfo(QString n);
 
     //用户操作（QML端）
     //登录
@@ -54,6 +52,16 @@ public:
     Q_INVOKABLE void addCollection(QString name, QString collecttime, QString videoname, QString type);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
+
+    //获取评论信息
+    Q_INVOKABLE QString showCommentInfo(QString name);
+    //获取精华评论
+    Q_INVOKABLE QString showGoodComment(QString name);
+    //添加评论
+    Q_INVOKABLE void addComment(QString aName, QString videoname, QString t, QString c);
+    
+    //获得演员和导演信息
+    Q_INVOKABLE QString getActorInfo(QString n);
 
     //搜索
     Q_INVOKABLE QString search(QString key);
@@ -75,6 +83,9 @@ signals:
     void updateAvatarSucceed(QString newsource);
     void collectsucceed();
     void collectfailed();
+    //评论信号
+    void insertSuccessed();
+    void insertFailed();
 private:
     //文件
     FILE *fp;

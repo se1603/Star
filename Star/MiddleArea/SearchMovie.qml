@@ -13,13 +13,6 @@ Rectangle {
     width: parent.width
     anchors.fill: parent
     property var searchMovie: middleArea.middleface.searchMovie
-//    MouseArea{
-//        anchors.fill: parent
-//        hoverEnabled: true
-//        onClicked: {
-//            console.log(searchMovie.searchResult[0].name)
-//        }
-//    }
 
 
 
@@ -230,6 +223,7 @@ Rectangle {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
+
                                 }
                             }
 

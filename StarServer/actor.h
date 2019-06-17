@@ -19,8 +19,11 @@ public:
     Actor();
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
-    void actorInfo(std::vector<std::string> &vec);
+    //查找演员信息
+    bool findByName(std::string name);
+    void searchActorInfo(std::vector<std::string> &s_searchactors);
 
+    void actorInfo(std::vector<std::string> &vec);
 private:
     std::string m_name;         //名字
     std::string m_birthday;     //生日

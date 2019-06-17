@@ -43,15 +43,18 @@ public:
     void readAudienceCollection(std::string name, std::map<std::string,MovieAndTelevision*> &collectionmap);
     //添加用户收藏
     bool addAudienceCollection(std::string aName, std::string cName, std::string cTime, std::string cType);
+    //生成所有用户的指针
+    void initAudience();
     //处理字符串函数
     void splictString(std::string &s, std::vector<std::string> &v, const std::string &c);
-
-    void initComment(/*std::multimap<std::string,Comment> &m*/);
+    //根据名字查找指针
+    void findAudience(std::string name,Audience* a);
 private:
     AudienceBroker();
     static AudienceBroker* m_instance;
 
     std::vector<Audience> loginedAudiences;
+    std::map<std::string,Audience*> allaudiences;
 };
 
 #endif // AUDIENCEBROKER_H
