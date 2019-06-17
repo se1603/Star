@@ -1,6 +1,8 @@
 /* Author:王梦娟
  * Date:2019-4-25
  * Note:用封装好的NetWork重写网络连接
+ * author：古长蓉
+ * data：2019-06-17 增加搜索标签
 */
 #include "server.h"
 #include <iostream>
@@ -160,6 +162,10 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["name"].asString());
             parameter.push_back(value["time"].asString());
             parameter.push_back(value["comment"].asString());
+        }
+        else if (request == "SEARCH") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
         }
         else
         {
@@ -367,6 +373,11 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
             sendMessage(reply,ep);
             return reply;
         }
+    }
+    else if(request == "SEARCH"){
+        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);  //[1]为传入的json对象的下标，第一个元素，request[0]，name[1]
+        sendMessage(reply, ep);
+        return reply;
     }
 }
 

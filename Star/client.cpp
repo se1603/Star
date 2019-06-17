@@ -10,7 +10,7 @@
 #include <thread>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.210"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.23.50"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -721,4 +721,34 @@ QString Client::getActorInfo(QString n)
     std::cout << root.toStyledString() << std::endl;
     QString t = QString::fromStdString(root.toStyledString());
     return t;
+}
+
+QString Client::search(QString key)
+{
+    Json::Value qmlValues;
+    Json::Value SearchKey;
+    SearchKey["request"] = "SEARCH";
+    SearchKey["name"] = key.toStdString();
+    SearchKey.toStyledString();
+    std::string message = SearchKey.toStyledString();  //获取qml端信息转换为json对象
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+    NetWork sock(udpsockptr);
+
+    std::string search;
+    search = sock.receive();   //将json对象传给服务端并接收服务端读取的Json对象
+
+    Json::Value values;   //解析Json对象
+    Json::Reader reader;
+
+    if(!reader.parse(search, values)){
+        std::cerr << "Receive info failed." << std::endl;
+    } else {
+        qmlValues = values["searchResult"];
+        std::cout << "aaa:" << qmlValues.toStyledString() << std::endl;
+    }
+
+    QString searchResult = QString::fromStdString(qmlValues.toStyledString());
+    return searchResult;
 }

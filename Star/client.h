@@ -1,3 +1,7 @@
+/*
+ * author:古长蓉
+ * data：2019-06-17 增加函数处理用户输入的关键字
+ */
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -65,6 +69,8 @@ public:
     
     //获得演员和导演信息
     Q_INVOKABLE QString getActorInfo(QString n);
+    //搜索
+    Q_INVOKABLE QString search(QString key);
 
     //获取文件
     void getFile();

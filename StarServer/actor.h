@@ -1,6 +1,8 @@
 /* Author:王梦娟
  * Date:2019-4-25
  * Note:演员
+ * author:古长蓉
+ * data:2019-06-17 增加搜索演员信息函数
 */
 #ifndef ACTOR_H
 #define ACTOR_H
@@ -17,6 +19,10 @@ public:
     Actor(std::vector<std::string> paramters,Region region);
     Actor(std::string name);
     Actor();
+
+    //查找演员信息
+    bool findByName(std::string name);
+    void searchActorInfo(std::vector<std::string> &s_searchactors);
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
 

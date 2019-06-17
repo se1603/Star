@@ -15,6 +15,7 @@ Rectangle {
     property alias audienceInterface:audienceInterface
     property alias play:play.visible
     property alias middle:middle_face.visible
+    property alias middleface: middle_face
 
     property alias playInterface: play
 

@@ -1,3 +1,9 @@
+/* Author:王梦娟
+ * Date:2019-4-25 控制器，应用逻辑层。
+ * Date:2019-5-8  去掉实体类的get set函数
+ * author：古长蓉
+ * data：2019-06-17  增加搜索关键字函数
+*/
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
 
@@ -478,6 +484,33 @@ std::string BrowseAndWatchController::getActorInfo(std::string name)
 
     return out;
 }
+
+std::string BrowseAndWatchController::SearchKey(std::string name)
+{
+//    std::vector<Film *> q = m_movieAndTelevisionBroker->SearchFilm(name);
+//    std::vector<Drame *> q = m_movieAndTelevisionBroker->SearchDrama(name);
+//    std::vector<Actor *> q = m_movieAndTelevisionBroker->SearchActor(name);
+    std::vector<Director *> q = m_movieAndTelevisionBroker->SearchDirector(name);
+    Json::Value root;
+    Json::Value searchs;
+    root["request"] = "SEARCH";
+    for (int i = 0; i < q.size(); i++){
+        std::vector<std::string> keys;
+        Json::Value search;
+//        q[i]->showInfo(keys);
+//        q[i]->searchActorInfo(keys);
+        q[i]->searchDirectorInfo(keys);
+        search["name"] = keys[0];
+        search["post"] = keys[1];
+        searchs.append(search);
+//        search["introduction"] = keys[2];
+    }
+    root["searchResult"] = searchs;
+    std::string out = root.toStyledString();
+//    std::cout << "aaa:" << std::out << std::endl;
+    return out;
+}
+
 std::string BrowseAndWatchController::filmInterface(int type)
 {
     FilmType filmtype;

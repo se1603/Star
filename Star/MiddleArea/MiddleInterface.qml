@@ -10,6 +10,12 @@ Rectangle {
     height: 59 / 60 * middleArea.height
     anchors.centerIn: middleArea
 
+    property var searchMovie
+    property var searchDrama
+    property var searchActor
+    property var searchDirector
+    property alias middlemenu: middle_Menu
+
     Row {
         width: parent.width
         height: parent.height
@@ -65,6 +71,12 @@ Rectangle {
                 }
             }
 
+            Component{
+                id:search_page
+                Search{
+
+                }
+            }
         }
     }
 }
