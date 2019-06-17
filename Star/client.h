@@ -50,6 +50,9 @@ public:
     Q_INVOKABLE QString audienceRecord(QString name);
     //添加收藏
     Q_INVOKABLE void addCollection(QString name, QString collecttime, QString videoname, QString type);
+    //自动添加记录
+    Q_INVOKABLE void addRecord(QString name, QString recordname, QString startPlaytime,
+                                    QString duration, QString type);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
 
@@ -80,6 +83,8 @@ signals:
     void updateAvatarSucceed(QString newsource);
     void collectsucceed();
     void collectfailed();
+    void recordupdatesucceed();
+    void recordupdatefailed();
     //评论信号
     void insertSuccessed();
     void insertFailed();

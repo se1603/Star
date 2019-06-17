@@ -29,6 +29,7 @@ Rectangle {
     property var previousHeight: 670
 
     //    property alias videoPlayer: player
+    property var date:new Date()
 
     Timer{
         id:timer1
@@ -150,7 +151,18 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-//                console.log(path)
+                //get
+                var year = date.getFullYear()
+                var month = date.getMonth()+1
+                var day = date.getDate()
+                var hours = date.getHours()
+                var minutes = date.getMinutes()
+                var starttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
+                middleArea.playingName = middleArea.playInterface.name
+                middleArea.videoType = middleArea.playInterface.datas.resource.category
+                middleArea.startTime = starttime
+                middleArea.duration = player.showCurrentTime()
+                console.log("---"+middleArea.playInterface.datas.resource.category)
 
                 if(!firstPlay)
                 {
@@ -295,6 +307,7 @@ Rectangle {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
+
                         if(!firstPlay)
                         {
                             player.startPlay(path)

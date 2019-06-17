@@ -81,10 +81,9 @@ Rectangle {
         width: 49 / 50 * parent.width
         height: 49 / 50 * parent.height - message_bar.height
         anchors.left: parent.left
-        anchors.leftMargin: 1 / 50 * parent.width
+        anchors.leftMargin: 1 / 100 * parent.width
         anchors.top: message_bar.bottom
         anchors.bottom: parent.bottom
-        border.color: "red"
         StackView {
             id: message_stack
             anchors {

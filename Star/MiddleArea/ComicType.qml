@@ -85,6 +85,12 @@ Rectangle {
                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)
+
+                                    if(modelData.name !== middleArea.playingName
+                                            && middleArea.playingName!==""){
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        middleArea.playingName = ""
+                                    }
                                 }
                             }
                         }

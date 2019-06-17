@@ -18,6 +18,11 @@ Rectangle {
 
     property alias playInterface: play
 
+    property var playingName:""
+    property var startTime:""
+    property var duration:""
+    property var videoType:""
+
 
 //    SwipeView{
 //        id: view

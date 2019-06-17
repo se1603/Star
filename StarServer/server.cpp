@@ -126,7 +126,7 @@ std::vector<std::string> Server::jsonParse(char message[])
         else if(request == "MOVIEINFO"){
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
-//            parameter.push_back(value["videotype"].asString());
+            //            parameter.push_back(value["videotype"].asString());
         }
         else if(request == "ADDCOLLECTION"){
             parameter.push_back(value["request"].asString());
@@ -134,6 +134,14 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["collectname"].asString());
             parameter.push_back(value["collecttime"].asString());
             parameter.push_back(value["collecttype"].asString());
+        }
+        else if(request == "UPDATERECORD"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audiencename"].asString());
+            parameter.push_back(value["recordname"].asString());
+            parameter.push_back(value["startPlayTime"].asString());
+            parameter.push_back(value["duration"].asString());
+            parameter.push_back(value["type"].asString());
         }
         else if(request == "INFOMATION"){
             parameter.push_back(value["request"].asCString());
@@ -339,6 +347,20 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         if(m_commentController->insertComment(parameters[1],parameters[2],parameters[3],
                                               parameters[4])==true){
             reply = "SUCESSED!";
+            sendMessage(reply,ep);
+            return reply;
+        }else{
+            reply = "FAILED";
+            sendMessage(reply,ep);
+            return reply;
+        }
+    }
+    else if(request == "UPDATERECORD")
+    {
+        if(m_AudienceController->updateAudienceRecord(parameters[1],parameters[2],parameters[3],
+                                                      parameters[4],parameters[5]) == true)
+        {
+            reply = "SUCCEED";
             sendMessage(reply,ep);
             return reply;
         }else{

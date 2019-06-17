@@ -43,6 +43,10 @@ public:
     void readAudienceCollection(std::string name, std::map<std::string,MovieAndTelevision*> &collectionmap);
     //添加用户收藏
     bool addAudienceCollection(std::string aName, std::string cName, std::string cTime, std::string cType);
+    //自动添加新的历史记录
+    bool updateAudienceRecord(std::string audiencename, std::string recordname,
+                              std::string startPlayTime, std::string duration, std::string type);
+
     //生成所有用户的指针
     void initAudience();
     //处理字符串函数

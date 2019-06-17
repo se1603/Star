@@ -13,7 +13,6 @@ Rectangle {
     height: page_display.height
 
     property var recommendFilms:JSON.parse(client.showRecommend(0))
-
     ScrollView{
         anchors.fill: parent
         clip: true
@@ -35,7 +34,7 @@ Rectangle {
                     MouseArea{
                         anchors.fill: parent
                         onClicked: {
-                            console.log(film_image.source)
+
                         }
                     }
                 }
@@ -86,7 +85,6 @@ Rectangle {
                                         color: "red"
 
                                         Image {
-                                            id:showPost
                                             anchors.fill: parent
                                             anchors.top: parent.top
                                             source:"file:" + modelData.post
@@ -95,7 +93,7 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
-//                                                console.log(showPost.source)
+
                                                 if(playInterface.playCommponent.playing)
                                                 {
                                                     playInterface.playCommponent.stopPlay()
@@ -108,8 +106,14 @@ Rectangle {
                                                 play.name = modelData.name
                                                 play.image = modelData.post
                                                 play.datas = JSON.parse(client.getMovieInfo(modelData.name))
-//                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+
                                                 console.log(play.datas.resource.videotype.type)
+
+                                                if(modelData.name !== middleArea.playingName
+                                                        && middleArea.playingName!==""){
+                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    middleArea.playingName = ""
+                                                }
                                             }
                                         }
                                     }

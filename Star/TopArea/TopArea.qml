@@ -45,6 +45,8 @@ Rectangle{
                 mainpagetitle.color = "white"
                 middleArea.play = false
                 middleArea.middle = true
+                if(middleArea.audienceInterface.visible == true)
+                    middleArea.audienceInterface.visible = false
             }
         }
     }
@@ -76,6 +78,8 @@ Rectangle{
                 playTitle.color = "white"
                 middleArea.middle = false
                 middleArea.play = true
+                if(middleArea.audienceInterface.visible == true)
+                    middleArea.audienceInterface.visible = false
             }
         }
     }

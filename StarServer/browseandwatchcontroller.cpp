@@ -5,7 +5,7 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "10.253.182.51";
+    m_rtspAddress = "192.168.30.41";
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 

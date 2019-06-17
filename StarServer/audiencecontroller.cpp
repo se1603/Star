@@ -108,6 +108,21 @@ bool AudienceController::addAudienceCollection(std::string audiencename, std::st
         return false;
 }
 
+bool AudienceController::updateAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
+{
+    if(m_audienceBroker->updateAudienceRecord(audiencename,recordname,startPlayTime,duration,type)
+            == true){
+        std::vector<std::string> tmp{recordname,startPlayTime,duration,type};
+        MovieAndTelevision *mv = new MovieAndTelevision();
+        m_movieAndTelevisionBroker->processAudienceRecord(tmp,mv);
+        if(mv != nullptr)
+            m_audienceBroker->createAudienceRecord(audiencename,startPlayTime,duration,mv);
+        return true;
+    }
+    else
+        return false;
+}
+
 std::string AudienceController::audienceInfo(std::string name)
 {
     std::vector<std::string> audienceinfo;
@@ -165,9 +180,9 @@ std::string AudienceController::pakageCollection(std::vector<std::string> a_coll
         }
     }else{
         Json::Value value;
-        value["name"] = "空";
-        value["post"] = "空";
-        value["collecttime"] = "空";
+        value["name"] = " ";
+        value["post"] = " ";
+        value["collecttime"] = " ";
         arry.append(value);
     }
     root["collections"] = arry;
@@ -192,10 +207,10 @@ std::string AudienceController::pakageRecord(std::vector<std::string> a_records)
         }
     }else{
         Json::Value value;
-        value["name"] = "空";
-        value["post"] = "空";
-        value["startPlayTime"] = "空";
-        value["duration"] = "空";
+        value["name"] = " ";
+        value["post"] = " ";
+        value["startPlayTime"] = " ";
+        value["duration"] = " ";
         arry.append(value);
     }
     root["records"] = arry;

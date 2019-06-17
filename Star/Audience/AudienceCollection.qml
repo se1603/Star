@@ -19,9 +19,9 @@ Rectangle {
 
             Text {
                 id: collection_title
-                text: "   My Collection Video"
+                text: " 我的收藏"
                 font.pixelSize: 20
-                font.family: "Beta Dance"
+                //font.family: "Beta Dance"
                 opacity: 0.7
             }
             GridLayout {
@@ -38,7 +38,6 @@ Rectangle {
                     Rectangle {
                         width: 200
                         height: 330
-                        border.color: "green"
                         Rectangle {
                             id: collection_img
                             width: parent.width
