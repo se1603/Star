@@ -36,6 +36,7 @@ public:
 
     void recodeInfo(std::string name,std::vector<std::string> &v);
 
+    void getActorInfo(std::string name,std::vector<std::string> &v);
     void save(std::map<std::string,Drame> &drames);
 private:
     std::vector<DrameType> m_type;

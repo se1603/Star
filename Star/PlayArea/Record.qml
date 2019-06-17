@@ -11,7 +11,7 @@ ScrollView{
     ListView{
         id:listview
         anchors.fill: parent
-        model: la//play.datas
+        model: la
         delegate: dele
     }
 

@@ -7,7 +7,7 @@ Rectangle {
     height: 59 / 60 * audienceDisplay.height
     border.color: "gray"
 
-    property var myrecord:["猫和老鼠欢乐斗地主","爱的魔力转圈圈","密室大逃脱plus","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","10","11","12","13","14","15","16"]
+    property var record:audience.videos
 
     ScrollView {
         anchors.fill: parent
@@ -29,12 +29,37 @@ Rectangle {
                 anchors.topMargin: 15
                 anchors.left: parent.left
                 anchors.leftMargin: 15
-                columns: 5
+                columns: mainWindow.width < 1100 ? 4 : 5
                 columnSpacing: 15
                 rowSpacing: 15
                 Repeater {
-                    model: myrecord
-                    AudienceVideoRec {
+                    model: record
+                    Rectangle {
+                        width: 200
+                        height: 330
+                        border.color: "green"
+                        Rectangle {
+                            id: record_img
+                            width: parent.width
+                            height: 290
+                            Image {
+                                width: parent.width
+                                height: parent.height
+                                source: "file:"+modelData.post
+                            }
+                        }
+                        Text {
+                            id: record_name
+                            width: parent.width
+                            text: modelData.name
+                            wrapMode: Text.Wrap
+                            anchors.top: record_img.bottom
+                        }
+                        Text {
+                            id: record_info
+                            text: modelData.startPlayTime+" : "+modelData.duration
+                            anchors.top: record_name.bottom
+                        }
                     }
                 }
             }

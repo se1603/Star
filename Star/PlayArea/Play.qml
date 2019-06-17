@@ -1,20 +1,29 @@
-//time :2019.4.27
-//author:xudan
-
-//time :2019.4.27
-//author:xudan
-//内容：播放主界面
+/*
+ * Date :2019.4.27
+ * Author:xudan
+ *
+ * Date :2019.4.27
+ * Author:xudan
+ * 内容：播放主界面
+ *
+ * Author:王梦娟
+ * Date:2019-5-25
+ * Note:修改MouseArea覆盖的问题
+*/
 
 import QtQuick 2.9
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import"../MiddleArea"
-Item {
+
+import "../MiddleArea"
+
+Rectangle {
     id:play
     visible: true
-    width: parent.width
-    height: parent.height
+    width: middleArea.width
+    height: middleArea.height
 
+    property alias playwidth: play.width
     property bool xflag: true
     property bool xRflag: true
     property string name:""
@@ -22,100 +31,25 @@ Item {
     property string infoma:""
     property string image:""
 
-
     property var datas
+    property var commentModel
 
-
-    Timer{
-        id:timer1
-        interval: 2000
-        running: false
-        onTriggered: {
-            leftbu.width = 0
-            rightbt.width=0
-        }
-    }
+    property string rtspUrl: ""
+//    property bool playing: false
+    property alias playCommponent: playVideo
 
     Rectangle{
         id:center
         anchors.right: rightRec.left
         anchors.left: leftRect.right
         height: parent.height
-        color:"lightblue"
+        color:"green"
 
-        MouseArea{
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: {
-                leftbu.width = 20
-                rightbt.width = 20
-            }
-            onExited: {
-                timer1.start()
-            }
-        }
-        Rectangle{
-            id:rightbt
-            y:play.height/2
-            anchors.right: center.right
-            width: 20
-            height: 30
-            opacity: 0.5
-            Image{
-                id:rightButton
-                opacity: 1
-                mirror: true
-                anchors.fill: parent
-                source: "qrc:/image/img/left.png"
-            }
-            MouseArea{
-                id:rightMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: {
-                    if(rightRec.x === play.width){
-                        menuStopAnim.start()
-                        xflag = ture
-                    }else{
-                        menuStartAnim.start()
-                        xflag = false
-                    }
-                }
-            }
-        }
-
-        //左箭头，点击，会回到前一张图片
-        Rectangle{
-            id:leftbu
-            y:play.height/2
-            anchors.left: center.left
-            width: 20
-            height: 30
-            opacity: 0.5
-            Image{
-                id:leftButton
-                anchors.fill: parent
-                opacity: 1
-                source: "qrc:/image/img/left.png"
-            }
-            MouseArea{
-                id:leftMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                propagateComposedEvents: true
-                onClicked: {
-                    if(leftRect.x === 0){
-                        leftStartAnim.start()
-                        xRflag = false
-                    }else{
-                        leftStopAnim.start()
-                        xRflag = true
-                    }
-                }
-            }
+        PlayVideo{
+            id:playVideo
+            path: rtspUrl
         }
     }
-
 
     //组合动画
     ParallelAnimation{
@@ -143,11 +77,11 @@ Item {
 
     Rectangle{
         id:rightRec
-        x:xflag ? 4/5*play.width : play.width//200
+        x: xflag ? 4/5*play.width : play.width//200
         y:0
         width: 1/5*play.width//200
         height: play.height
-//        color:"red"
+        //        color:"red"
         radius: 5
 
         Rectangle {
@@ -206,7 +140,7 @@ Item {
         Component{
             id:summary_page
             Comment{
-
+                //                vect:commentModel
             }
         }
         Component{
@@ -215,6 +149,11 @@ Item {
                 id:e
             }
         }
+    }
+
+    onVisibleChanged: {
+
+        right_stack.push(comment_page,StackView.Immediate)
     }
 
     Rectangle{
@@ -254,7 +193,7 @@ Item {
                 anchors.rightMargin: 15
                 width: 1/4*parent.width
                 height: parent.height-10
-//                color: "red"
+                //                color: "red"
                 Button{
                     anchors.fill:parent
                     text: qsTr("本地")
@@ -307,7 +246,6 @@ Item {
             FilmLibraty{
             }
         }
-
     }
 
     //组合动画
@@ -330,6 +268,8 @@ Item {
             from:-1/5*play.width
             to: 0
             duration: 500
-            easing.type: Easing.Linear }
+            easing.type: Easing.Linear
+        }
     }
+
 }

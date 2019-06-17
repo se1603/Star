@@ -20,6 +20,7 @@ public:
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
 
+    void directorInfo(std::vector<std::string> &v);//导演信息
 private:
     std::string m_name;
     std::string m_birthday;

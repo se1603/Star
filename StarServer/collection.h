@@ -7,8 +7,9 @@ class Audience;
 class MovieAndTelevision;
 class Collection
 {
+    friend class Audience;
 public:
-    Collection();
+    Collection(std::string collecttime,Audience* a,MovieAndTelevision* m);
 private:
     std::string m_collectionTime;
 

@@ -23,9 +23,12 @@ SOURCES += \
     record.cpp \
     region.cpp \
     variety.cpp \
-    comic.cpp
+    comic.cpp \
+    videodecode.cpp \
+    videoplayer.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -39,7 +42,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-LIBS += -lboost_system -ljsoncpp
+LIBS += -lboost_system -ljsoncpp -lavcodec -lavformat -lavdevice -lavfilter -lavutil -lswresample -lswscale -lpostproc \
+        -lSDL2
 
 HEADERS += \
     audience.h \
@@ -51,4 +55,6 @@ HEADERS += \
     record.h \
     region.h \
     variety.h \
-    comic.h
+    comic.h \
+    videodecode.h \
+    videoplayer.h

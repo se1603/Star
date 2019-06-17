@@ -2,12 +2,19 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 
 Rectangle {
+    id: audience
     width: 59 / 60 * parent.width
     height: 59 / 60 * parent.height
     anchors.centerIn: parent
 
     property string audienceName:""
     property string audienceAvatar:""
+    property var videos
+
+    onVisibleChanged: {
+        if(audience.visible === true)
+            play.visible = false
+    }
 
     Row {
         width: parent.width
@@ -28,7 +35,7 @@ Rectangle {
                 anchors {
                     fill: parent
                 }
-                initialItem:collection_page
+                initialItem:message_page
             }
 
             Component {

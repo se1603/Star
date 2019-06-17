@@ -31,6 +31,7 @@ public:
 
     void recodeInfo(std::string name,std::vector<std::string> &v);//返回播放界面信息，如影视类型，集数
 
+    void getActorInfo(std::string name,std::vector<std::string> &v);
     bool findByName(std::string name);
 
     void save(std::map<std::string,Comic> &comics);

@@ -20,6 +20,7 @@ public:
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
 
+    void actorInfo(std::vector<std::string> &vec);
 private:
     std::string m_name;         //名字
     std::string m_birthday;     //生日

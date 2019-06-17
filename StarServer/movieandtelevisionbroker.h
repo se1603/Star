@@ -51,7 +51,7 @@ public:
     std::vector<Comic> getRecommendComics(int type);
 
 //    std::vector<std::string> getVideoInfo(std::string name);
-    std::vector<std::string> getVideoInfo(std::string name,int i);
+    std::vector<std::string> getVideoInfo(std::string name);//获取影视内容
     
     //演员
     void initActors();
@@ -61,6 +61,17 @@ public:
     void initDirectors();
     Director handleDirector(std::vector<std::string> row);
 
+    //用户操作
+    //处理用户信息
+    void processAudienceCollection(std::vector<std::string> tmp,MovieAndTelevision *m);
+    void processAudienceRecord(std::vector<std::string> tmp,MovieAndTelevision *m);
+    //获取用户具体信息
+    void showCollection(MovieAndTelevision* m, std::vector<std::string> &collections);
+    void showRecord(MovieAndTelevision* m, std::vector<std::string> &records);
+//获取导演和演员信息
+     std::vector<std::string> getActorInfo(std::string name);
+     //查找影视，并获取指针提供给评论代管类
+     void findMovieandTelevision(std::string name,MovieAndTelevision* m);
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;

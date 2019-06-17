@@ -52,14 +52,14 @@ void MovieAndTelevisionBroker::initDrame()
 
     mysql_init(mysql);
     if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
-        cout << "(Drame)Connect MYSQL failed." << endl;
+        cout << "(Drama)Connect MYSQL failed." << endl;
     }else{
-        cout << "(Drame)Connect MYSQL succeed." << endl;
+        cout << "(Drama)Connect MYSQL succeed." << endl;
     }
 
-    std::string sql = "select * from Drame;";
+    std::string sql = "select * from Drama;";
     if(mysql_query(mysql,sql.data())){
-        cout << "(Drame)获取失败" << endl;
+        cout << "(Drama)获取失败" << endl;
     }else{
         result = mysql_use_result(mysql);
         while(1){
@@ -593,84 +593,171 @@ std::vector<Comic> MovieAndTelevisionBroker::getRecommendComics(int type)
     }
     return result;
 }
-
-
-std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name, int i)
+std::vector<std::string> MovieAndTelevisionBroker::getActorInfo(std::string name)
 {
     std::vector<std::string> resource;
-    switch(i){
-    case 0:{
-        for(auto it = m_films.begin(); it != m_films.end();it++){
-            auto tem = it->second;
-            if(tem.findByName(name)){
-                tem.recodeInfo(name,resource);
-                break;
-            }
-        }
-        for(auto it = m_drames.begin();it != m_drames.end()&&resource.size() == 0;it++){
-            auto tem = it->second;
-            if(tem.findByName(name)){
-                tem.recodeInfo(name,resource);
-                break;
-            }
-        }
-        for(auto it = m_comics.begin(); it != m_comics.end()&& resource.size() == 0;it++){
-            auto tem = it->second;
-            if(tem.findByName(name)){
-                tem.recodeInfo(name,resource);
-                break;
-            }
-        }
-        for(auto it = m_varieties.begin(); it != m_varieties.end()&& resource.size() == 0;it++){
-            auto tem = it->second;
-            if(tem.findByName(name)){
-                tem.recodeInfo(name,resource);
-                break;
-            }
+    auto n = m_films.find(name);
+    if(n != m_films.end()){
+        auto tem = n->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+    auto d = m_drames.find(name);
+    if(d != m_drames.end()){
+        auto tem = d->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto c = m_comics.find(name);
+    if(c != m_comics.end()){
+        auto tem = c->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    if(resource.size() != 0){
+        return resource;
+    }
+
+    auto v = m_varieties.find(name);
+    if(v != m_varieties.end()){
+        auto tem = v->second;
+        tem.getActorInfo(name,resource);
+    }
+
+    return resource;
+}
+
+void MovieAndTelevisionBroker::findMovieandTelevision(std::string name, MovieAndTelevision *m)
+{
+    auto f = m_films.find(name);
+    if(f != m_films.end()){
+        *m = f->second;
+        return;
+    }
+    auto c = m_comics.find(name);
+    if(c != m_comics.end()){
+        *m = c->second;
+        return;
+    }
+    auto d = m_drames.find(name);
+    if(d != m_drames.end()){
+        *m = d->second;
+        return;
+    }
+    auto v = m_varieties.find(name);
+    if(v != m_varieties.end()){
+        *m = v->second;
+        return;
+    }
+}
+
+std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name)
+{
+    std::vector<std::string> resource;
+    auto tem = m_films.find(name);
+    if(tem != m_films.end()){
+        tem->second.recodeInfo(name,resource);
+    }
+
+    if(resource.size()==0){
+        auto c = m_comics.find(name);
+        if(c!=m_comics.end()){
+            c->second.recodeInfo(name,resource);
         }
     }
-    case 1:{
-        for(auto it = m_films.begin(); it != m_films.end();it++){
-            auto tem = it->second;
-            tem.recodeInfo(name,resource);
-            if(resource.size() != 0){
-                break;
-            }
+    if(resource.size()==0){
+        auto d = m_drames.find(name);
+        if(d != m_drames.end()){
+            d->second.recodeInfo(name,resource);
         }
-        break;
     }
-    case 2:{
-        for(auto it = m_drames.begin();it != m_drames.end();it++){
-            auto tem = it->second;
-            tem.recodeInfo(name,resource);
-            if(resource.size() != 0){
-                break;
-            }
+
+    if(resource.size()==0){
+        auto v =m_varieties.find(name);
+        if(v != m_varieties.end()){
+            v->second.recodeInfo(name,resource);
         }
-        break;
     }
-    case 3:{
-        for(auto it = m_comics.begin(); it != m_comics.end();it++){
-            auto tem = it->second;
-            tem.recodeInfo(name,resource);
-            if(resource.size() != 0){
-                break;
-            }
-        }
-        break;
-    }
-    case 4:{
-        for(auto it = m_varieties.begin(); it != m_varieties.end();it++){
-            auto tem = it->second;
-            tem.recodeInfo(name,resource);
-            if(resource.size() != 0){
-                break;
-            }
-        }
-        break;
-    }
-    default:break;
-    }
+//    switch(i){
+//    case 0:{
+//        for(auto it = m_films.begin(); it != m_films.end();it++){
+//            auto tem = it->second;
+//            if(tem.findByName(name)){
+//                tem.recodeInfo(name,resource);
+//                break;
+//            }
+//        }
+//        for(auto it = m_drames.begin();it != m_drames.end()&&resource.size() == 0;it++){
+//            auto tem = it->second;
+//            if(tem.findByName(name)){
+//                tem.recodeInfo(name,resource);
+//                break;
+//            }
+//        }
+//        for(auto it = m_comics.begin(); it != m_comics.end()&& resource.size() == 0;it++){
+//            auto tem = it->second;
+//            if(tem.findByName(name)){
+//                tem.recodeInfo(name,resource);
+//                break;
+//            }
+//        }
+//        for(auto it = m_varieties.begin(); it != m_varieties.end()&& resource.size() == 0;it++){
+//            auto tem = it->second;
+//            if(tem.findByName(name)){
+//                tem.recodeInfo(name,resource);
+//                break;
+//            }
+//        }
+//    }
+//    case 1:{
+//        for(auto it = m_films.begin(); it != m_films.end();it++){
+//            auto tem = it->second;
+//            tem.recodeInfo(name,resource);
+//            if(resource.size() != 0){
+//                break;
+//            }
+//        }
+//        break;
+//    }
+//    case 2:{
+//        for(auto it = m_drames.begin();it != m_drames.end();it++){
+//            auto tem = it->second;
+//            tem.recodeInfo(name,resource);
+//            if(resource.size() != 0){
+//                break;
+//            }
+//        }
+//        break;
+//    }
+//    case 3:{
+//        for(auto it = m_comics.begin(); it != m_comics.end();it++){
+//            auto tem = it->second;
+//            tem.recodeInfo(name,resource);
+//            if(resource.size() != 0){
+//                break;
+//            }
+//        }
+//        break;
+//    }
+//    case 4:{
+//        for(auto it = m_varieties.begin(); it != m_varieties.end();it++){
+//            auto tem = it->second;
+//            tem.recodeInfo(name,resource);
+//            if(resource.size() != 0){
+//                break;
+//            }
+//        }
+//        break;
+//    }
+//    default:break;
+//    }
     return resource;
 }
 
@@ -758,8 +845,9 @@ Actor MovieAndTelevisionBroker::handleActor(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
+
     
     Actor a = Actor(paramters,region);
     return a;
@@ -804,8 +892,8 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
     }
     paramters.push_back(name);
     paramters.push_back(birthday);
-    paramters.push_back(introduction);
     paramters.push_back(photo);
+    paramters.push_back(introduction);
 
     Director d = Director(paramters,region);
     return d;
@@ -999,4 +1087,94 @@ void MovieAndTelevisionBroker::splictString(const std::string &s, std::vector<st
     }
     if(pos1 != s.length())
         v.push_back(s.substr(pos1));
+}
+
+//识别用户收藏
+void MovieAndTelevisionBroker::processAudienceCollection(std::vector<std::string> tmp, MovieAndTelevision *m)
+{
+    auto n = atoi(tmp[2].c_str());
+    switch(n) {
+    case 1:{
+        for(auto item = m_films.begin();item != m_films.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 2:{
+        for(auto item = m_drames.begin();item != m_drames.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 3:{
+        for(auto item = m_comics.begin();item != m_comics.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 4:{
+        for(auto item = m_varieties.begin();item != m_varieties.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    }
+}
+
+//识别用户记录
+void MovieAndTelevisionBroker::processAudienceRecord(std::vector<std::string> tmp, MovieAndTelevision* m)
+{
+    auto n = atoi(tmp[3].c_str());
+    switch(n) {
+    case 1:{
+        for(auto item = m_films.begin();item != m_films.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 2:{
+        for(auto item = m_drames.begin();item != m_drames.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 3:{
+        for(auto item = m_comics.begin();item != m_comics.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 4:{
+        for(auto item = m_varieties.begin();item != m_varieties.end();item++){
+            if(item->first == tmp[0]){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    }
+}
+
+void MovieAndTelevisionBroker::showCollection(MovieAndTelevision *m, std::vector<std::string> &collections)
+{
+    m->showInfo(collections);
+}
+
+void MovieAndTelevisionBroker::showRecord(MovieAndTelevision *m, std::vector<std::string> &records)
+{
+    m->showInfo(records);
 }

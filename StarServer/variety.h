@@ -32,6 +32,7 @@ public:
     void recodeInfo(std::string name,std::vector<std::string> &v);
     bool findByName(std::string name);
 
+    void getActorInfo(std::string name,std::vector<std::string> &v);
     void save(std::map<std::string,Variety> &varietys);
 private:
     std::vector<VarietyType> m_type;
