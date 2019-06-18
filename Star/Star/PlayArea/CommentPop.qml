@@ -1,6 +1,3 @@
-//autor:徐丹
-//time：2019.5.15
-//内容：回复弹窗
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 
@@ -8,7 +5,7 @@ Popup {
     background:  Rectangle{
         width: parent.width
         height: parent.height
-        color: "#8B8378"
+        color: "#424242"
     }
 
     x:0

@@ -1,6 +1,8 @@
 /* Author:王梦娟
  * Date:2019-4-25
  * Note:用封装好的NetWork重写网络连接
+ * author：古长蓉
+ * data：2019-06-17 增加搜索标签
 */
 #include "server.h"
 #include <iostream>
@@ -15,6 +17,7 @@ Server::Server()
     controlFactory = ControllerFactory::getInstance();
     m_BrowseAndWatchController = controlFactory->createBrowseAndWatchController();
     m_AudienceController = controlFactory->createAudienceController();
+    m_commentController = controlFactory->createCommentController();
 }
 
 void Server::acceptMessage()
@@ -32,7 +35,6 @@ void Server::acceptMessage()
         std::cout << "message:" << message << std::endl;
 
         threadpool.append(std::bind(&Server::processMessage, this,message,sender_ep));
-
     }
 }
 
@@ -48,7 +50,7 @@ void Server::processMessage(std::string message,endpoint ep)
 
     processRequest(request[0],request,ep);
 
-//    threadpool.append(std::bind(&Server::processRequest,this,request[0],request,ep));
+    //    threadpool.append(std::bind(&Server::processRequest,this,request[0],request,ep));
 }
 
 std::vector<std::string> Server::jsonParse(char message[])
@@ -123,14 +125,9 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
         }
-        else if(request == "RECODE"){
+        else if(request == "MOVIEINFO"){
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
-            parameter.push_back(value["videotype"].asString());
-        }
-        else if(request == "INFOMATION"){
-            parameter.push_back(value["request"].asCString());
-            parameter.push_back(value["name"].asCString());
         }
         else if(request == "ADDCOLLECTION"){
             parameter.push_back(value["request"].asString());
@@ -138,6 +135,47 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["collectname"].asString());
             parameter.push_back(value["collecttime"].asString());
             parameter.push_back(value["collecttype"].asString());
+        }
+        else if(request == "UPDATERECORD"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audiencename"].asString());
+            parameter.push_back(value["recordname"].asString());
+            parameter.push_back(value["startPlayTime"].asString());
+            parameter.push_back(value["duration"].asString());
+            parameter.push_back(value["type"].asString());
+        }
+        else if(request == "INFOMATION"){
+            parameter.push_back(value["request"].asCString());
+            parameter.push_back(value["name"].asCString());
+        }
+        else if(request == "SHOWCOMMENT"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "SHOWGOODCOMMENT"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "INSERTCOMMENT"){
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["audiencename"].asString());
+            parameter.push_back(value["name"].asString());
+            parameter.push_back(value["time"].asString());
+            parameter.push_back(value["comment"].asString());
+        }
+        else if (request == "SEARCH") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["name"].asString());
+        }
+        else if(request == "ADDBROWSERECORD") {
+            parameter.push_back(value["request"].asString());
+            parameter.push_back(value["recordName"].asString());
+            parameter.push_back(value["startTime"].asString());
+            parameter.push_back(value["duration"].asString());
+            parameter.push_back(value["type"].asString());
+        }
+        else if(request == "GETBROWSERECORD") {
+            parameter.push_back(value["request"].asString());
         }
         else
         {
@@ -170,24 +208,24 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         return reply;
     }
     else if(request == "CATEGORY"){
-       reply = m_BrowseAndWatchController->category(atoi(parameters[1].c_str()));
-       sendMessage(reply,ep);
-       return reply;
+        reply = m_BrowseAndWatchController->category(atoi(parameters[1].c_str()));
+        sendMessage(reply,ep);
+        return reply;
     }
     else if (request == "RECOMMEND") {
         reply = m_BrowseAndWatchController->recommend(atoi(parameters[1].c_str()));
         sendMessage(reply,ep);
         return reply;
     }
-    else if(request == "RECODE"){
-        reply = m_BrowseAndWatchController->getVideoInfo(parameters[1],atoi(parameters[2].c_str()));
+    else if(request == "MOVIEINFO"){
+        reply = m_BrowseAndWatchController->getVideoInfo(parameters[1]);
         sendMessage(reply,ep);
         return reply;
     }
     else if(request == "INFOMATION"){
-       reply = m_BrowseAndWatchController->getActorInfo(parameters[1]);
-       sendMessage(reply,ep);
-       return reply;
+        reply = m_BrowseAndWatchController->getActorInfo(parameters[1]);
+        sendMessage(reply,ep);
+        return reply;
     }
     else if(request == "VERIFYINFO")
     {
@@ -310,11 +348,72 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
             return reply;
         }
     }
+    else if(request == "SHOWCOMMENT"){
+        reply = m_commentController->getCommentInfo(parameters[1]);
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "SHOWGOODCOMMENT"){
+        reply = m_commentController->goodCommentInfo(parameters[1]);
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "INSERTCOMMENT"){
+        if(m_commentController->insertComment(parameters[1],parameters[2],parameters[3],
+                                              parameters[4])==true){
+            reply = "SUCESSED!";
+            sendMessage(reply,ep);
+            return reply;
+        }else{
+            reply = "FAILED";
+            sendMessage(reply,ep);
+            return reply;
+        }
+    }
+    else if(request == "UPDATERECORD")
+    {
+        if(m_AudienceController->updateAudienceRecord(parameters[1],parameters[2],parameters[3],
+                                                      parameters[4],parameters[5]) == true)
+        {
+            reply = "SUCCEED";
+            sendMessage(reply,ep);
+            return reply;
+        }else{
+            reply = "FAILED";
+            sendMessage(reply,ep);
+            return reply;
+        }
+    }
+    else if(request == "ADDBROWSERECORD")
+    {
+        if(m_BrowseAndWatchController->addBrowseRecord(parameters[1],parameters[2],parameters[3],
+                                                       parameters[4]) == true)
+        {
+            reply = "Succeed";
+            sendMessage(reply,ep);
+            return reply;
+        }else{
+            reply = "Failed";
+            sendMessage(reply,ep);
+            return reply;
+        }
+    }
+    else if(request == "GETBROWSERECORD")
+    {
+        reply = m_BrowseAndWatchController->getBrowseRecord();
+        sendMessage(reply,ep);
+        return reply;
+    }
+    else if(request == "SEARCH"){
+        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);  //[1]为传入的json对象的下标，第一个元素，request[0]，name[1]
+        sendMessage(reply, ep);
+        return reply;
+    }
 }
 
 void Server::sendMessage(std::string message, endpoint ep)
 {
-//    std::cout << "Send message:"  << message << std::endl;
+    //    std::cout << "Send message:"  << message << std::endl;
     //创建一个新的套接字指向客户端。
     socket_ptr udpsock(new boost::asio::ip::udp::socket(service,boost::asio::ip::udp::endpoint()));
     boost::asio::ip::udp::endpoint sender_ep;
@@ -332,8 +431,9 @@ void Server::sendFile(std::string filename, endpoint ep)
     socket_ptr sock(new boost::asio::ip::udp::socket(service,boost::asio::ip::udp::endpoint()));
     boost::asio::ip::udp::endpoint sender_ep;
 
-    std::string path = "../StarServer/";
+    std::string path = "../StarServer/images/";
     path += filename;
+    std::cout << path << std::endl;
     auto fileName = path.data();
     FILE *fp = fopen(fileName,"rb");
 

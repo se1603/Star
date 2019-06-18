@@ -138,15 +138,6 @@ void Comic::recodeInfo(std::string name, std::vector<std::string> &v)
         return;
     }
 }
-
-bool Comic::findByName(std::string name)
-{
-    if(m_name == name){
-        return true;
-    }else{
-        return false;
-    }
-}
 void Comic::getActorInfo(std::string name, std::vector<std::string> &v)
 {
     std::vector<std::string> resource;
@@ -163,6 +154,14 @@ void Comic::getActorInfo(std::string name, std::vector<std::string> &v)
         tem->directorInfo(resource);
     }
     v = resource;
+}
+bool Comic::findByName(std::string name)
+{
+    if(m_name == name){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 void Comic::save(std::map<std::string, Comic> &comics)

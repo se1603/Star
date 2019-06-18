@@ -4,6 +4,7 @@ import "TopArea"
 import "MiddleArea"
 import "Audience"
 import Star 1.0
+import "./PlayArea"
 
 Window {
     visible: true
@@ -13,10 +14,13 @@ Window {
     minimumWidth: 1075
     title: qsTr("Star")
 
+    flags: fullScreenFlag ? Qt.Window : Qt.FramelessWindowHint
+
+    property bool fullScreenFlag: true
+
     Client{
         id:client
     }
-
 
     MainItem {
         id: mainItem
@@ -30,5 +34,4 @@ Window {
             }
         }
     }
-
 }

@@ -1,3 +1,7 @@
+/*
+ * author:古长蓉
+ * data：2019-06-17 增加函数处理用户输入的关键字
+ */
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -33,9 +37,7 @@ public:
     Q_INVOKABLE QString showCategory(int type);  //显示分类
     Q_INVOKABLE QString showRecommend(int category);  //显示各个页面的推荐影视
 
-    Q_INVOKABLE QString getMovieInfo(QString n,int i);//获取影视信息
-    //获得演员和导演信息
-    Q_INVOKABLE QString getActorInfo(QString n);
+    Q_INVOKABLE QString getMovieInfo(QString n);
 
     //用户操作（QML端）
     //登录
@@ -52,8 +54,28 @@ public:
     Q_INVOKABLE QString audienceRecord(QString name);
     //添加收藏
     Q_INVOKABLE void addCollection(QString name, QString collecttime, QString videoname, QString type);
+    //自动添加记录
+    Q_INVOKABLE void addRecord(QString name, QString recordname, QString startPlaytime,
+                                    QString duration, QString type);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
+
+    //非用户历史记录
+    Q_INVOKABLE void addBrowseRecord(QString recordName,QString startTime,QString duration,
+                               QString type);
+    Q_INVOKABLE QString browseRecord();
+
+    //获取评论信息
+    Q_INVOKABLE QString showCommentInfo(QString name);
+    //获取精华评论
+    Q_INVOKABLE QString showGoodComment(QString name);
+    //添加评论
+    Q_INVOKABLE void addComment(QString aName, QString videoname, QString t, QString c);
+    
+    //获得演员和导演信息
+    Q_INVOKABLE QString getActorInfo(QString n);
+    //搜索
+    Q_INVOKABLE QString search(QString key);
 
     //获取文件
     void getFile();
@@ -72,6 +94,11 @@ signals:
     void updateAvatarSucceed(QString newsource);
     void collectsucceed();
     void collectfailed();
+    void recordupdatesucceed();
+    void recordupdatefailed();
+    //评论信号
+    void insertSuccessed();
+    void insertFailed();
 private:
     //文件
     FILE *fp;

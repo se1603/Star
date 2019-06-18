@@ -9,67 +9,87 @@ Rectangle {
     property var myvariety:variety.varieties
 
     ScrollView {
-            anchors.fill: parent
-            clip: true
-            ColumnLayout {
-                width: parent.width
-                height: parent.height
+        anchors.fill: parent
+        clip: true
+        ColumnLayout {
+            width: parent.width
+            height: parent.height
 
-                Row{
-                    id: row_menu
-                    anchors.left:parent.left
-                    spacing: 50
-                    Repeater {
-                        model:JSON.parse(client.showCategory(4))
-                        delegate: categoryDelegate
-                    }
+            Row{
+                id: row_menu
+                anchors.left:parent.left
+                spacing: 50
+                Repeater {
+                    model:JSON.parse(client.showCategory(4))
+                    delegate: categoryDelegate
                 }
+            }
 
-                GridLayout {
-                    id: film_grid
-                    anchors.top: collection_title.bottom
-                    anchors.topMargin: 15
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    columns: page_display.width < 1000 ? 4 : 5
-                    columnSpacing: page_display.width < 1000 ? 15 : 20
-                    rowSpacing: 15
-                    Repeater {
-                        model: myvariety
+            GridLayout {
+                id: film_grid
+                anchors.top: collection_title.bottom
+                anchors.topMargin: 15
+                anchors.left: parent.left
+                anchors.leftMargin: 15
+                columns: page_display.width < 1000 ? 4 : 5
+                columnSpacing: page_display.width < 1000 ? 15 : 20
+                rowSpacing: 15
+                Repeater {
+                    model: myvariety
+                    Rectangle {
+                        id:image
+                        width: 220
+                        height: 330
+                        Image {
+                            anchors.fill: parent
+                            anchors.top: parent.top
+                            source:"file:" + modelData.post
+                        }
                         Rectangle {
-                            id:image
-                            width: 220
-                            height: 330
-                            Image {
-                                anchors.fill: parent
-                                anchors.top: parent.top
-                                source:"file:" + modelData.post
-                            }
-                            Rectangle {
-                                id: filmname
-                                width: parent.width
-                                height: 30
-                                anchors.bottom: parent.bottom
-                            }
-                            Text {
-                                id: collection_text
-                                width: parent.width
-                                text: modelData.name
-                                font.pixelSize: 15
-                                wrapMode: Text.Wrap
-                                anchors.top: filmname.top
-                            }
+                            id: filmname
+                            width: parent.width
+                            height: 30
+                            anchors.bottom: parent.bottom
+                        }
+                        Text {
+                            id: collection_text
+                            width: parent.width
+                            text: modelData.name
+                            font.pixelSize: 15
+                            wrapMode: Text.Wrap
+                            anchors.top: filmname.top
+                        }
 
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    console.log(modelData.name)
-                                    console.log(modelData.post)
-                                    play.visible = true
-                                    play.name = modelData.name
-                                    play.image = modelData.post
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name,4))
-                                    console.log(play.datas.resource.videotype.type)
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+
+                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                middleArea.middle = false
+
+                                if(playInterface.playCommponent.playing)
+                                {
+                                    playInterface.playCommponent.stopPlay()
+                                    console.log("true")
+                                }
+
+                                play.rtspUrl = modelData.rtspURL
+
+                                play.visible = true
+                                play.name = modelData.name
+                                play.image = modelData.post
+                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                //自动生成记录
+                                if(modelData.name !== middleArea.playingName
+                                        && middleArea.playingName!==""){
+                                    if(audienceInterface.audienceName === ""){
+                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }else{
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }
+                                    middleArea.playingName = ""
                                 }
                             }
                         }
@@ -77,6 +97,7 @@ Rectangle {
                 }
             }
         }
+    }
 
     Component{
         id:categoryDelegate

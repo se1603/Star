@@ -1,5 +1,5 @@
 //董梦丹 4-25
-//最后修改于 5-17
+//最后修改于 6-18
 #ifndef AUDIENCEBROKER_H
 #define AUDIENCEBROKER_H
 #include "relationalbroker.h"
@@ -43,15 +43,28 @@ public:
     void readAudienceCollection(std::string name, std::map<std::string,MovieAndTelevision*> &collectionmap);
     //添加用户收藏
     bool addAudienceCollection(std::string aName, std::string cName, std::string cTime, std::string cType);
+    //自动添加新的历史记录
+    bool updateAudienceRecord(std::string audiencename, std::string recordname,
+                              std::string startPlayTime, std::string duration, std::string type);
+    //修改数据库
+    bool changeDatabaseRecord(std::string audiencename, std::string recordname,
+                              std::string startPlayTime, std::string duration, std::string type);
+    //判断该影视是否已经看过
+    bool judgeAudienceRecord(std::string audiencename, std::string recordname);
+    //修改已看过的记录信息
+    void changeAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration);
+    //生成所有用户的指针
+    void initAudience();
     //处理字符串函数
     void splictString(std::string &s, std::vector<std::string> &v, const std::string &c);
-
-    void initComment(/*std::multimap<std::string,Comment> &m*/);
+    //根据名字查找指针
+    void findAudience(std::string name,Audience* a);
 private:
     AudienceBroker();
     static AudienceBroker* m_instance;
 
     std::vector<Audience> loginedAudiences;
+    std::map<std::string,Audience*> allaudiences;
 };
 
 #endif // AUDIENCEBROKER_H

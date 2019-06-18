@@ -40,6 +40,7 @@ private:
 
     //观众控制器
     AudienceController* m_AudienceController;
+    CommentController* m_commentController;
 };
 
 #endif // SERVER_H

@@ -114,13 +114,36 @@ Rectangle {
                         MouseArea{
                             anchors.fill: parent
                             onClicked: {
+
+                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                middleArea.middle = false
+
+                                if(playInterface.playCommponent.playing)
+                                {
+                                    playInterface.playCommponent.stopPlay()
+                                    console.log("true")
+                                }
+
+                                play.rtspUrl = modelData.rtspURL
+
                                 play.visible = true
                                 play.name = modelData.name
                                 play.image = modelData.post
                                 console.log(modelData.name)
                                 console.log(modelData.post)
-                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,2))
-                                console.log(play.datas.resource.videotype.type)
+                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                //自动生成记录
+                                if(modelData.name !== middleArea.playingName
+                                        && middleArea.playingName!==""){
+                                    if(audienceInterface.audienceName === ""){
+                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }else{
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }
+                                    middleArea.playingName = ""
+                                }
                             }
                         }
                     }
@@ -140,3 +163,4 @@ Rectangle {
         }
     }
 }
+

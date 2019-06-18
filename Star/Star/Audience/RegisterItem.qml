@@ -17,20 +17,13 @@ Page {
         }
     }
 
-    Image {
-        width: parent.width
-        height: parent.height
-        source: "../image/audience/popup_background2.jpg"
-        opacity: 0.5
-    }
-
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 1 / 12 * register.height
 
         Text {
             id:titleText
-            text: "Register"
+            text: "注册"
             font.pixelSize: 25
             font.family: "Times"
             anchors.horizontalCenter: parent.horizontalCenter
@@ -38,19 +31,19 @@ Page {
 
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 1 / 12 * register.height
+            spacing: 1 / 30 * register.height
             Column {
-                spacing: 1 / 6 * register.height
+                anchors.top: parent.top
+                anchors.topMargin: 5
+                spacing: 1 / 5 * login.height
 
                 Text {
-                    text: "Name:"
-                    font.family: "Times"
+                    text: "用户名："
                     font.pixelSize: 20
                 }
 
                 Text {
-                    text: "Password:"
-                    font.family: "Times"
+                    text: "密码："
                     font.pixelSize: 20
                 }
             }
@@ -82,7 +75,7 @@ Page {
             spacing: 1 / 6 * register.height
 
             Button {
-                text: "Register"
+                text: "注册"
                 onClicked: {
                     if(nameInput.text === "" || passwordInput.text === ""){
                         noticeText.text = "the content is empty,please input again"
@@ -97,7 +90,7 @@ Page {
             }
 
             Button {
-                text: "Return"
+                text: "返回"
                 onClicked: {
                     login.visible = !login.visible;
                     register.visible = !register.visible

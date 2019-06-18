@@ -1,6 +1,8 @@
 /* Author:王梦娟
  * Date:2019-4-25
  * Note:影视代管者类
+ * author：古长蓉
+ * data：2019-06-17 增加处理搜索内容的函数
 */
 #ifndef MOVIEANDTELEVISIONBROKER_H
 #define MOVIEANDTELEVISIONBROKER_H
@@ -10,6 +12,7 @@
 #include "variety.h"
 #include "comic.h"
 #include "drame.h"
+#include "record.h"
 
 class MovieAndTelevisionBroker : public RelationalBroker
 {
@@ -50,9 +53,8 @@ public:
     std::vector<Comic> getComics(ComicType type);
     std::vector<Comic> getRecommendComics(int type);
 
-//    std::vector<std::string> getVideoInfo(std::string name);
-    std::vector<std::string> getVideoInfo(std::string name,int i);
-     std::vector<std::string> getActorInfo(std::string name);
+    //    std::vector<std::string> getVideoInfo(std::string name);
+    std::vector<std::string> getVideoInfo(std::string name);//获取影视内容
     
     //演员
     void initActors();
@@ -69,6 +71,21 @@ public:
     //获取用户具体信息
     void showCollection(MovieAndTelevision* m, std::vector<std::string> &collections);
     void showRecord(MovieAndTelevision* m, std::vector<std::string> &records);
+    //获取导演和演员信息
+    std::vector<std::string> getActorInfo(std::string name);
+    //查找影视，并获取指针提供给评论代管类
+    void findMovieandTelevision(std::string name,MovieAndTelevision* m);
+
+    //搜索
+    std::vector<Film *> SearchFilm(std::string name); //从map中读取数据，返回给controller
+    std::vector<Drame *> SearchDrama(std::string name);
+    std::vector<Actor *> SearchActor(std::string name);
+    std::vector<Director *> SearchDirector(std::string name);
+
+    //本地浏览记录
+    bool addBrowseRecord(std::string recordName, std::string startTime,
+                         std::string duration, std::string type);
+    std::string getBrowseRecord();
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;
@@ -79,6 +96,8 @@ private:
 
     std::map<std::string,Actor> m_actors; //演员
     std::map<std::string,Director> m_directors; //导演
+
+    std::vector<Record> browse_records;
 };
 
 #endif // MOVIEANDTELEVISIONBROKER_H

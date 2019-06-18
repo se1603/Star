@@ -1,24 +1,23 @@
-//Author:徐丹
-//time：2019.4.28
-//评论界面
 
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
-//import QtQuick 2.12
 Rectangle{
     id:recordPage
-    width: 59/60*right_stack.width
-    height: 59/60*right_stack.height
+    width: /*59/60**/right_stack.width
+    height: /*59/60**/right_stack.height
+    color: "#424242"
+    property var commentData:new Date()
 
-    color: "#8B8378"
+    property var vect:JSON.parse(client.showCommentInfo(play.name))
 
     Rectangle{
         id:topRec
         width: recordPage.width
         height: 6/17*recordPage.height
 
+        color: "#424242"
         Column{
             id:column
             spacing: 2
@@ -26,49 +25,74 @@ Rectangle{
             Text{
                 id:nametext
                 anchors.top: parent.top
-                font.family: "Beta Dance"
-                font.pixelSize: 24
-                text: "name"
+                font.pixelSize: 18
+                text: audienceInterface.audienceName//"name"
+                color: "#A9A9A9"
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    enabled: true
+                    onEntered: {
+                        parent.color = "red"
+                    }
+                    onExited: {
+                        parent.color = "blue"
+                    }
+                }
             }
             Rectangle{
                 id:record_edit
                 anchors.top:nametext.bottom
                 width: recordPage.width
                 height: 2/17*recordPage.height
-                border.color: "black"
+
                 color: "#8B8378"
+                CommentPopup{
+                    id:commentpop
+                }
+
                 TextEdit{
                     id:edit
                     width: parent.width
                     height: parent.height
-                    font.family: "Helvetica"
-                    font.pointSize: 20
-                    color: "blue"
-                    text: "please input record"
+                    font.pointSize: 16
+                    color: "#F5F5F5"
                     wrapMode: TextEdit.Wrap
                     focus: true
                 }
             }
             Rectangle{
                 id:record_button
-                width: 120
-                height: 40
+                width: 90
+                height: 1/19*recordPage.height//40
                 anchors.top:record_edit.bottom
+                anchors.topMargin: 5
                 anchors.right:parent.right
-                color: "#8B8378"
+                color: "#1E90FF"
                 Text{
-                    anchors.fill: parent
-                    color: "blue"
-                    text: "show record"
-                    font.family: "Beta Dance"
-                    font.pixelSize: 24
+//                    anchors.fill: parent
+                    anchors.centerIn: parent
+                    color: "white"
+                    text: "发表评论"
+                    font.pixelSize: 16
                 }
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        add(edit.text)
-                        //                        nametext.text = edit.text
-                        edit.clear()
+                        var year = commentData.getFullYear()
+                        var month = commentData.getMonth()+1
+                        var day = commentData.getDate()
+                        var hours = commentData.getHours()
+                        var minutes = commentData.getMinutes()
+                        var commenttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
+                        if(nametext.text == ""){
+                            commentpop.open()
+                        }else{
+                            //addComment(nametext.text,edit.text,commenttime)
+                            client.addComment(nametext.text,play.name,commenttime,edit.text)
+                            vect = JSON.parse(client.showCommentInfo(play.name))
+                            edit.clear()
+                        }
                     }
                 }
             }
@@ -80,27 +104,62 @@ Rectangle{
                 spacing: 2
 
                 Rectangle{
+                    id:allcom
                     width: recordPage.width/2-1
-                    height: 1/17*recordPage.height
-                    color: "#8B8378"
+                    height: 1/19*recordPage.height
+                    color: "#1E90FF"
+
                     Text{
-                        anchors.centerIn: parent.Center
-                        color: "black"
+                        anchors.centerIn: parent
+                        color: "white"
                         text: "全部评论"
-                        font.family: "Beta Dance"
-                        font.pixelSize: 18
+                        font.pixelSize: 14
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showCommentInfo(play.name))
+
+                            allcom.color = "#1E90FF"
+                            selectcom.color = "#8B8378"
+
+                        }
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showCommentInfo(play.name))
+                        }
                     }
                 }
                 Rectangle{
+                    id:selectcom
                     width: recordPage.width/2-1
-                    height: 1/17*recordPage.height
+                    height: 1/19*recordPage.height
                     color: "#8B8378"
+
                     Text{
-                        anchors.centerIn: parent.Center
-                        color: "black"
+                        anchors.centerIn: parent
+                        color: "white"
                         text: "精华评论"
-                        font.family: "Beta Dance"
-                        font.pixelSize: 18
+
+                        font.pixelSize: 14
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showGoodComment(play.name))
+
+                            allcom.color = "#8B8378"
+                            selectcom.color = "#1E90FF"
+
+                        }
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            vect = JSON.parse(client.showGoodComment(play.name))
+                        }
                     }
                 }
             }
@@ -124,17 +183,8 @@ Rectangle{
         Component{
             id:allRecord
             AllComment{
-                model: list
+                models:vect.resource
             }
         }
     }
-
-    ListModel{
-        id:list
-    }
-
-    function add(text){
-        list.append({name:"ff",message:text,time:"3.1"})
-    }
-
 }

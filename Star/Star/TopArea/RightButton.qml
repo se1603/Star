@@ -21,10 +21,11 @@ Item {
         width: 1/15 * parent.width
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
+        color: "#F5F5F5"
         Image {
             id: listicon
-            width: 20
-            height: 20
+            width: 25
+            height: 25
             opacity: listmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: list.horizontalCenter
             anchors.verticalCenter: list.verticalCenter
@@ -42,15 +43,16 @@ Item {
         width: 1/15 * parent.width
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: list.left
-        anchors.rightMargin: 10
+        anchors.rightMargin: 15
+        color: "#F5F5F5"
         Image {
             id: skinicon
-            height: 20
-            width: 20
+            height: 25
+            width: 25
             opacity: skinmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: skin.horizontalCenter
             anchors.verticalCenter: skin.verticalCenter
-            source: "qrc:/image/TopArea/skin.jpg"
+            source: "qrc:/image/TopArea/skin.png"
             MouseArea{
                 id:skinmousearea
                 anchors.fill: parent
@@ -64,15 +66,16 @@ Item {
         width: 1/15 * parent.width
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: skin.left
-        anchors.rightMargin: 10
+        anchors.rightMargin: 15
+        color: "#F5F5F5"
         Image {
             id: renewicon
-            height: 20
-            width: 20
+            height: 25
+            width: 25
             opacity: renewmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: renew.horizontalCenter
             anchors.verticalCenter: renew.verticalCenter
-            source: "qrc:/image/TopArea/renew.jpg"
+            source: "qrc:/image/TopArea/refresh.png"
             MouseArea{
                 id:renewmousearea
                 anchors.fill: parent
@@ -86,9 +89,9 @@ Item {
         width: 1/10 * parent.width
         radius: 20
         anchors.right: renew.left
-        anchors.rightMargin: 10
+        anchors.rightMargin: 15
         anchors.verticalCenter: parent.verticalCenter
-        color: "lightgray"
+//        color: "lightgray"
         property alias loginIcon:loginIcon
         Image {
             id: loginIcon
@@ -97,7 +100,7 @@ Item {
             opacity: loginmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: login.horizontalCenter
             anchors.verticalCenter: login.verticalCenter
-            source: "qrc:/image/TopArea/user.png"
+            source: "qrc:/image/TopArea/person.png"
             MouseArea{
                 id:loginmousearea
                 anchors.fill: parent

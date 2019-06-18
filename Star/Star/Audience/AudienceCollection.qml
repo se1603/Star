@@ -19,9 +19,8 @@ Rectangle {
 
             Text {
                 id: collection_title
-                text: "   My Collection Video"
+                text: " 我的收藏"
                 font.pixelSize: 20
-                font.family: "Beta Dance"
                 opacity: 0.7
             }
             GridLayout {
@@ -33,12 +32,12 @@ Rectangle {
                 columns: mainWindow.width < 1100 ? 4 : 5
                 columnSpacing: 15
                 rowSpacing: 15
+
                 Repeater {
                     model: collection
                     Rectangle {
                         width: 200
                         height: 330
-                        border.color: "green"
                         Rectangle {
                             id: collection_img
                             width: parent.width
@@ -69,6 +68,15 @@ Rectangle {
                         }
                     }
                 }
+            }
+            Text {
+                id: notice
+                text: "——这里空空如也——"
+                font.pixelSize: 26
+                color:"#696969"
+                anchors.left: parent.left
+                anchors.leftMargin: 1 / 3 * audienceDisplay.width
+                visible:collection[0].name === " " ? true : false
             }
         }
     }

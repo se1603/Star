@@ -1,5 +1,5 @@
 //董梦丹 5-08
-//最后修改于5-17
+//最后修改于 6-18
 #ifndef AUDIENCECONTROLLER_H
 #define AUDIENCECONTROLLER_H
 
@@ -33,6 +33,9 @@ public:
     //添加用户收藏
     bool addAudienceCollection(std::string audiencename, std::string collectname,
                                std::string collecttime, std::string collecttype);
+    //更新用户浏览历史
+    bool updateAudienceRecord(std::string audiencename, std::string recordname,
+                              std::string startPlayTime, std::string duration, std::string type);
 
     //处理用户信息的函数
     std::string audienceInfo(std::string name);

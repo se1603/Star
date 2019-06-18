@@ -7,6 +7,7 @@
 
 #include "browseandwatchcontroller.h"
 #include "audiencecontroller.h"
+#include "commentcontroller.h"
 
 class ControllerFactory
 {
@@ -20,6 +21,7 @@ public:
     BrowseAndWatchController* createBrowseAndWatchController();
 
     AudienceController *createAudienceController();
+    CommentController *createCommentController();
 
 private:
     ControllerFactory();

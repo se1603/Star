@@ -19,7 +19,6 @@ ScrollView {
         Rectangle {
             width: sendM_view.width
             height: 1 / 7 * sendM_view.height
-            border.color: "green"
             Text {
                 text: modelData
                 width: parent.width

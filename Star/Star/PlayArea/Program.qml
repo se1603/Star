@@ -14,13 +14,13 @@ Rectangle {
 
 
     property var date:new Date()
-    property var collections:JSON.parse(client.audienceCollection(audienceInterface.audienceName))
+    property var collections
 
     width: /*59/60**/right_stack.width
     height: /*59/60**/right_stack.height
 
 
-    color: "#8B8378"
+    color: "#424242"
     Rectangle{
         id:image_re
         anchors.top:parent.top
@@ -47,27 +47,33 @@ Rectangle {
             id:name
             text: play.name
             width: 1/2*commentPage.width-20
-//            font.pixelSize: 10
+            font.pixelSize: 10
             wrapMode: Text.Wrap
+            color: "white"
         }
         Text{
             id:region
             text: play.datas.resource.region
+            color: "white"
         }
-
         Row{
-            id:row
             spacing: 5
             Repeater{
                 model: play.datas.resource.videotype
                 Text{
                     id:type
                     text: modelData.type
-//                    font.pixelSize: 10
+                    font.pixelSize: 10
+                    color: "white"
                 }
             }
         }
-
+        Text {
+            id: notice
+//            text: play.datas.resource.ca// "hhhhhhhhhh"
+            font.pixelSize: 12
+            color: "#ffffff"
+        }
     }
 
 
@@ -90,7 +96,7 @@ Rectangle {
             id:collect_img
             width: 25
             height: 30
-            source: "qrc:/image/play/collect.jpg"
+            source: "qrc:/image/play/collect.png"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
@@ -108,12 +114,12 @@ Rectangle {
                 }
             }
         }
-        Image {
-            id: share_img
-            width: 25
-            height: 30
-            source: "qrc:/image/play/share.jpg"
-        }
+//        Image {
+//            id: share_img
+//            width: 25
+//            height: 30
+//            source: "qrc:/image/play/share.jpg"
+//        }
 
     }
     Rectangle{
@@ -127,7 +133,8 @@ Rectangle {
         anchors.rightMargin: 10
         Text{
             anchors.centerIn: parent
-            text: "detail"
+            text: "详情"
+//            text: "detail"
             font.pixelSize: 16
         }
         MouseArea{
@@ -158,6 +165,7 @@ Rectangle {
 
     function search(cName,collecttime){
         var flag = 0
+        collections = JSON.parse(client.audienceCollection(audienceInterface.audienceName))
         for(var i=0;i<collections.length;i++){
             if(cName === collections[i].name){
                 notice.text = "已经收藏过了"

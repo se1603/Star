@@ -8,9 +8,10 @@ ThreadPool::ThreadPool(int number) :
         throw std::exception();
     for(int i = 0; i < number;i++)
     {
-        std::cout << "创建第" << i + 1 << "个线程" << std::endl;
+//        std::cout << "创建第" << i + 1 << "个线程" << std::endl;
         work_threads.emplace_back(ThreadPool::worker,this);
     }
+    std::cout << "创建" << number << "个线程" << std::endl;
 }
 
 ThreadPool::~ThreadPool()

@@ -3,12 +3,22 @@
 //author：徐丹
 
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 
 Rectangle {
-    width: 59 / 60 * parent.width
-    height: 59 / 60 * parent.height
-    anchors.centerIn: parent
+    width: 59 / 60 * middleArea.width
+    height: 59 / 60 * middleArea.height
+    anchors.centerIn: middleArea
+
+    property var searchMovie
+    property var searchDrama
+    property var searchActor
+    property var searchDirector
+    property alias middlemenu: middle_Menu
+    property alias middleStack:middle_stack
+    property alias recordPage:browserecord_page
+
+    property var browse_records
 
     Row {
         width: parent.width
@@ -35,6 +45,7 @@ Rectangle {
 
             Component {
                 id: select_page
+
                 SelectPage {
                 }
             }
@@ -64,6 +75,20 @@ Rectangle {
                 }
             }
 
+            Component{
+                id:search_page
+                Search{
+
+                }
+            }
+
+            //历史记录模块
+            Component{
+                id:browserecord_page
+                BrowseRecord{
+
+                }
+            }
         }
     }
 }

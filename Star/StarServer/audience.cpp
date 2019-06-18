@@ -5,14 +5,23 @@
 #include "audience.h"
 #include "movieandtelevision.h"
 
-Audience::Audience(std::string name, std::string password, std::string avatar, std::vector<Collection> collections, std::vector<Record> records, std::multimap<std::string, Comment> comments)
+Audience::Audience(std::string name, std::string password, std::string avatar, std::vector<Collection> collections, std::vector<Record> records)
 {
     m_name = name;
     m_password = password;
     m_avatar = avatar;
     m_collections = collections;
     m_records = records;
-    m_comments = comments;
+}
+
+Audience::Audience(std::string name)
+{
+    m_name = name;
+}
+
+Audience::Audience()
+{
+
 }
 
 bool Audience::verifyLogin(std::string name)
@@ -64,8 +73,34 @@ void Audience::showCollection(std::map<std::string, MovieAndTelevision *> &colle
 
 void Audience::showRecord(std::map<std::string, MovieAndTelevision *> &recordmap)
 {
-    for(auto r:m_records){
+    for(auto &r:m_records){
         std::string m = r.m_startPlayTime+"/"+r.m_duration;
         recordmap.insert(std::make_pair(m,r.m_movieAndTelevision));
+    }
+}
+
+void Audience::showname(std::vector<std::string> &a)
+{
+    a.push_back(m_name);
+}
+
+bool Audience::judgeRecord(std::string recordname)
+{
+    for(auto &r:m_records){
+        if(r.verifyName(recordname) == true){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Audience::changeRecord(std::string recordname, std::string startPlayTime,
+                            std::string duration)
+{
+    for(auto &r:m_records) {
+        if(r.verifyName(recordname) == true) {
+            r.changeInfo(startPlayTime, duration);
+        }
     }
 }

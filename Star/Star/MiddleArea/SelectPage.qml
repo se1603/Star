@@ -13,6 +13,7 @@ Rectangle {
     height: page_display.height
 
     property var recommendFilms:JSON.parse(client.showRecommend(0))
+
     ScrollView{
         anchors.fill: parent
         clip: true
@@ -24,8 +25,10 @@ Rectangle {
                 id:slide_row
                 Rectangle{
                     id:slideImage
-                    width: mainWindow.width < 1200 ? 702 : 950
-                    height: mainWindow.width < 1200 ? 342 : 442
+                     height: mainWindow.width < 1200 ? 342 : 442
+                     width: selectPage.width
+//                    width: mainWindow.width < 1200 ? 702 : 950
+//                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: film_image
@@ -34,7 +37,7 @@ Rectangle {
                     MouseArea{
                         anchors.fill: parent
                         onClicked: {
-
+                            console.log(film_image.source)
                         }
                     }
                 }
@@ -42,10 +45,15 @@ Rectangle {
 
             ListView{
                 id: slide_films
-                width: parent.width
-                height: 4/15 * parent.height
-                anchors.left: slide_row.right
-                anchors.top:slide_row.top
+                width:  mainWindow.width < 1200 ? 1000 : 1200
+                height: 40
+                opacity: 0.8
+                anchors.top: slide_row.top
+                anchors.left: slide_row.left
+                anchors.right: slide_row.right
+                anchors.topMargin: mainWindow.width < 1200 ? 302 : 404
+                orientation: ListView.Horizontal
+                z:5
                 model:recommendFilms.firstRecommends
                 delegate: show_slide
             }
@@ -85,6 +93,7 @@ Rectangle {
                                         color: "red"
 
                                         Image {
+                                            id:showPost
                                             anchors.fill: parent
                                             anchors.top: parent.top
                                             source:"file:" + modelData.post
@@ -93,11 +102,34 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
+
+                                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                                middleArea.middle = false
+
+                                                if(playInterface.playCommponent.playing)
+                                                {
+                                                    playInterface.playCommponent.stopPlay()
+                                                    console.log("true")
+                                                }
+
+                                                play.rtspUrl = modelData.rtspURL
+
                                                 play.visible = true
                                                 play.name = modelData.name
                                                 play.image = modelData.post
-                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name,0))
-                                                console.log(play.datas.resource.videotype.type)
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                                //自动生成记录
+                                                if(modelData.name !== middleArea.playingName
+                                                        && middleArea.playingName!==""){
+                                                    if(audienceInterface.audienceName === ""){
+                                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }else{
+                                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }
+                                                    middleArea.playingName = ""
+                                                }
                                             }
                                         }
                                     }
@@ -136,8 +168,8 @@ Rectangle {
         id:show_slide
         Rectangle{
             id: slideRect
-            width: 250
-            height: slideImage.height / 5
+            height: 40
+            width: slide_row.width/5
             color:ListView.isCurrentItem ? "lightblue" : "white"
             onColorChanged: {
                 film_image.source = "file:" + modelData.post

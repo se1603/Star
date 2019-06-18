@@ -27,7 +27,8 @@ SOURCES += \
     comic.cpp \
     drame.cpp \
     comment.cpp \
-    commentbroker.cpp
+    commentbroker.cpp \
+    commentcontroller.cpp
 
 HEADERS += \
     server.h \
@@ -52,6 +53,7 @@ HEADERS += \
     comic.h \
     drame.h \
     comment.h \
-    commentbroker.h
+    commentbroker.h \
+    commentcontroller.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient
