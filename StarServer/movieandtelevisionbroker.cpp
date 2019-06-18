@@ -1,3 +1,9 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:影视代管者类
+ * author：古长蓉
+ * data：2019-06-17 增加处理搜索内容的函数
+*/
 #include "movieandtelevisionbroker.h"
 #include <iostream>
 #include "film.h"
@@ -944,7 +950,6 @@ std::vector<Director *> MovieAndTelevisionBroker::SearchDirector(std::string nam
     }
     return p;
 }
-
 
 void MovieAndTelevisionBroker::initFilms()
 {

@@ -19,6 +19,43 @@ Rectangle {
 
     property alias playInterface: play
 
+    property var playingName:""
+    property var startTime:""
+    property var duration:""
+    property var videoType:""
+
+
+//    SwipeView{
+//        id: view
+
+//        currentIndex: 0
+//        anchors.fill: parent
+
+//        MiddleInterface{
+//            id:middle_face
+//        }
+
+//        Play{
+//            id:play
+//        }
+
+//    }
+
+//    SwipeView{
+//        id: view
+
+//        currentIndex: 0
+//        anchors.fill: parent
+
+//        MiddleInterface{
+//            id:middle_face
+//        }
+
+//        Play{
+//            id:play
+//        }
+
+//    }
 
 //    SwipeView{
 //        id: view

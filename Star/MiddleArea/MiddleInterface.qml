@@ -12,8 +12,8 @@ Rectangle {
 
     property var searchMovie
     property var searchDrama
-    property var searchActor
-    property var searchDirector
+    property var searchCharacter
+    property alias search: searchfunction
     property alias middlemenu: middle_Menu
 
     Row {
@@ -23,12 +23,18 @@ Rectangle {
 
         MiddleMenu {
             id: middle_Menu
+            visible: true
+        }
+        Search{
+            id: searchfunction
+            visible: false
         }
 
         Rectangle {
             id: page_display
             width: 54 / 60 * parent.width
             height: parent.height
+
 //            color: "red"
 
             StackView {
@@ -41,6 +47,7 @@ Rectangle {
 
             Component {
                 id: select_page
+
                 SelectPage {
                 }
             }
@@ -69,13 +76,12 @@ Rectangle {
 
                 }
             }
+
             Component{
                 id:search_page
                 Search{
-
                 }
             }
-
         }
     }
 }

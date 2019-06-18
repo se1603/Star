@@ -81,15 +81,15 @@ Rectangle {
         y:0
         width: 1/5*play.width//200
         height: play.height
-        //        color:"red"
+//        color:"red"
         radius: 5
 
         Rectangle {
             id:rightmenu
             anchors.top: parent.top
             width: parent.width
-            height: 1/13*leftRect.height - 10
-            color: "black"
+            height: 1/13*play.height //- 10
+            color: "#424242"
             Rectangle{
                 id:leftM
                 anchors.left: parent.left
@@ -97,6 +97,7 @@ Rectangle {
                 anchors.topMargin: 10
                 width: 1/2*parent.width-8
                 height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: "简介"
@@ -113,6 +114,7 @@ Rectangle {
                 anchors.leftMargin: 15
                 width: 1/2*parent.width-8
                 height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: "评论"
@@ -123,18 +125,22 @@ Rectangle {
             }
         }
 
+
         StackView{
             width: parent.width
-            height: 12/13*parent.height
+            height: 12/13*play.height
             anchors{
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-            anchors.topMargin: 20
+           // anchors.topMargin: 20
             id:right_stack
             initialItem: comment_page
+            MouseArea{
+                anchors.fill: parent
+            }
         }
 
         Component{
@@ -162,12 +168,13 @@ Rectangle {
         y:0
         width: 1/5*play.width
         height: play.height
+        color: "#424242"
         Rectangle{
             id:toolBar
             anchors.top: parent.top
             width: parent.width
-            height: 1/13*leftRect.height - 10
-            color: "black"
+            height: 1/13*play.height
+            color: "#424242"
             Rectangle{
                 id:libraryRec
                 anchors.left: parent.left
@@ -175,8 +182,8 @@ Rectangle {
                 anchors.top:parent.top
                 anchors.topMargin: 5
                 width: 1/4*parent.width
-                height: parent.height-10
-                color: "red"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill: parent
                     text: qsTr("片库")
@@ -192,8 +199,8 @@ Rectangle {
                 anchors.right: recordRect.left
                 anchors.rightMargin: 15
                 width: 1/4*parent.width
-                height: parent.height-10
-                //                color: "red"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill:parent
                     text: qsTr("本地")
@@ -207,8 +214,8 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.rightMargin: 10
                 width: 1/4*parent.width
-                height: parent.height-10
-                color: "gray"
+                height: parent.height-20
+                color: "#424242"
                 Button{
                     anchors.fill:parent
                     text: qsTr("记录")
@@ -217,16 +224,20 @@ Rectangle {
             }
         }
 
+
         StackView{
             width: parent.width
-            height: 12/13*parent.height
+            height: 12/13*play.height
             anchors{
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-            anchors.topMargin: 20
+
+            MouseArea{
+                anchors.fill: parent
+            }
             id:left_stack
             initialItem: library_page
         }

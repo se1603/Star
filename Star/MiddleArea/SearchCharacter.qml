@@ -4,12 +4,13 @@ import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    id: dircector
+    id: actor
     height: parent.height
     width: parent.width
     anchors.fill: parent
-    property var searchDirector: middleArea.middleface.searchDirector
+    property var searchCharacter: middleArea.middleface.searchCharacter
 
+    //顶部提示栏
     Rectangle{
         id:toprectangle
         width: parent.width
@@ -39,6 +40,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
+                        search_stack.pop()
                     }
                 }
             }
@@ -66,12 +68,15 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
+                        search_stack.clear()
+                        middle_Menu.visible = true
                     }
                 }
             }
         }
     } //toprectangle
 
+    //显示信息栏
     Rectangle{
         id:showrectanggle
         width: parent.width-50
@@ -142,11 +147,11 @@ Rectangle {
                 anchors.left: parent.left
                 spacing: 10
                 Repeater{
-                    model: searchDirector
+                    model: searchCharacter
                     Rectangle{
                         id:actordetail
                         width: parent.width
-                        height: 200
+                        height: 300
                         anchors.top: parent.top
                         anchors.left: parent.left
                         Rectangle{
@@ -158,12 +163,12 @@ Rectangle {
                             anchors.leftMargin: 30
                             anchors.verticalCenter: parent.verticalCenter
                             Image {
-                                id: dirctorpost
+                                id: poster
                                 anchors.fill: parent
                                 sourceSize: Qt.size(parent.width, parent.height)
                                 smooth: true
                                 visible: false
-                                source: "file:" + modelData.post
+                                source: "file:" + modelData.photo
                             }
                             Rectangle{
                                 id: mask
@@ -175,8 +180,8 @@ Rectangle {
                             }
 
                             OpacityMask{
-                                anchors.fill: dirctorpost
-                                source: dirctorpost
+                                anchors.fill: poster
+                                source: poster
                                 maskSource: mask
                                 visible: true
                                 antialiasing: true
@@ -193,6 +198,45 @@ Rectangle {
                             font.pixelSize: 24
                             color: "lightblue"
                             text: modelData.name
+                        }
+                        Text{  //显示生日
+                            id: birthday
+                            width: 100
+                            height: 35
+                            anchors.left: actorpost.right
+                            anchors.leftMargin: 20
+                            anchors.top: actorname.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 16
+//                            color: "lightblue"
+                            text: modelData.birthday
+                        }
+
+                        Text{  //显示地区
+                            id: region
+                            width: 100
+                            height: 35
+                            anchors.left: birthday.right
+                            anchors.leftMargin: 100
+                            anchors.top: actorname.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 16
+//                            color: "lightblue"
+                            text: modelData.region
+                        }
+
+                        Text{  //显示简介
+                            id: intro
+                            width: parent.width - 240
+                            height: 120
+                            anchors.left: showposter.right
+                            anchors.leftMargin: 20
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 20
+                            font.pixelSize: 12
+                            wrapMode: Text.WrapAnywhere
+                            lineHeight: 1
+                            text: modelData.introduction
                         }
                     }
                 }

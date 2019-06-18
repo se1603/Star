@@ -17,7 +17,7 @@ Popup {
     background:  Rectangle{
         width: parent.width
         height: parent.height
-        color: "#8B8378"
+        color: "#424242"
     }
 
     x:0
@@ -38,6 +38,7 @@ Popup {
                     id:imagRect
                     width: parent.width
                     height:text_name.implicitHeight
+                     color: "#424242"
                     //                color: "#8B8378"
                     Text{
                         id:text_name
@@ -49,6 +50,7 @@ Popup {
                         width: mainWindow.width < 1200 ? 180 : 240
                         font.pixelSize: 18
                         text:play.name//"Name"
+                        color: "white"
                     }
                 }
                 //            Row{
@@ -61,10 +63,11 @@ Popup {
                     anchors.topMargin: 10
                     anchors.left: parent.left
                     anchors.leftMargin: 5
-                    color: "#8B8378"
+                    color: "#424242"
                     Text{
                         id:text_regin
                         text:play.datas.resource.region /*"China"*/
+                        color: "white"
 
                     }
                 }
@@ -76,18 +79,19 @@ Popup {
                     anchors.topMargin: 10
                     anchors.left: rigin.right
                     anchors.leftMargin:4
-                    color: "#8B8378"
+                    color: "#424242"
                     Row{
                         spacing: 5
                         Repeater{
                             model: play.datas.resource.videotype
                             Rectangle{
-                                color: "#8B8378"
+                                color: "#424242"
                                 width: text_type.implicitWidth
                                 height: text_type.implicitHeight
                                 Text{
                                     id:text_type
                                     text: "/"+modelData.type
+                                    color: "white"
                                 }
                             }
                         }
@@ -102,13 +106,14 @@ Popup {
                     anchors.left: parent.left
                     height: infoma.implicitHeight
                     width: detailPop.width
-                    color: "#8B8378"
+                    color: "#424242"
                     Text{
                         id:text_in
                         anchors.left: parent.left
                         anchors.top:parent.top
                         text: "简介"
                         font.pixelSize: 24
+                        color: "white"
                     }
 
                     Text{
@@ -116,7 +121,8 @@ Popup {
                         anchors.top: text_in.bottom
                         wrapMode: Text.Wrap
                         width: mainWindow.width < 1200 ? 180 : 240
-                        text:play.datas.resource.introduction//"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+                        text:play.datas.resource.introduction
+                        color: "white"
                     }
                 }
 
@@ -130,13 +136,13 @@ Popup {
                         Rectangle{
                             width: 150
                             height: 200
-                            color: "#8B8378"
+                             color: "#424242"
                             Rectangle{
                                 id:imge
                                 width: 150
                                 height: 150
                                 radius: width/2
-                                color: "#8B8378"
+                                 color: "#424242"
                                 Image{
                                     width: 150
                                     height: 150
@@ -150,12 +156,14 @@ Popup {
                                 anchors.top: imge.bottom
                                 anchors.topMargin: 6
                                 text: modelData.name
+                                color: "white"
                             }
                             Text{
                                 id:type
                                 anchors.top: namete.bottom
                                 anchors.topMargin: 6
                                 text: modelData.type
+                                color: "white"
                             }
                         }
                     }

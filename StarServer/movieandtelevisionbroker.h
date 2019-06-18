@@ -1,8 +1,8 @@
 /* Author:王梦娟
  * Date:2019-4-25
  * Note:影视代管者类
- * author:古长蓉
- * Data：2019-06-16 合并搜索功能
+ * author：古长蓉
+ * data：2019-06-17 增加处理搜索内容的函数
 */
 #ifndef MOVIEANDTELEVISIONBROKER_H
 #define MOVIEANDTELEVISIONBROKER_H
@@ -62,11 +62,6 @@ public:
     //导演
     void initDirectors();
     Director handleDirector(std::vector<std::string> row);
-    //搜索
-    std::vector<Film *> SearchFilm(std::string name); //从map中读取数据，返回给controller
-    std::vector<Drame *> SearchDrama(std::string name);
-    std::vector<Actor *> SearchActor(std::string name);
-    std::vector<Director *> SearchDirector(std::string name);
 
     //用户操作
     //处理用户信息
@@ -79,6 +74,13 @@ public:
      std::vector<std::string> getActorInfo(std::string name);
      //查找影视，并获取指针提供给评论代管类
      void findMovieandTelevision(std::string name,MovieAndTelevision* m);
+
+     //搜索
+     std::vector<Film *> SearchFilm(std::string name); //从map中读取数据，返回给controller
+     std::vector<Drame *> SearchDrama(std::string name);
+     std::vector<Actor *> SearchActor(std::string name);
+     std::vector<Director *> SearchDirector(std::string name);
+
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;

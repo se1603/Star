@@ -14,8 +14,7 @@ Rectangle {
     anchors.fill: parent
     property var searchMovie: middleArea.middleface.searchMovie
 
-
-
+    //顶部提示栏
     Rectangle{
         id:toprectangle
         width: parent.width
@@ -45,7 +44,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-
+                        search_stack.pop()
                     }
                 }
             }
@@ -73,12 +72,15 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
+                        search_stack.clear()
+                        middle_Menu.visible = true
                     }
                 }
             }
         }
     }
 
+    //显示信息栏
     Rectangle{
         id:showrectanggle
         width: parent.width-50
@@ -194,19 +196,19 @@ Rectangle {
                             color: "lightblue"
                             text: modelData.name
                         }
-//                        Text{     //显示简介
-//                            id: movieintro
-//                            width: parent.width - 240
-//                            height: 50
-//                            anchors.left: showposter.right
-//                            anchors.leftMargin: 20
-//                            anchors.top: movietitle.bottom
-//                            anchors.topMargin: 20
-//                            font.pixelSize: 12
-//                            wrapMode: Text.WrapAnywhere
-//                            lineHeight: 1
-//                            text:searchMovie.introduction
-//                        }
+                        Text{     //显示简介
+                            id: movieintro
+                            width: parent.width - 240
+                            height: 50
+                            anchors.left: showposter.right
+                            anchors.leftMargin: 20
+                            anchors.top: movietitle.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 12
+                            wrapMode: Text.WrapAnywhere
+                            lineHeight: 1
+                            text:modelData.introduction
+                        }
                         Rectangle{   //播放按钮
                             id: playbutton
                             width: 80

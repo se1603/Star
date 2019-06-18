@@ -18,9 +18,8 @@ Rectangle {
 
             Text {
                 id: record_title
-                text: "   My Browse Record"
+                text: " 历史记录"
                 font.pixelSize: 20
-                font.family: "Beta Dance"
                 opacity: 0.7
             }
             GridLayout {
@@ -37,7 +36,6 @@ Rectangle {
                     Rectangle {
                         width: 200
                         height: 330
-                        border.color: "green"
                         Rectangle {
                             id: record_img
                             width: parent.width
@@ -57,7 +55,7 @@ Rectangle {
                         }
                         Text {
                             id: record_info
-                            text: modelData.startPlayTime+" : "+modelData.duration
+                            text: modelData.startPlayTime+"   "+modelData.duration
                             anchors.top: record_name.bottom
                         }
                     }

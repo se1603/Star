@@ -2,7 +2,7 @@
  * Date:2019-4-25 控制器，应用逻辑层。
  * Date:2019-5-8  去掉实体类的get set函数
  * author：古长蓉
- * Data：2019-06-16 合并搜索功能
+ * data：2019-06-17  增加搜索关键字函数
 */
 #ifndef BROWSEANDWATCHCONTROLLER_H
 #define BROWSEANDWATCHCONTROLLER_H
@@ -34,6 +34,7 @@ public:
     std::string getVideoInfo(std::string name);//获取播放界面中的片库信息
     std::string getActorInfo(std::string name);//获取演员和导演信息
     std::string SearchKey(std::string name); //搜索关键字
+
 
 private:
     BrowseAndWatchController();

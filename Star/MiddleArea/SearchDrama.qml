@@ -9,6 +9,7 @@ Rectangle {
     anchors.fill: parent
     property var searchDrama: middleArea.middleface.searchDrama
 
+    //顶部提示栏
     Rectangle{
         id:toprectangle
         width: parent.width
@@ -38,6 +39,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
+                        search_stack.pop()
                     }
                 }
             }
@@ -65,12 +67,15 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
+                        search_stack.clear()
+                        middle_Menu.visible = true
                     }
                 }
             }
         }
     }
 
+    //显示信息栏
     Rectangle{
         id:showrectanggle
         width: parent.width-50
@@ -144,7 +149,7 @@ Rectangle {
                     model: searchDrama
                     Rectangle{
                         width: showlist.width
-                        height: 300
+                        height: 0
                         border.width: 1
                         border.color: "lightgray"
                         Rectangle{
@@ -153,14 +158,15 @@ Rectangle {
                             height: 240
                             anchors.left: parent.left
                             anchors.leftMargin: 25
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 20
                             border.width: 2
                             border.color: "gray"
 
                             Image {   //显示海报
                                 id: poster
-                                width:120
-                                height: 180
+                                width:150
+                                height: 240
                                 anchors.fill: parent
                                 source: "file:" + modelData.post
                             }
@@ -177,39 +183,38 @@ Rectangle {
                             color: "lightblue"
                             text: modelData.name
                         }
-//                        Text{     //显示简介
-//                            id: intro
-//                            width: parent.width - 240
-//                            height: 50
-//                            anchors.left: showposter.right
-//                            anchors.leftMargin: 20
-//                            anchors.top: movietitle.bottom
-//                            anchors.topMargin: 20
-//                            font.pixelSize: 12
-//                            wrapMode: Text.WrapAnywhere
-//                            lineHeight: 1
-//                            //                            text:movie[0].introduction
-//                            text: qsTr("简介：表面上无限风光的苏家，随着苏母的突然离世，瞬间分崩离析。意想不到的隐患层层显露，对毫无主见却又自私、小气的苏父的安置和后续生活问题，打破了远在国外的大哥与本城的二哥 、小妹三家的平静生活。父亲苏大强终于摆脱了妻子的铁腕，对几个孩子变本加厉，不断提出过分要求。在美国工作的老大苏明哲回到国内，一心要挑起家庭重担，...")
-//                        }
+                        Text{     //显示简介
+                            id: intro
+                            width: parent.width - 240
+                            height: 90
+                            anchors.left: showposter.right
+                            anchors.leftMargin: 20
+                            anchors.top: movietitle.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 12
+                            wrapMode: Text.WrapAnywhere
+                            lineHeight: 1
+                            text: modelData.introduction
+                        }
                         GridLayout{
                             id:griddrame
                             width: 560
                             height: 100
-                            columns: 10
-                            columnSpacing: 5
+                            columns: 9
+                            columnSpacing: 2
                             rowSpacing: 5
                             anchors.left: showposter.right
                             anchors.leftMargin: 20
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 20
+                            anchors.top: intro.bottom
+                            anchors.topMargin: 10
                             Repeater{
-                                model:12
+                                model:modelData.episode
 
                                 Rectangle{   //播放按钮
                                     id: playbutton
                                     width: 20
                                     height: 20
-                                    color: "blue"
+                                    color: "#8b8378"
                                     MouseArea{
                                         id:playmousearea
                                         anchors.fill: parent
@@ -223,9 +228,9 @@ Rectangle {
                                         id: drametitle
                                         anchors.horizontalCenter: playbutton.horizontalCenter
                                         anchors.verticalCenter: playbutton.verticalCenter
-                                        font.pixelSize: 18
+                                        font.pixelSize: 12
                                         color: "lightblue"
-                                        text: qsTr("1")
+                                        text: modelData + 1
                                     }
                                 }
                             }

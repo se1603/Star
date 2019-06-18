@@ -20,6 +20,8 @@ public:
     bool isSame(std::string n);
     //收藏与记录
     void showInfo(std::vector<std::string> &a_collections);
+
+    void searchInfo(std::vector<std::string> &vec);
 protected:
     std::string m_name;             //名称
     std::string m_introduction;       //简介

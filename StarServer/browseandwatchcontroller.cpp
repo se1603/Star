@@ -1,11 +1,18 @@
+/* Author:王梦娟
+ * Date:2019-4-25 控制器，应用逻辑层。
+ * Date:2019-5-8  去掉实体类的get set函数
+ * author：古长蓉
+ * data：2019-06-17  增加搜索关键字函数
+*/
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
+#include <iostream>
 
 BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWatchController();
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "10.253.182.51";
+    m_rtspAddress = "10.253.133.196";
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
@@ -481,27 +488,68 @@ std::string BrowseAndWatchController::getActorInfo(std::string name)
 
 std::string BrowseAndWatchController::SearchKey(std::string name)
 {
-//    std::vector<Film *> q = m_movieAndTelevisionBroker->SearchFilm(name);
-//    std::vector<Drame *> q = m_movieAndTelevisionBroker->SearchDrama(name);
-//    std::vector<Actor *> q = m_movieAndTelevisionBroker->SearchActor(name);
-    std::vector<Director *> q = m_movieAndTelevisionBroker->SearchDirector(name);
+
     Json::Value root;
     Json::Value searchs;
     root["request"] = "SEARCH";
-    for (int i = 0; i < q.size(); i++){
-        std::vector<std::string> keys;
+
+    std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
+    std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
+    std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
+    std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
+//    std::vector<Comic *> comics = m_movieAndTelevisionBrokec
+
+    if(film.size() != 0)
+    {
         Json::Value search;
-//        q[i]->showInfo(keys);
-//        q[i]->searchActorInfo(keys);
-        q[i]->searchDirectorInfo(keys);
-        search["name"] = keys[0];
-        search["post"] = keys[1];
+        std::vector<std::string> searchInfo;
+        film[0]->searchInfo(searchInfo);
+        search["type"] = "Film";
+        search["name"] = searchInfo[0];
+        search["post"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+//        search["episode"] = searchInfo[3];
         searchs.append(search);
-//        search["introduction"] = keys[2];
+    }
+    else if(drame.size() != 0){
+        Json::Value search;
+        std::vector<std::string> searchInfo;
+        drame[0]->searchInfo(searchInfo);
+        search["type"] = "Drama";
+        search["name"] = searchInfo[0];
+        search["post"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+        search["episode"] = searchInfo[3];
+        searchs.append(search);
+    }
+    else if(actor.size() != 0)
+    {
+        Json::Value search;
+        std::vector<std::string> searchInfo;
+        actor[0]->searchInfo(searchInfo);
+        search["type"] = "Actor";
+        search["name"] = searchInfo[0];
+        search["birthday"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+        search["photo"] = searchInfo[3];
+        search["region"] = searchInfo[4];
+        searchs.append(search);
+    }
+    else if(director.size() != 0){
+        Json::Value search;
+        std::vector<std::string> searchInfo;
+        director[0]->searchInfo(searchInfo);
+        search["type"] = "Director";
+        search["name"] = searchInfo[0];
+        search["birthday"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+        search["photo"] = searchInfo[3];
+        search["region"] = searchInfo[4];
+        searchs.append(search);
     }
     root["searchResult"] = searchs;
     std::string out = root.toStyledString();
-//    std::cout << "aaa:" << std::out << std::endl;
+    std::cout << "aaa" << out << std::endl;
     return out;
 }
 
@@ -649,7 +697,7 @@ std::string BrowseAndWatchController::drameInterface(int type)
         break;
     }
 
-    std::vector<Drame> drames;
+    std::vector<Drame> drames; color: "lightblue";
     drames = m_movieAndTelevisionBroker->getDrames(drametype);
 
     Json::Value root;

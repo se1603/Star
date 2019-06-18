@@ -1,3 +1,7 @@
+/*
+ * author:古长蓉
+ * data：2019-06-17 增加函数处理用户输入的关键字
+ */
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -50,6 +54,9 @@ public:
     Q_INVOKABLE QString audienceRecord(QString name);
     //添加收藏
     Q_INVOKABLE void addCollection(QString name, QString collecttime, QString videoname, QString type);
+    //自动添加记录
+    Q_INVOKABLE void addRecord(QString name, QString recordname, QString startPlaytime,
+                                    QString duration, QString type);
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
 
@@ -62,7 +69,6 @@ public:
     
     //获得演员和导演信息
     Q_INVOKABLE QString getActorInfo(QString n);
-
     //搜索
     Q_INVOKABLE QString search(QString key);
 
@@ -83,6 +89,8 @@ signals:
     void updateAvatarSucceed(QString newsource);
     void collectsucceed();
     void collectfailed();
+    void recordupdatesucceed();
+    void recordupdatefailed();
     //评论信号
     void insertSuccessed();
     void insertFailed();

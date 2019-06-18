@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 Rectangle {
+    id:variety
     width: page_display.width
     height: page_display.height
 
@@ -28,8 +29,10 @@ Rectangle {
                 id: row_image
                 Rectangle {
                     id: row_rec
-                    width: mainWindow.width < 1200 ? 702 : 950
-                    height: mainWindow.width < 1200 ? 342 : 442
+                     height: mainWindow.width < 1200 ? 342 : 442
+                     width: variety.width
+//                    width: mainWindow.width < 1200 ? 702 : 950
+//                    height: mainWindow.width < 1200 ? 342 : 442
 
                     Image {
                         id: slide_image
@@ -44,10 +47,15 @@ Rectangle {
 
             ListView {
                 id: slide_varieties
-                width: parent.width
-                height: row_rec.height
+                width:  mainWindow.width < 1200 ? 1000 : 1200
+                height: 40
+                opacity: 0.8
                 anchors.top: row_image.top
-                anchors.left: row_image.right
+                anchors.left: row_image.left
+                anchors.right: row_image.right
+                anchors.topMargin: mainWindow.width < 1200 ? 302 : 404
+                orientation: ListView.Horizontal
+                z:5
                 model: recommendVarieties.firstRecommends
                 delegate: variety_slide
             }
@@ -96,6 +104,10 @@ Rectangle {
 //                                                console.log(modelData.name)
 //                                                console.log(modelData.post)
 
+                                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                                middleArea.middle = false
+
                                                 if(playInterface.playCommponent.playing)
                                                 {
                                                     playInterface.playCommponent.stopPlay()
@@ -109,7 +121,13 @@ Rectangle {
 //                                                play.image = modelData.post
                                                 play.datas = JSON.parse(client.getMovieInfo(modelData.name))
                                                 console.log(play.datas.resource.videotype.type)
-//                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+
+
+                                                if(modelData.name !== middleArea.playingName
+                                                        && middleArea.playingName!==""){
+                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    middleArea.playingName = ""
+                                                }
                                             }
                                         }
                                     }
@@ -191,8 +209,8 @@ Rectangle {
         id: variety_slide
         Rectangle {
             id: slide_rec
-            width: 250
-            height: 1 / 5 * row_rec.height
+            width: row_image.width/5
+            height: 40
             color: ListView.isCurrentItem ? "lightblue" : "white"
             onColorChanged: {
                 slide_image.source = "file:" + modelData.post
