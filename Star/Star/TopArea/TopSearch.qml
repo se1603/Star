@@ -108,6 +108,7 @@ Item{
                     }
                     middleArea.middleface.middleStack.push(middleArea.middleface.recordPage)
                     if(middleArea.middleface.visible === false) {
+                        middleArea.playInterface.visible = false
                         middleArea.middleface.visible = true
                     }
                 }

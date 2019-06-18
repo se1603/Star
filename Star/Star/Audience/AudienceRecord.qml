@@ -63,9 +63,11 @@ Rectangle {
             }
             Text {
                 id: notice
-                text: "——这里空空如也——"
+                text: "——暂时还没有任何观看记录——"
                 font.pixelSize: 26
                 color:"#696969"
+                anchors.top: parent.top
+                anchors.topMargin: 2 / 5 * audienceDisplay.height
                 anchors.left: parent.left
                 anchors.leftMargin: 1 / 3 * audienceDisplay.width
                 visible:record[0].name === " " ? true : false
