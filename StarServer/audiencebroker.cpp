@@ -268,16 +268,16 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
 
 
     std::string collections = audienceInfo[3];// + "/" + cName + " " + cTime + " " + cType;
-//    std::cout << "--------" << std::endl << collections << std::endl;
+    std::cout << "--------" << std::endl << collections << std::endl;
 
     std::string newcollections = cName + " " + cTime + " " + cType+"/";
-//    std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
+    std::cout << "~~~~~~" << std::endl << newcollections << std::endl;
 
     std::string newnew = collections + newcollections;
-//    std::cout << "!!!!!" << std::endl << newnew << std::endl;
+    std::cout << "!!!!!" << std::endl << newnew << std::endl;
 
     std::string sql2 = "update audience set collection='"+newnew+"' where name='"+aName+"';";
-//    std::cout << "?????????" << std::endl << sql2 << std::endl;
+    std::cout << "?????????" << std::endl << sql2 << std::endl;
 
     if(mysql_query(mysql,sql2.data())){
         std::cout << "更新收藏失败" << std::endl;
@@ -288,6 +288,62 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
         mysql_close(mysql);
 
     std::cout << "更新收藏成功" << std::endl;
+    return true;
+}
+
+bool AudienceBroker::updateAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "(update record)Connect MYSQL failed." << std::endl;
+    }
+
+    std::string audienceRecord;
+    std::string sql = "select * from audience where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "查询失败(record)" << std::endl;
+    }
+    else
+    {
+        std::cout << "我进来了" << std::endl;
+        std::cout << std::endl;
+        result = mysql_use_result(mysql);
+        while(1)
+        {
+            row = mysql_fetch_row(result);
+            if(row == nullptr){
+                break;
+            }else{
+                for(unsigned int i=0;i<mysql_num_fields(result);++i){
+                    if(i == 4){
+                        audienceRecord = std::string(row[i]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    std::string record = recordname + " " + startPlayTime + " " + duration + " " + type + "/";
+    std::string newrecord = audienceRecord + record;
+    std::string sql2 = "update audience set record='"+newrecord+"' where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql2.data())){
+        std::cout << "更新记录失败" << std::endl;
+        return false;
+    }
+
+    if(mysql != nullptr)
+        mysql_close(mysql);
+
+    std::cout << "更新记录成功" << std::endl;
     return true;
 }
 
@@ -355,11 +411,6 @@ void AudienceBroker::findAudience(std::string name, Audience *a)
 {
     auto n = allaudiences.find(name);
     (*a) = *(n->second);
-//    for(auto all = allaudiences.begin();all != allaudiences.end();all++){
-//        if(all->first == name){
-//            a = all->second;
-//        }
-//    }
 
 }
 

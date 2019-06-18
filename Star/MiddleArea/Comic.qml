@@ -21,9 +21,14 @@ Item {
     }
     Component{
         id:comicRecommend_page
+
         ComicRecommend{
 
         }
+
+//        ComicRecommend{
+
+//        }
     }
     Component{
         id:comictype_page

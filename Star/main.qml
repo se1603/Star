@@ -22,7 +22,6 @@ Window {
         id:client
     }
 
-
     MainItem {
         id: mainItem
     }

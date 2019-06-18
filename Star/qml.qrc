@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>MainItem.qml</file>
         <file>Audience/AudienceCollection.qml</file>
         <file>Audience/AudienceInterface.qml</file>
         <file>Audience/AudienceMenu.qml</file>
@@ -26,48 +24,19 @@
         <file>image/avatar/8.jpeg</file>
         <file>image/avatar/9.jpg</file>
         <file>image/img/left.png</file>
-        <file>image/TopArea/ac0.png</file>
+        <file>image/play/collect.png</file>
+        <file>image/play/download.png</file>
+        <file>image/play/share.jpg</file>
         <file>image/TopArea/back.jpg</file>
+        <file>image/TopArea/history.png</file>
         <file>image/TopArea/list.png</file>
-        <file>image/TopArea/renew.jpg</file>
+        <file>image/TopArea/person.png</file>
+        <file>image/TopArea/refresh.png</file>
         <file>image/TopArea/search.png</file>
         <file>image/TopArea/setting1.png</file>
-        <file>image/TopArea/skin.jpg</file>
         <file>image/TopArea/skin.png</file>
-        <file>image/TopArea/timg.jpg</file>
-        <file>image/TopArea/user.png</file>
-        <file>PlayArea/Comment.qml</file>
-        <file>PlayArea/Local.qml</file>
-        <file>PlayArea/Menu.qml</file>
-        <file>PlayArea/Play.qml</file>
-        <file>PlayArea/Record.qml</file>
-        <file>MiddleArea/Comic.qml</file>
-        <file>MiddleArea/MiddleArea.qml</file>
-        <file>MiddleArea/MiddleInterface.qml</file>
-        <file>MiddleArea/MiddleMenu.qml</file>
-        <file>MiddleArea/Movie.qml</file>
-        <file>MiddleArea/MovieRecommend.qml</file>
-        <file>MiddleArea/MovieType.qml</file>
-        <file>MiddleArea/SelectPage.qml</file>
-        <file>MiddleArea/Variety.qml</file>
-        <file>TopArea/RightButton.qml</file>
-        <file>TopArea/TopArea.qml</file>
-        <file>TopArea/TopSearch.qml</file>
-        <file>MiddleArea/VarietyType.qml</file>
-        <file>MiddleArea/VarietyRecommend.qml</file>
-        <file>MiddleArea/ComicRecommend.qml</file>
-        <file>MiddleArea/ComicType.qml</file>
-        <file>image/play/share.jpg</file>
-        <file>image/play/download.png</file>
-        <file>MiddleArea/Drama.qml</file>
-        <file>MiddleArea/DrameRecommend.qml</file>
-        <file>MiddleArea/DrameType.qml</file>
-        <file>PlayArea/Program.qml</file>
-        <file>PlayArea/FilmLibraty.qml</file>
-        <file>PlayArea/CommentPop.qml</file>
-        <file>PlayArea/AllComment.qml</file>
-        <file>PlayArea/DetailPop.qml</file>
-        <file>PlayArea/PlayVideo.qml</file>
+        <file>image/TopArea/StarIcon.png</file>
+        <file>image/TopArea/starIcon.png</file>
         <file>image/videoController/fullScreen.png</file>
         <file>image/videoController/left.png</file>
         <file>image/videoController/next.png</file>
@@ -78,7 +47,46 @@
         <file>image/videoController/stop.png</file>
         <file>image/videoController/volumeOff.png</file>
         <file>image/videoController/volumeUp.png</file>
+        <file>MiddleArea/Comic.qml</file>
+        <file>MiddleArea/ComicRecommend.qml</file>
+        <file>MiddleArea/ComicType.qml</file>
+        <file>MiddleArea/Drama.qml</file>
+        <file>MiddleArea/DrameRecommend.qml</file>
+        <file>MiddleArea/DrameType.qml</file>
+        <file>MiddleArea/MiddleArea.qml</file>
+        <file>MiddleArea/MiddleInterface.qml</file>
+        <file>MiddleArea/MiddleMenu.qml</file>
+        <file>MiddleArea/Movie.qml</file>
+        <file>MiddleArea/MovieRecommend.qml</file>
+        <file>MiddleArea/MovieType.qml</file>
+        <file>MiddleArea/SelectPage.qml</file>
+        <file>MiddleArea/Variety.qml</file>
+        <file>MiddleArea/VarietyRecommend.qml</file>
+        <file>MiddleArea/VarietyType.qml</file>
+        <file>PlayArea/AllComment.qml</file>
+        <file>PlayArea/Comment.qml</file>
+        <file>PlayArea/CommentPop.qml</file>
         <file>PlayArea/CommentPopup.qml</file>
-        <file>image/play/collect.png</file>
+        <file>PlayArea/DetailPop.qml</file>
+        <file>PlayArea/FilmLibraty.qml</file>
+        <file>PlayArea/Local.qml</file>
+        <file>PlayArea/Menu.qml</file>
+        <file>PlayArea/Play.qml</file>
+        <file>PlayArea/PlayFullScreen.qml</file>
+        <file>PlayArea/PlayVideo.qml</file>
+        <file>PlayArea/Program.qml</file>
+        <file>PlayArea/Record.qml</file>
+        <file>TopArea/RightButton.qml</file>
+        <file>TopArea/TopArea.qml</file>
+        <file>TopArea/TopSearch.qml</file>
+        <file>main.qml</file>
+        <file>MainItem.qml</file>
+        <file>MiddleArea/Search.qml</file>
+        <file>MiddleArea/SearchActor.qml</file>
+        <file>MiddleArea/SearchDirector.qml</file>
+        <file>MiddleArea/SearchDrama.qml</file>
+        <file>MiddleArea/SearchMovie.qml</file>
+        <file>TopArea/AboutPop.qml</file>
+        <file>TopArea/Help.qml</file>
     </qresource>
 </RCC>

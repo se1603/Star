@@ -123,6 +123,7 @@ ScrollView{
                     }
                 }
             }
+
             Rectangle{
                 width: parent.width
                 height: 2

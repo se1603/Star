@@ -115,6 +115,10 @@ Rectangle {
                             anchors.fill: parent
                             onClicked: {
 
+                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                middleArea.middle = false
+
                                 if(playInterface.playCommponent.playing)
                                 {
                                     playInterface.playCommponent.stopPlay()
@@ -131,6 +135,12 @@ Rectangle {
                                 play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 //                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                 console.log(play.datas.resource.videotype.type)
+
+                                if(modelData.name !== middleArea.playingName
+                                        && middleArea.playingName!==""){
+                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    middleArea.playingName = ""
+                                }
                             }
                         }
                     }
@@ -150,3 +160,4 @@ Rectangle {
         }
     }
 }
+

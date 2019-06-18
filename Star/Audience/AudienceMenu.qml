@@ -101,7 +101,6 @@ Rectangle {
                         if(parent.text === '收藏'){
                             audience.videos = JSON.parse
                                     (client.audienceCollection(audienceInterface.audienceName))
-
                         }else if(parent.text === '浏览历史'){
                             audience.videos = JSON.parse
                                     (client.audienceRecord(audienceInterface.audienceName))

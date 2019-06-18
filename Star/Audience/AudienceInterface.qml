@@ -10,7 +10,6 @@ Rectangle {
     property string audienceName:""
     property string audienceAvatar:""
     property var videos
-
     property alias stack:audience_stack
 
     onVisibleChanged: {

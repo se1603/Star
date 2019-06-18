@@ -13,6 +13,7 @@ Rectangle {
     height: page_display.height
 
     property var recommendFilms:JSON.parse(client.showRecommend(0))
+
     ScrollView{
         anchors.fill: parent
         clip: true
@@ -26,8 +27,6 @@ Rectangle {
                     id:slideImage
                      height: mainWindow.width < 1200 ? 342 : 442
                      width: selectPage.width
-//                    width: mainWindow.width < 1200 ? 702 : 950
-//                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: film_image
@@ -36,7 +35,7 @@ Rectangle {
                     MouseArea{
                         anchors.fill: parent
                         onClicked: {
-
+                            console.log(film_image.source)
                         }
                     }
                 }
@@ -59,15 +58,16 @@ Rectangle {
 
             ColumnLayout{
                 anchors.top:slideImage.bottom
-                anchors.topMargin: 20
-                spacing: page_display.width < 1000 ? 10 : 60
+//                anchors.topMargin: 20
+//                spacing: page_display.width < 1000 ? 10 : 20
 
                 Repeater{
                     id:show_film
                     model:recommendFilms.secondRecommends.resource
                     Rectangle{
                         width: page_display.width
-                        height: page_display.width < 1000 ? 355 : 400
+                        height: page_display.width < 1000 ? 355 : 420
+//                        color: "red"
                         Text {
                             id:recommend_title
                             text:  modelData.title
@@ -79,19 +79,21 @@ Rectangle {
                             anchors.top: recommend_title.bottom
                             anchors.topMargin: 15
                             anchors.left: parent.left
-                            spacing: mainWindow.width < 1200 ? 15 : 50
+                            spacing: 15//mainWindow.width < 1200 ? 15 : 25
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
-                                    width:  mainWindow.width < 1200 ? 175 : 197
-                                    height:  page_display.width < 1000 ? 290 : 326
+                                    width:  mainWindow.width < 1200 ? 175 :(mainWindow.width > 1400 ? 240 : 225)
+                                    height:  page_display.width < 1000 ? 290 : 370
+//                                    color: "green"
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
-                                        height:  page_display.width < 1000 ? 263 : 296
-                                        color: "red"
+                                        height:  page_display.width < 1000 ? 263 : 340
+//                                        color: "red"
 
                                         Image {
+                                            id:showPost
                                             anchors.fill: parent
                                             anchors.top: parent.top
                                             source:"file:" + modelData.post
@@ -100,6 +102,10 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
+
+                                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                                middleArea.middle = false
 
                                                 if(playInterface.playCommponent.playing)
                                                 {
@@ -111,10 +117,17 @@ Rectangle {
 
                                                 play.visible = true
                                                 play.name = modelData.name
+                                                console.log("select"+play.name)
                                                 play.image = modelData.post
                                                 play.datas = JSON.parse(client.getMovieInfo(modelData.name))
-//                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+
                                                 console.log(play.datas.resource.videotype.type)
+
+                                                if(modelData.name !== middleArea.playingName
+                                                        && middleArea.playingName!==""){
+                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    middleArea.playingName = ""
+                                                }
                                             }
                                         }
                                     }

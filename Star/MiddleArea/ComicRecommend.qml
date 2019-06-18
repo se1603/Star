@@ -69,8 +69,8 @@ Rectangle {
 
             ColumnLayout{
                 anchors.top:slide_comic_image.bottom
-                anchors.topMargin: 20
-                spacing: page_display.width < 1000 ? 10 : 60
+//                anchors.topMargin: 20
+//                spacing: page_display.width < 1000 ? 10 : 60
 
                 Repeater{
                     id:show_comic_film
@@ -89,16 +89,19 @@ Rectangle {
                             anchors.top: comic_title.bottom
                             anchors.topMargin: 15
                             anchors.left: parent.left
-                            spacing: mainWindow.width < 1200 ? 15 : 50
+                            spacing: 15//mainWindow.width < 1200 ? 15 : 50
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
-                                    width:  mainWindow.width < 1200 ? 175 : 197
-                                    height:  page_display.width < 1000 ? 290 : 326
+                                    width:  mainWindow.width < 1200 ? 175 :(mainWindow.width > 1400 ? 240 : 225)
+                                    height:  page_display.width < 1000 ? 290 : 370
+//                                    width:  mainWindow.width < 1200 ? 175 : 197
+//                                    height:  page_display.width < 1000 ? 290 : 326
                                     Rectangle {
                                         id: collectiob_img_comic
                                         width: parent.width
-                                        height:  page_display.width < 1000 ? 263 : 296
+                                          height:  page_display.width < 1000 ? 263 : 340
+//                                        height:  page_display.width < 1000 ? 263 : 296
                                         Image {
                                             anchors.fill: parent
                                             anchors.top: parent.top
@@ -108,7 +111,11 @@ Rectangle {
                                         MouseArea{
                                             anchors.fill: parent
                                             onClicked: {
+                                                middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+                                            console.log(modelData.post)
 
+
+                                                middleArea.middle = false
                                                 if(playInterface.playCommponent.playing)
                                                 {
                                                     playInterface.playCommponent.stopPlay()
@@ -123,6 +130,12 @@ Rectangle {
                                                 play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 //                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                                 console.log(play.datas.resource.videotype.type)
+
+                                                if(modelData.name !== middleArea.playingName
+                                                        && middleArea.playingName!==""){
+                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    middleArea.playingName = ""
+                                                }
                                             }
                                         }
                                     }

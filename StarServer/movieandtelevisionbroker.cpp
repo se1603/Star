@@ -1,3 +1,9 @@
+/* Author:王梦娟
+ * Date:2019-4-25
+ * Note:影视代管者类
+ * author：古长蓉
+ * data：2019-06-17 增加处理搜索内容的函数
+*/
 #include "movieandtelevisionbroker.h"
 #include <iostream>
 #include "film.h"
@@ -899,6 +905,51 @@ Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
     return d;
 }
 
+std::vector<Film *> MovieAndTelevisionBroker::SearchFilm(std::string name)
+{
+        std::vector<Film *> p;
+        for(auto it = m_films.begin(); it != m_films.end(); it++)
+        {
+            if(it->second.findByName(name)){
+                p.push_back(&it->second);  //传入film对象
+            }
+        }
+        return p;
+}
+
+std::vector<Drame *> MovieAndTelevisionBroker::SearchDrama(std::string name)
+{
+        std::vector<Drame *> p;
+        for(auto it = m_drames.begin(); it != m_drames.end(); it++)
+        {
+            if(it->second.findByName(name)){
+                p.push_back(&it->second);  //传入drama对象
+            }
+        }
+        return p;
+}
+
+std::vector<Actor *> MovieAndTelevisionBroker::SearchActor(std::string name)
+{
+    std::vector<Actor *> p;
+    for(auto it = m_actors.begin(); it != m_actors.end(); it++){
+        if(it->second.findByName(name)){
+            p.push_back(&it->second);
+        }
+    }
+    return p;
+}
+
+std::vector<Director *> MovieAndTelevisionBroker::SearchDirector(std::string name)
+{
+    std::vector<Director *> p;
+    for(auto it = m_directors.begin(); it != m_directors.end(); it++){
+        if(it->second.findByName(name)){
+            p.push_back(&it->second);
+        }
+    }
+    return p;
+}
 
 void MovieAndTelevisionBroker::initFilms()
 {

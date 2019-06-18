@@ -15,9 +15,47 @@ Rectangle {
     property alias audienceInterface:audienceInterface
     property alias play:play.visible
     property alias middle:middle_face.visible
+    property alias middleface: middle_face
 
     property alias playInterface: play
 
+    property var playingName:""
+    property var startTime:""
+    property var duration:""
+    property var videoType:""
+
+
+//    SwipeView{
+//        id: view
+
+//        currentIndex: 0
+//        anchors.fill: parent
+
+//        MiddleInterface{
+//            id:middle_face
+//        }
+
+//        Play{
+//            id:play
+//        }
+
+//    }
+
+//    SwipeView{
+//        id: view
+
+//        currentIndex: 0
+//        anchors.fill: parent
+
+//        MiddleInterface{
+//            id:middle_face
+//        }
+
+//        Play{
+//            id:play
+//        }
+
+//    }
 
 //    SwipeView{
 //        id: view

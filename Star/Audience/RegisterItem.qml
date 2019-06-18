@@ -31,19 +31,19 @@ Page {
 
         Row {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 1 / 12 * register.height
+            spacing: 1 / 30 * register.height
             Column {
-                spacing: 1 / 6 * register.height
+                anchors.top: parent.top
+                anchors.topMargin: 5
+                spacing: 1 / 5 * login.height
 
                 Text {
                     text: "用户名："
-                    font.family: "Times"
                     font.pixelSize: 20
                 }
 
                 Text {
                     text: "密码："
-                    font.family: "Times"
                     font.pixelSize: 20
                 }
             }

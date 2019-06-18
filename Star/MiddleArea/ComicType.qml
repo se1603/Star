@@ -41,8 +41,8 @@ Rectangle {
                         model: comics_type
                         Rectangle {
                             id:comicImage
-                            width: 220
-                            height: 330
+                            width: page_display.width < 1000 ? 220 :230 //220
+                            height: page_display.width < 1000 ? 330 : 340
 //                            border.color: "red"
                             Image {
                                 anchors.fill: parent
@@ -69,6 +69,9 @@ Rectangle {
                                 anchors.fill: parent
                                 onClicked: {
 
+                                    middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+                                    middleArea.middle = false
                                     if(playInterface.playCommponent.playing)
                                     {
                                         playInterface.playCommponent.stopPlay()
@@ -85,6 +88,12 @@ Rectangle {
                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)
+
+                                    if(modelData.name !== middleArea.playingName
+                                            && middleArea.playingName!==""){
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        middleArea.playingName = ""
+                                    }
                                 }
                             }
                         }
