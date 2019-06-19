@@ -93,11 +93,14 @@ Rectangle {
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
+//                                    width:  mainWindow.width < 1200 ? 175 :225
+//                                    height:  page_display.width < 1000 ? 290 : 370
                                     width:  mainWindow.width < 1200 ? 175 : 197
                                     height:  page_display.width < 1000 ? 290 : 326
                                     Rectangle {
                                         id: collectiob_img_comic
                                         width: parent.width
+//                                          height:  page_display.width < 1000 ? 263 : 340
                                         height:  page_display.width < 1000 ? 263 : 296
                                         Image {
                                             anchors.fill: parent

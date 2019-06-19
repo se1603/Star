@@ -213,7 +213,7 @@ std::string BrowseAndWatchController::recommend(int category)
         std::vector<Film> film1s = m_movieAndTelevisionBroker->getRecommendFilms(99);
         Json::Value arry;
         Json::Value item;
-        for(int a = 10; a != 0;a=a-2)
+        for(int a = 0;a != 5;a++)
         {
             std::vector<std::string> resource;
             Json::Value film;
@@ -223,7 +223,7 @@ std::string BrowseAndWatchController::recommend(int category)
             std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
             film["rtspURL"] = url;
             arry.append(film); //存小图电影
-            a++;
+//            a++;
         }
         item["title"] = title[0];
         item["films"] = arry;

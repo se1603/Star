@@ -41,8 +41,8 @@ Rectangle {
                         model: comics_type
                         Rectangle {
                             id:comicImage
-                            width: 220
-                            height: 330
+                            width: page_display.width < 1000 ? 220 :230 //220
+                            height: page_display.width < 1000 ? 330 : 340
 //                            border.color: "red"
                             Image {
                                 anchors.fill: parent

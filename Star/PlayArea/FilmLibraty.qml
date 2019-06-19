@@ -21,7 +21,7 @@ Rectangle{
         anchors.topMargin: 10
         anchors.left: parent.left
         anchors.leftMargin: 10
-        text: "正在播放"
+        text: play.name ? "正在播放":"暂无播放"
         color: "white"
         font.pixelSize: 24
     }
@@ -34,9 +34,10 @@ Rectangle{
         spacing: 5
         Rectangle{
             id:play_rec
+            visible: play.name?true:false
             width: 2/5*play_page.width
             height: 1/5*play_page.height
-             color: "red"
+            color: "red"
             Image{
                 id:record_img
                 width:parent.width

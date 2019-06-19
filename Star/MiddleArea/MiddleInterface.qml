@@ -27,6 +27,7 @@ Rectangle {
             id: middle_Menu
         }
 
+
         Rectangle {
             id: page_display
             width: 54 / 60 * parent.width

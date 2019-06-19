@@ -86,11 +86,14 @@ Rectangle {
                             Repeater {
                                 model: modelData.varieties
                                 Rectangle {
-                                    width: mainWindow.width < 1200 ? 175 : 197
+                                    width:  mainWindow.width < 1200 ? 175 :225
+//                                    height:  page_display.width < 1000 ? 290 : 370
+//                                    width: mainWindow.width < 1200 ? 175 : 197
                                     height: page_display.width < 1000 ? 290 : 326
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
+//                                        height:  page_display.width < 1000 ? 263 : 340
                                         height:  page_display.width < 1000 ? 263 : 296
                                         Image {
                                             anchors.fill: parent

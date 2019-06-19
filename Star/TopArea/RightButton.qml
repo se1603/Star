@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import "../Audience"
 import "../MiddleArea"
-
+import QtQuick.Controls 1.4
 Item {
     id:rightButton
     width: 1/3 * parent.width
@@ -22,6 +22,14 @@ Item {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         color: "#F5F5F5"
+
+        AboutPop{
+            id:about
+        }
+        Help{
+            id:help
+        }
+
         Image {
             id: listicon
             width: 25
@@ -35,6 +43,26 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
             }
+        }
+        ComboBox {
+            opacity: 0
+            currentIndex: 2
+            model: ListModel {
+                id: cbItems
+                ListElement { text: "帮助"; color: "Yellow" }
+                ListElement { text: "关于"; color: "Green" }
+                ListElement { text: "设置"; color: "Brown" }
+            }
+            width: 100
+            onCurrentIndexChanged: {
+                if(cbItems.get(currentIndex).text === "关于"){
+                    about.open()
+                }
+                if(cbItems.get(currentIndex).text === "帮助"){
+                    help.open()
+                }
+            }
+
         }
     }
     Rectangle{    //皮肤图标
@@ -98,7 +126,6 @@ Item {
         anchors.right: renew.left
         anchors.rightMargin: 15
         anchors.verticalCenter: parent.verticalCenter
-//        color: "lightgray"
         property alias loginIcon:loginIcon
         Image {
             id: loginIcon

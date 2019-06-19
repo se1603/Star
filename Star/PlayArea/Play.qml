@@ -24,7 +24,7 @@ Rectangle {
     height: middleArea.height
 
     property alias playwidth: play.width
-    property bool xflag: true
+    property bool xflag: play.name ? true :false
     property bool xRflag: true
     property string name:""
     property string type: ""
@@ -40,16 +40,30 @@ Rectangle {
 //    property bool playing: false
     property alias playCommponent: playVideo
 
+
     Rectangle{
         id:center
         anchors.right: rightRec.left
         anchors.left: leftRect.right
         height: parent.height
-        color:"green"
+//        color:"green"
 
         PlayVideo{
             id:playVideo
+            visible: play.name ? true :false
             path: rtspUrl
+        }
+        Rectangle{
+            visible: play.name ? false :true
+            width: parent.width
+            height: parent.height
+            color:  "#8B8378"
+            Text{
+                anchors.centerIn: parent
+                text: "请选择视频播放"
+                font.pixelSize: 28
+                color: "white"
+            }
         }
     }
 
@@ -76,14 +90,15 @@ Rectangle {
             easing.type: Easing.Linear }
     }
 
-
+    onVisibleChanged: {
+            right_stack.push(comment_page,StackView.Immediate)
+    }
     Rectangle{
         id:rightRec
         x: xflag ? 4/5*play.width : play.width//200
         y:0
         width: 1/5*play.width//200
         height: play.height
-//        color:"red"
         radius: 5
 
         Rectangle {
@@ -137,7 +152,7 @@ Rectangle {
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-           // anchors.topMargin: 20
+
             id:right_stack
             initialItem: comment_page
             MouseArea{
@@ -159,10 +174,7 @@ Rectangle {
         }
     }
 
-    onVisibleChanged: {
 
-        right_stack.push(comment_page,StackView.Immediate)
-    }
 
     Rectangle{
         id:leftRect

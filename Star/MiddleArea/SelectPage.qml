@@ -27,8 +27,6 @@ Rectangle {
                     id:slideImage
                     height: mainWindow.width < 1200 ? 342 : 442
                     width: selectPage.width
-                    //                    width: mainWindow.width < 1200 ? 702 : 950
-                    //                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: film_image
@@ -59,17 +57,18 @@ Rectangle {
             }
 
             ColumnLayout{
-                anchors.top:slideImage.bottom
-                //                anchors.topMargin:
-                spacing: page_display.width < 1000 ? 10 : 40
+                anchors.top:slide_row.bottom
+                anchors.topMargin: 20
+                spacing: page_display.width < 1000 ? 10 : 60
 
                 Repeater{
                     id:show_film
                     model:recommendFilms.secondRecommends.resource
                     Rectangle{
-                        //                        color: "green"
+//                        color: "green"
                         width: page_display.width
                         height: page_display.width < 1000 ? 355 : 400
+//                        color: "red"
                         Text {
                             id:recommend_title
                             text:  modelData.title
@@ -81,18 +80,20 @@ Rectangle {
                             anchors.top: recommend_title.bottom
                             anchors.topMargin: 15
                             anchors.left: parent.left
-                            spacing: /*mainWindow.width < 1200 ? 15 : 30*/15
+                            spacing: mainWindow.width < 1200 ? 15 : 25
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
-                                    width:  mainWindow.width < 1200 ? 175 : (mainWindow.width > 1400 ? 240 : 225)
-                                    height:  page_display.width < 1000 ? 290 : 326
+                                    width: mainWindow.width < 1200 ? 175 : 197
+                                    height: page_display.width < 1000 ? 290 : 326
+//                                    width:  mainWindow.width < 1200 ? 175 :(mainWindow.width > 1400 ? 240 : 225)
+//                                    height:  page_display.width < 1000 ? 290 : 326
+//                                    color: "green"
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
-                                        height:  page_display.width < 1000 ? 263 : 310
-                                        color: "red"
-
+                                        height:  page_display.width < 1000 ? 263 : 296
+//                                        color: "red"
                                         Image {
                                             id:showPost
                                             anchors.fill: parent
@@ -129,12 +130,11 @@ Rectangle {
 
                                                 play.visible = true
                                                 play.name = modelData.name
+                                                console.log("select"+play.name)
                                                 play.image = modelData.post
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 
-
-                                                console.log("aaaaaa")
-                                                console.log(play.rtspUrl)
-                                                console.log(play.datas.resource.esipode)
+                                                console.log(play.datas.resource.videotype.type)
 
                                                 if(modelData.name !== middleArea.playingName
                                                         && middleArea.playingName!==""){

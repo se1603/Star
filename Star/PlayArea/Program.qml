@@ -114,12 +114,6 @@ Rectangle {
                 }
             }
         }
-//        Image {
-//            id: share_img
-//            width: 25
-//            height: 30
-//            source: "qrc:/image/play/share.jpg"
-//        }
 
     }
     Rectangle{

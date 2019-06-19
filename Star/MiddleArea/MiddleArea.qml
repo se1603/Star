@@ -23,6 +23,7 @@ Rectangle {
     property var startTime:""
     property var duration:""
     property var videoType:""
+
     property var playRtspUrl: ""
 
     property alias refersh: refersh
