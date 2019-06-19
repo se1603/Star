@@ -125,22 +125,28 @@ Rectangle {
                                     console.log("true")
                                 }
 
-//                                play.rtspUrl = modelData.rtspURL
-                                play.esipode = Number(epText.text)
-                                play.rtspUrl = middleArea.playRtspUrl + "/0.mkv"
+                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                               middleArea.playRtspUrl = modelData.rtspURL
+                               play.esipode = Number(play.datas.resource.esipode)
+                               play.rtspUrl = modelData.rtspURL + "/1.mkv"
 
                                 play.visible = true
                                 play.name = modelData.name
                                 play.image = modelData.post
                                 console.log(modelData.name)
                                 console.log(modelData.post)
-                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
-//                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+
                                 console.log(play.datas.resource.videotype.type)
 
+                                //自动生成记录
                                 if(modelData.name !== middleArea.playingName
                                         && middleArea.playingName!==""){
-                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    if(audienceInterface.audienceName === ""){
+                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }else{
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }
                                     middleArea.playingName = ""
                                 }
                             }

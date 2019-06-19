@@ -60,6 +60,11 @@ public:
     //用户类函数（C++端）
     void getAudienceInfo(std::string name);
 
+    //非用户历史记录
+    Q_INVOKABLE void addBrowseRecord(QString recordName,QString startTime,QString duration,
+                               QString type);
+    Q_INVOKABLE QString browseRecord();
+
     //获取评论信息
     Q_INVOKABLE QString showCommentInfo(QString name);
     //获取精华评论

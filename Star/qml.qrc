@@ -61,9 +61,7 @@
         <file>MiddleArea/MovieRecommend.qml</file>
         <file>MiddleArea/MovieType.qml</file>
         <file>MiddleArea/Search.qml</file>
-        <file>MiddleArea/SearchActor.qml</file>
         <file>MiddleArea/SearchCharacter.qml</file>
-        <file>MiddleArea/SearchDirector.qml</file>
         <file>MiddleArea/SearchDrama.qml</file>
         <file>MiddleArea/SearchMovie.qml</file>
         <file>MiddleArea/SelectPage.qml</file>
@@ -90,5 +88,6 @@
         <file>TopArea/TopSearch.qml</file>
         <file>main.qml</file>
         <file>MainItem.qml</file>
+        <file>MiddleArea/BrowseRecord.qml</file>
     </qresource>
 </RCC>

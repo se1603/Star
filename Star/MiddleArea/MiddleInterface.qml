@@ -23,6 +23,11 @@ Rectangle {
 
     property alias search: searchfunction
 
+    property alias middleStack:middle_stack
+    property alias recordPage:browserecord_page
+
+    property var browse_records
+
 
     Row {
         width: parent.width
@@ -89,6 +94,13 @@ Rectangle {
             Component{
                 id:search_page
                 Search{
+                }
+            }
+
+            Component{
+                id:browserecord_page
+                BrowseRecord{
+
                 }
             }
         }

@@ -12,7 +12,7 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "10.253.133.196";
+    m_rtspAddress = "192.168.31.13";
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
@@ -510,9 +510,10 @@ std::string BrowseAndWatchController::SearchKey(std::string name)
 
     std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
     std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
+    std::vector<Comic *> comic = m_movieAndTelevisionBroker->SearchComic(name);
     std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
     std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
-//    std::vector<Comic *> comics = m_movieAndTelevisionBrokec
+
 
     if(film.size() != 0)
     {
@@ -531,6 +532,17 @@ std::string BrowseAndWatchController::SearchKey(std::string name)
         std::vector<std::string> searchInfo;
         drame[0]->searchInfo(searchInfo);
         search["type"] = "Drama";
+        search["name"] = searchInfo[0];
+        search["post"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+        search["episode"] = searchInfo[3];
+        searchs.append(search);
+    }
+    else if (comic.size() != 0) {
+        Json::Value search;
+        std::vector<std::string> searchInfo;
+        comic[0]->searchInfo(searchInfo);
+        search["type"] = "Comic";
         search["name"] = searchInfo[0];
         search["post"] = searchInfo[1];
         search["introduction"] = searchInfo[2];
@@ -793,6 +805,17 @@ std::string BrowseAndWatchController::comicInterface(int type)
     return out;
 }
 
+bool BrowseAndWatchController::addBrowseRecord(std::string recordName, std::string startTime, std::string duration, std::string type)
+{
+    if(m_movieAndTelevisionBroker->addBrowseRecord(recordName, startTime, duration, type)
+            == true){
+        return true;
+    } else {
+        return false;
+    }
+}
 
-
-
+std::string BrowseAndWatchController::getBrowseRecord()
+{
+   return m_movieAndTelevisionBroker->getBrowseRecord();
+}

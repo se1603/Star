@@ -10,7 +10,7 @@
 #include <thread>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.133.196"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.31.13"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -607,6 +607,54 @@ void Client::getAudienceInfo(std::string name)
     //    qDebug() << n << "------" << a;
     emit loginsucceed(n,a);
 
+}
+
+void Client::addBrowseRecord(QString recordName, QString startTime, QString duration, QString type)
+{
+    Json::Value root;
+    root["request"] = "ADDBROWSERECORD";
+    root["recordName"] = recordName.toStdString();
+    root["startTime"] = startTime.toStdString();
+    root["duration"] = duration.toStdString();
+    root["type"] = type.toStdString();
+
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+
+    NetWork sock(udpsockptr);
+
+    std::string m;
+    m = sock.receive();
+}
+
+QString Client::browseRecord()
+{
+    Json::Value root;
+    root["request"] = "GETBROWSERECORD";
+
+    std::string message = root.toStyledString();
+
+    socket_ptr udpsockptr;
+    udpsockptr = sendMessage(message);
+
+    NetWork sock(udpsockptr);
+
+    std::string m;
+    m = sock.receive();
+
+    Json::Value value;
+    Json::Value qmlvalue;
+    Json::Reader reader;
+    if(!reader.parse(m,value)) {
+        std::cerr << "Receive records failed." << std::endl;
+    } else {
+        qmlvalue = value["browserecord"];
+    }
+
+    QString str = QString::fromStdString(qmlvalue.toStyledString());
+    return str;
 }
 
 QString Client::showCommentInfo(QString name)

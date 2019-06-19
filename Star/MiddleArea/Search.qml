@@ -49,6 +49,9 @@ Item {
         case "Drama":
             search_stack.push(searchdrama, StackView.Immediate)
             break;
+        case "Comic":
+            search_stack.push(searchdrama, StackView.Immediate)
+            break;
 
         default:
             search_stack.push(searchcharacter, StackView.Immediate)

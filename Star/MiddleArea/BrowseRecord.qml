@@ -1,14 +1,12 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "../MiddleArea"
 
 Rectangle {
-    width: 59 / 60 * audienceDisplay.width
-    height: 59 / 60 * audienceDisplay.height
-    border.color: "gray"
+    width: page_display.width
+    height: page_display.height
 
-    property var collection:audience.videos
+    property var browseRecord:middleArea.middleface.browse_records
 
     ScrollView {
         anchors.fill: parent
@@ -18,15 +16,15 @@ Rectangle {
             height: parent.height
 
             Text {
-                id: collection_title
-                text: " 我的收藏"
-                font.pixelSize: 20
-                //font.family: "Beta Dance"
-                opacity: 0.7
+                id: browserecord_title
+                text: " 历史记录"
+                font.pixelSize: 23
+                color: "#696969"
             }
+
             GridLayout {
-                id: collection_grid
-                anchors.top: collection_title.bottom
+                id: browserecord_grid
+                anchors.top: browserecord_title.bottom
                 anchors.topMargin: 15
                 anchors.left: parent.left
                 anchors.leftMargin: 15
@@ -34,51 +32,45 @@ Rectangle {
                 columnSpacing: 15
                 rowSpacing: 15
                 Repeater {
-                    model: collection
+                    model: browseRecord
                     Rectangle {
                         width: 200
                         height: 330
                         Rectangle {
-                            id: collection_img
+                            id: browseRecord_img
                             width: parent.width
                             height: 290
                             Image {
                                 width: parent.width
                                 height: parent.height
                                 source: "file:"+modelData.post
-                                MouseArea{
-                                    anchors.fill:parent
-                                    onClicked: {
-
-                                    }
-                                }
                             }
                         }
                         Text {
-                            id: collection_name
+                            id: browseRecord_name
                             width: parent.width
                             text: modelData.name
                             wrapMode: Text.Wrap
-                            anchors.top: collection_img.bottom
+                            anchors.top: browseRecord_img.bottom
                         }
                         Text {
-                            id: collection_time
-                            text: modelData.collecttime
-                            anchors.top: collection_name.bottom
+                            id: browseRecord_info
+                            text: modelData.startPlayTime+"   "+modelData.duration
+                            anchors.top: browseRecord_name.bottom
                         }
                     }
                 }
             }
             Text {
                 id: notice
-                text: "——暂时还没有任何收藏——"
+                text: "——暂时还没有任何观看记录——"
                 font.pixelSize: 26
                 color:"#696969"
                 anchors.top: parent.top
-                anchors.topMargin: 2 / 5 * audienceDisplay.height
+                anchors.topMargin: 2 / 5 * page_display.height
                 anchors.left: parent.left
-                anchors.leftMargin: 1 / 3 * audienceDisplay.width
-                visible:collection[0].name === " " ? true : false
+                anchors.leftMargin: 1 / 3 * page_display.width
+                visible:browseRecord[0].name === " " ? true : false
             }
         }
     }

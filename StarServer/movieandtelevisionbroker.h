@@ -12,6 +12,7 @@
 #include "variety.h"
 #include "comic.h"
 #include "drame.h"
+#include "record.h"
 
 class MovieAndTelevisionBroker : public RelationalBroker
 {
@@ -80,7 +81,12 @@ public:
      std::vector<Drame *> SearchDrama(std::string name);
      std::vector<Actor *> SearchActor(std::string name);
      std::vector<Director *> SearchDirector(std::string name);
+     std::vector<Comic *> SearchComic(std::string name);
 
+     //本地浏览记录
+     bool addBrowseRecord(std::string recordName, std::string startTime,
+                          std::string duration, std::string type);
+     std::string getBrowseRecord();
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;
@@ -91,6 +97,8 @@ private:
 
     std::map<std::string,Actor> m_actors; //演员
     std::map<std::string,Director> m_directors; //导演
+
+    std::vector<Record> browse_records;
 };
 
 #endif // MOVIEANDTELEVISIONBROKER_H

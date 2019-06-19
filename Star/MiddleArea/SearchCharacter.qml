@@ -40,7 +40,12 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        search_stack.pop()
+                        if(search_stack.depth > 2) {
+                            search_stack.pop()
+                        } else {
+                            middle_stack.pop(select_page)
+                            middleArea.middleface.search.visible = false
+                        }
                     }
                 }
             }
@@ -68,8 +73,8 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        search_stack.clear()
-                        middle_Menu.visible = true
+                        middle_stack.pop(select_page)
+                        middleArea.middleface.search.visible = false
                     }
                 }
             }
@@ -149,19 +154,20 @@ Rectangle {
                 Repeater{
                     model: searchCharacter
                     Rectangle{
-                        id:actordetail
+                        id:characterdetail
                         width: parent.width
                         height: 300
                         anchors.top: parent.top
                         anchors.left: parent.left
                         Rectangle{
-                            id:actorpost
+                            id:photo
                             width: 150
                             height: 150
                             radius: 75
                             anchors.left: parent.left
                             anchors.leftMargin: 30
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 30
                             Image {
                                 id: poster
                                 anchors.fill: parent
@@ -188,10 +194,10 @@ Rectangle {
                             }
                         }
                         Text{   //显示姓名
-                            id: actorname
+                            id: name
                             width: 100
                             height: 35
-                            anchors.left: actorpost.right
+                            anchors.left: photo.right
                             anchors.leftMargin: 20
                             anchors.top: parent.top
                             anchors.topMargin: 20
@@ -203,9 +209,9 @@ Rectangle {
                             id: birthday
                             width: 100
                             height: 35
-                            anchors.left: actorpost.right
+                            anchors.left: photo.right
                             anchors.leftMargin: 20
-                            anchors.top: actorname.bottom
+                            anchors.top: name.bottom
                             anchors.topMargin: 20
                             font.pixelSize: 16
 //                            color: "lightblue"
@@ -218,7 +224,7 @@ Rectangle {
                             height: 35
                             anchors.left: birthday.right
                             anchors.leftMargin: 100
-                            anchors.top: actorname.bottom
+                            anchors.top: name.bottom
                             anchors.topMargin: 20
                             font.pixelSize: 16
 //                            color: "lightblue"
@@ -229,7 +235,7 @@ Rectangle {
                             id: intro
                             width: parent.width - 240
                             height: 120
-                            anchors.left: showposter.right
+                            anchors.left: photo.right
                             anchors.leftMargin: 20
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: 20

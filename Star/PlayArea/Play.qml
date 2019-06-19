@@ -34,6 +34,7 @@ Rectangle {
 
     property var datas
     property var commentModel
+
     property int esipode: 1
 
     property string rtspUrl: ""

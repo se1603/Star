@@ -1,5 +1,5 @@
 //董梦丹 4-25
-//最后修改于 5-17
+//最后修改于 6-18
 #ifndef AUDIENCE_H
 #define AUDIENCE_H
 #include <iostream>
@@ -28,6 +28,10 @@ public:
     void showCollection(std::map<std::string,MovieAndTelevision*> &collectionmap);
     void showRecord(std::map<std::string,MovieAndTelevision*> &recordmap);
     void showname(std::vector<std::string> &a);//获取用户名字
+
+    bool judgeRecord(std::string recordname);
+    void changeRecord(std::string recordname, std::string startPlayTime,
+                      std::string duration);
 private:
     std::string m_name;
     std::string m_password;

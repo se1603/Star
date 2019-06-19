@@ -9,7 +9,11 @@ class Record
     friend class Audience;
 public:
     Record(std::string startPlayTime, std::string duration, Audience* a, MovieAndTelevision* m);
+
     void showRecord(std::vector<std::string> &a_record);
+    void showAllInfo(std::vector<std::string> &r);
+    void changeInfo(std::string startTime, std::string duration);
+    bool verifyName(std::string r);
 private:
     std::string m_startPlayTime;
     std::string m_duration;

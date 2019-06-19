@@ -166,12 +166,10 @@ Rectangle {
                 middleArea.videoType = middleArea.playInterface.datas.resource.category
                 middleArea.startTime = starttime
                 middleArea.duration = player.showCurrentTime()
-                console.log("---"+middleArea.playInterface.datas.resource.category)
 
                 if(!firstPlay)
                 {
                     console.log("path:"+path)
-
                     player.startPlay(path)
                     playing = true
                     firstPlay = true
@@ -196,7 +194,6 @@ Rectangle {
         target: player
         onSigShowTotalTime:
         {
-            console.log(player.showTotalTime())
             duation.text = player.showTotalTime()
         }
         onSigShowCurrentTime:
@@ -208,7 +205,6 @@ Rectangle {
         }
         onSigSliderTotalValue:{
             progressBar.to = value
-            console.log(progressBar.to)
         }
         onSigSliderValue:{
             progressBar.value = currentvalue
@@ -344,10 +340,9 @@ Rectangle {
                         var minutes = date.getMinutes()
                         var starttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
                         middleArea.playingName = middleArea.playInterface.name
+
                         middleArea.videoType = middleArea.playInterface.datas.resource.category
                         middleArea.startTime = starttime
-//                        middleArea.duration = player.showCurrentTime()
-                        console.log("---"+middleArea.playInterface.datas.resource.category)
 
                         if(!firstPlay)
                         {

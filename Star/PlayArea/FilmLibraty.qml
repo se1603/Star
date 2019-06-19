@@ -11,6 +11,7 @@ Rectangle{
     height: left_stack.height
 
     color: "#424242"
+
     property string playname: ""
     property string playtype: ""
     property string img:""

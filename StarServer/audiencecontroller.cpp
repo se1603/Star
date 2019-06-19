@@ -110,17 +110,30 @@ bool AudienceController::addAudienceCollection(std::string audiencename, std::st
 
 bool AudienceController::updateAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
 {
-    if(m_audienceBroker->updateAudienceRecord(audiencename,recordname,startPlayTime,duration,type)
-            == true){
-        std::vector<std::string> tmp{recordname,startPlayTime,duration,type};
-        MovieAndTelevision *mv = new MovieAndTelevision();
-        m_movieAndTelevisionBroker->processAudienceRecord(tmp,mv);
-        if(mv != nullptr)
-            m_audienceBroker->createAudienceRecord(audiencename,startPlayTime,duration,mv);
-        return true;
+    //重复
+    if(m_audienceBroker->judgeAudienceRecord(audiencename, recordname) == false) {
+        m_audienceBroker->changeAudienceRecord(audiencename, recordname,
+                                               startPlayTime, duration);
+        if(m_audienceBroker->changeDatabaseRecord(audiencename, recordname, startPlayTime, duration, type) == true){
+            return true;
+        }else{
+            return false;
+        }
     }
     else
-        return false;
+    {
+        if(m_audienceBroker->updateAudienceRecord(audiencename,recordname,startPlayTime,duration,type)
+                == true){
+            std::vector<std::string> tmp{recordname,startPlayTime,duration,type};
+            MovieAndTelevision *mv = new MovieAndTelevision();
+            m_movieAndTelevisionBroker->processAudienceRecord(tmp,mv);
+            if(mv != nullptr)
+                m_audienceBroker->createAudienceRecord(audiencename,startPlayTime,duration,mv);
+            return true;
+        }
+        else
+            return false;
+    }
 }
 
 std::string AudienceController::audienceInfo(std::string name)

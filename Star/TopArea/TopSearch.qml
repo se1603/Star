@@ -58,6 +58,11 @@ Item{
                     middleArea.middleface.search.visible = true
                     middleArea.middleface.search.searchPage(temp[0].type)
                 }
+                else if(temp[0].type === "Comic"){
+                    middleArea.middleface.searchDrama = temp
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
                 else if(temp[0].type === "Actor"){
                     middleArea.middleface.searchCharacter = temp;
                     middleArea.middleface.search.visible = true
@@ -97,6 +102,11 @@ Item{
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
+                    else if(temp[0].type === "Comic"){
+                        middleArea.middleface.searchDrame = temp
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
                     else if(temp[0].type === "Actor"){
                         middleArea.middleface.searchCharacter = temp;
                         middleArea.middleface.search.visible = true
@@ -133,7 +143,17 @@ Item{
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-//                    RecordPage.visible = true
+                    if(middleArea.audienceInterface.audienceName !== ""){
+                        middleArea.middleface.browse_records = JSON.parse(
+                                    client.audienceRecord(middleArea.audienceInterface.audienceName))
+                    }else{
+                        middleArea.middleface.browse_records = JSON.parse(
+                                    client.browseRecord())
+                    }
+                    middleArea.middleface.middleStack.push(middleArea.middleface.recordPage)
+                    middleArea.playInterface.visible = false
+                    middleArea.audienceInterface.visible = false
+                    middleArea.middleface.visible = true
                 }
             }
         }

@@ -291,62 +291,6 @@ bool AudienceBroker::addAudienceCollection(std::string aName, std::string cName,
     return true;
 }
 
-bool AudienceBroker::updateAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
-{
-    MYSQL *mysql;
-    mysql = new MYSQL;
-
-    MYSQL_RES *result;
-    MYSQL_ROW row;
-
-    mysql_init(mysql);
-    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
-        std::cout << "(update record)Connect MYSQL failed." << std::endl;
-    }
-
-    std::string audienceRecord;
-    std::string sql = "select * from audience where name='"+audiencename+"';";
-
-    if(mysql_query(mysql,sql.data())){
-        std::cout << "查询失败(record)" << std::endl;
-    }
-    else
-    {
-        std::cout << "我进来了" << std::endl;
-        std::cout << std::endl;
-        result = mysql_use_result(mysql);
-        while(1)
-        {
-            row = mysql_fetch_row(result);
-            if(row == nullptr){
-                break;
-            }else{
-                for(unsigned int i=0;i<mysql_num_fields(result);++i){
-                    if(i == 4){
-                        audienceRecord = std::string(row[i]);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    std::string record = recordname + " " + startPlayTime + " " + duration + " " + type + "/";
-    std::string newrecord = audienceRecord + record;
-    std::string sql2 = "update audience set record='"+newrecord+"' where name='"+audiencename+"';";
-
-    if(mysql_query(mysql,sql2.data())){
-        std::cout << "更新记录失败" << std::endl;
-        return false;
-    }
-
-    if(mysql != nullptr)
-        mysql_close(mysql);
-
-    std::cout << "更新记录成功" << std::endl;
-    return true;
-}
-
 void AudienceBroker::initAudience()
 {
     MYSQL *mysql;
@@ -412,6 +356,160 @@ void AudienceBroker::findAudience(std::string name, Audience *a)
     auto n = allaudiences.find(name);
     (*a) = *(n->second);
 
+}
+
+bool AudienceBroker::updateAudienceRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "(update record)Connect MYSQL failed." << std::endl;
+    }
+
+    std::string audienceRecord;
+    std::string sql = "select * from audience where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "查询失败(record)" << std::endl;
+    }
+    else
+    {
+        std::cout << "我进来了" << std::endl;
+        std::cout << std::endl;
+        result = mysql_use_result(mysql);
+        while(1)
+        {
+            row = mysql_fetch_row(result);
+            if(row == nullptr){
+                break;
+            }else{
+                for(unsigned int i=0;i<mysql_num_fields(result);++i){
+                    if(i == 4){
+                        audienceRecord = std::string(row[i]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    std::string record = recordname + " " + startPlayTime + " " + duration + " " + type + "/";
+    std::string newrecord = audienceRecord + record;
+    std::string sql2 = "update audience set record='"+newrecord+"' where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql2.data())){
+        std::cout << "更新记录失败" << std::endl;
+        return false;
+    }
+
+    if(mysql != nullptr)
+        mysql_close(mysql);
+
+    std::cout << "更新记录成功" << std::endl;
+    return true;
+}
+
+bool AudienceBroker::changeDatabaseRecord(std::string audiencename, std::string recordname, std::string startPlayTime, std::string duration, std::string type)
+{
+    MYSQL *mysql;
+    mysql = new MYSQL;
+
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+
+    mysql_init(mysql);
+    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0)){
+        std::cout << "(update record)Connect MYSQL failed." << std::endl;
+    }
+
+    std::string audienceRecord;
+    std::string sql = "select * from audience where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql.data())){
+        std::cout << "查询失败(record)" << std::endl;
+    }
+    else
+    {
+        std::cout << "我进来了" << std::endl;
+        std::cout << std::endl;
+        result = mysql_use_result(mysql);
+        while(1)
+        {
+            row = mysql_fetch_row(result);
+            if(row == nullptr){
+                break;
+            }else{
+                for(unsigned int i=0;i<mysql_num_fields(result);++i){
+                    if(i == 4){
+                        audienceRecord = std::string(row[i]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    std::vector<std::string> tmp;
+    splictString(audienceRecord,tmp,"/");
+    std::vector<std::string> tmp2;
+    for(auto item = tmp.begin(); item != tmp.end(); ++item) {
+        splictString(*item,tmp2," ");
+        if(tmp2[0] == recordname) {
+            tmp.erase(item);
+        }
+        tmp2.clear();
+        if(tmp.size()==0)
+            break;
+    }
+
+    std::string changedRecord = recordname+" "+startPlayTime+" "+duration+" "+type+"/";
+    tmp.push_back(changedRecord);
+
+    std::string newRecord = "";
+    for(auto &t:tmp) {
+        newRecord += t;
+    }
+
+    std::string sql2 = "update audience set record='"+newRecord+"' where name='"+audiencename+"';";
+
+    if(mysql_query(mysql,sql2.data())){
+        std::cout << "更新记录失败" << std::endl;
+        return false;
+    }
+
+    if(mysql != nullptr)
+        mysql_close(mysql);
+
+    std::cout << "更新记录成功" << std::endl;
+    return true;
+}
+
+bool AudienceBroker::judgeAudienceRecord(std::string audiencename,std::string recordname)
+{
+    for(auto &la:loginedAudiences) {
+        if(la.verifyName(audiencename) == true){
+            if(la.judgeRecord(recordname) == false)
+                return false;
+        }
+    }
+    return true;
+}
+
+void AudienceBroker::changeAudienceRecord(std::string audiencename, std::string recordname,
+                                          std::string startPlayTime, std::string duration)
+{
+    for(auto &la:loginedAudiences) {
+        if(la.verifyName(audiencename) == true){
+            if(la.judgeRecord(recordname) == false) {
+                la.changeRecord(recordname, startPlayTime, duration);
+            }
+        }
+    }
 }
 
 AudienceBroker::AudienceBroker()
