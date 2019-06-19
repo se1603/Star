@@ -23,55 +23,10 @@ Rectangle {
     property var startTime:""
     property var duration:""
     property var videoType:""
+    property var playRtspUrl: ""
 
-
-//    SwipeView{
-//        id: view
-
-//        currentIndex: 0
-//        anchors.fill: parent
-
-//        MiddleInterface{
-//            id:middle_face
-//        }
-
-//        Play{
-//            id:play
-//        }
-
-//    }
-
-//    SwipeView{
-//        id: view
-
-//        currentIndex: 0
-//        anchors.fill: parent
-
-//        MiddleInterface{
-//            id:middle_face
-//        }
-
-//        Play{
-//            id:play
-//        }
-
-//    }
-
-//    SwipeView{
-//        id: view
-
-//        currentIndex: 0
-//        anchors.fill: parent
-
-//        MiddleInterface{
-//            id:middle_face
-//        }
-
-//        Play{
-//            id:play
-//        }
-
-//    }
+    property alias refersh: refersh
+    property alias startTimer: startTimer
 
     MiddleInterface{
         id:middle_face
@@ -86,5 +41,61 @@ Rectangle {
     AudienceInterface {
         id: audienceInterface
         visible: false
+    }
+
+    Timer{
+        id:startTimer
+        interval: 1000
+        running: false
+        onTriggered: {
+            refershComplete.visible = true
+            refersh.visible = false
+            middleface.showPage.visible = true
+            stopTimer.start()
+        }
+    }
+
+    Timer{
+        id:stopTimer
+        interval: 1000
+        running: false
+        onTriggered: {
+            refershComplete.visible = false
+        }
+    }
+
+    Rectangle{
+        id:refersh
+        visible: false
+        color: "#C0C0C0"
+        width: 100
+        height: 30
+        radius: 20
+        anchors.top: topArea.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text {
+            text: "正在刷新..."
+            color: "white"
+            anchors.centerIn: parent
+            font.pixelSize: 16
+        }
+    }
+
+    Rectangle{
+        id:refershComplete
+        visible: false
+        color: "#C0C0C0"
+        width: 120
+        height: 30
+        radius: 20
+        anchors.top: topArea.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Text {
+            text: "已刷新到最新"
+            color: "white"
+            anchors.centerIn: parent
+            font.pixelSize: 16
+        }
     }
 }

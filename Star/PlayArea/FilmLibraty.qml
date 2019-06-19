@@ -64,14 +64,14 @@ Rectangle{
                 //font.family: "Beta Dance"
                 font.pixelSize: 14
                 color: "white"
-                text: play.datas.resource.esipode+"集全"
+                text: play.datas.resource.esipode + "集全"
             }
         }
     }
 
     GridLayout{
         id:gird_play
-        columns:10
+        columns:7
         width: play_page.width
         anchors.top:row_play.bottom
         anchors.topMargin: 10
@@ -81,13 +81,40 @@ Rectangle{
             id:play_repeater
             model: play.datas.resource.esipode
             Rectangle{
-                width: 15
-                height: 15
-                color: "red"
+                width: 25
+                height: 25
+                color: "#8B8378"
                 Text{
+                    id:epText
                     anchors.centerIn: parent
-                    text: modelData+1
+                    text: modelData + 1
                     color: "white"
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+
+//                        middleArea.middle = false
+
+                        if(playInterface.playCommponent.playing)
+                        {
+                            playInterface.playCommponent.stopPlay()
+                            console.log("true")
+                        }
+
+                        play.esipode = Number(epText.text)
+                        play.rtspUrl = middleArea.playRtspUrl + "/" + epText.text + ".mkv"
+
+                        console.log("aaaaaa")
+                        console.log(play.esipode)
+
+                        if(modelData.name !== middleArea.playingName
+                                && middleArea.playingName!==""){
+                            client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                            middleArea.playingName = ""
+                        }
+                    }
                 }
             }
         }

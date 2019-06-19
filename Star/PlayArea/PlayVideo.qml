@@ -22,6 +22,7 @@ Rectangle {
     property bool firstPlay: false
     property bool stopVideo: false
     property bool isFullScreen: false
+    property bool end: false
 
     property alias noteRectangle: note
 
@@ -151,6 +152,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                end = false
                 //get
                 var year = date.getFullYear()
                 var month = date.getMonth()+1
@@ -166,12 +168,23 @@ Rectangle {
 
                 if(!firstPlay)
                 {
+                    console.log("path:"+path)
                     player.startPlay(path)
                     playing = true
                     firstPlay = true
                     stopVideo = false
+                    console.log("aaaaaa")
                 }
             }
+        }
+    }
+
+    Timer{
+        id:wait
+        interval: 1000
+        running: fasle
+        onTriggered: {
+            endPlay()
         }
     }
 
@@ -184,6 +197,8 @@ Rectangle {
         }
         onSigShowCurrentTime:
         {
+            if(end)
+                timing.text = "00:00:00"
             timing.text = player.showCurrentTime()
         }
         onSigSliderTotalValue:{
@@ -192,6 +207,11 @@ Rectangle {
         }
         onSigSliderValue:{
             progressBar.value = currentvalue
+            if(progressBar.value === progressBar.to && !end)
+            {
+                wait.start()
+                end = true
+            }
         }
         onNoResource:{
             console.log("收到信号")
@@ -308,6 +328,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
 
+                        end = false
                         //get
                         var year = date.getFullYear()
                         var month = date.getMonth()+1
@@ -384,6 +405,23 @@ Rectangle {
                     height: parent.height
                     anchors.fill: parent
                     source: "../image/videoController/next.png"
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        esipode += 1
+                        if(esipode ===  Number(datas.resource.esipode) + 1)
+                        {
+                            esipode = 1
+                        }
+                        path = middleArea.playRtspUrl + "/" + esipode + ".mkv"
+
+                        if(!stopVideo)
+                        {
+                            stopPlay()
+                        }
+                        player.startPlay(path)
+                    }
                 }
             }
 
@@ -546,6 +584,18 @@ Rectangle {
                 }
             }
         }
+    }
+
+    function endPlay(){
+        player.endPlay()
+        note.visible = false
+        stopVideo = true
+        firstPlay = false
+        playing = false
+        progressBar.value = 0
+        duation.text = "00:00:00"
+        timing.text = "00:00:00"
+        noResurce = false
     }
 
     function stopPlay(){

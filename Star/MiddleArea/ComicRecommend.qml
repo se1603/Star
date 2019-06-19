@@ -119,7 +119,10 @@ Rectangle {
                                                     console.log("true")
                                                 }
 
-                                                play.rtspUrl = modelData.rtspURL
+//                                                play.rtspUrl = modelData.rtspURL
+
+                                                play.esipode = Number(epText.text)
+                                                play.rtspUrl = middleArea.playRtspUrl + "/0.mkv"
 
                                                 play.visible = true
                                                 play.name = modelData.name

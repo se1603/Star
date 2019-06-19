@@ -59,6 +59,21 @@ void VideoPlayer::stop(bool wait,int mwidth,int mheight)
     decoder->stop(wait,mwidth,mheight);
 }
 
+void VideoPlayer::endPlay()
+{
+    QImage tmpImg(mWidth,mHeight,QImage::Format_RGB32);
+    tmpImg.fill(Qt::black);
+    QImage image = tmpImg.copy();
+
+    decoder = nullptr;
+    decoder = new VideoDecode(this);
+    connect(decoder,&VideoDecode::getOneFrame,this,&VideoPlayer::oneFrame);
+
+    decoder->displayVideo(image);
+
+    noResurce = false;
+}
+
 void VideoPlayer::sliderMoved(int position)
 {
     decoder->seek((qint64)position * 1000000);

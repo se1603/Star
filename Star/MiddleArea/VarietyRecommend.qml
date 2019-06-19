@@ -114,7 +114,10 @@ Rectangle {
                                                     console.log("true")
                                                 }
 
-                                                play.rtspUrl = modelData.rtspURL
+//                                                play.rtspUrl = modelData.rtspURL
+
+                                                play.esipode = Number(epText.text)
+                                                play.rtspUrl = middleArea.playRtspUrl + "/0.mkv"
 
                                                 play.visible = true
 //                                                play.name = modelData.name
@@ -184,20 +187,21 @@ Rectangle {
                         parent.color = "#808080"
                     }
                     onClicked: {
+
                         if(category.text === "真人秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
                         else if(category.text === "选秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
                         else if(category.text === "美食")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
                         else if(category.text === "旅游")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
                         else if(category.text === "纪实")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
                         else if(category.text === "搞笑")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
                         else if(category.text === "访谈")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
                         load_page(category.text)
                     }
                 }

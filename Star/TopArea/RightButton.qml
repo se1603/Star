@@ -80,9 +80,16 @@ Item {
                 id:renewmousearea
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: {
+                    middleArea.middleface.showPage.visible = false
+                    middleArea.refersh.visible = true
+                    middleArea.startTimer.start()
+                }
             }
         }
     }
+
+
     Rectangle{    //登录图标
         id: login
         height: 7/8 * parent.height

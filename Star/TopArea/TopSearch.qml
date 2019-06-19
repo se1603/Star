@@ -86,20 +86,21 @@ Item{
         anchors.left: topSearch.right
         anchors.leftMargin: 2
         anchors.verticalCenter: parent.verticalCenter
+        color: "#F5F5F5"
         Image {
             id: recordicon
-            height: 20
-            width: 20
+            height: 25
+            width: 25
             opacity: recordmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: record.horizontalCenter
             anchors.verticalCenter: record.verticalCenter
-            source: "qrc:/image/TopArea/timg.jpg"
+            source: "qrc:/image/TopArea/history.png"
             MouseArea{
                 id:recordmousearea
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                    RecordPage.visible = true
+//                    RecordPage.visible = true
                 }
             }
         }

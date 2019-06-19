@@ -16,6 +16,8 @@ Rectangle {
     property var searchDirector
     property alias middlemenu: middle_Menu
 
+    property alias showPage: page_display
+
     Row {
         width: parent.width
         height: parent.height

@@ -25,10 +25,10 @@ Rectangle {
                 id:slide_row
                 Rectangle{
                     id:slideImage
-                     height: mainWindow.width < 1200 ? 342 : 442
-                     width: selectPage.width
-//                    width: mainWindow.width < 1200 ? 702 : 950
-//                    height: mainWindow.width < 1200 ? 342 : 442
+                    height: mainWindow.width < 1200 ? 342 : 442
+                    width: selectPage.width
+                    //                    width: mainWindow.width < 1200 ? 702 : 950
+                    //                    height: mainWindow.width < 1200 ? 342 : 442
                     color: "red"
                     Image {
                         id: film_image
@@ -60,13 +60,14 @@ Rectangle {
 
             ColumnLayout{
                 anchors.top:slideImage.bottom
-                anchors.topMargin: 20
-                spacing: page_display.width < 1000 ? 10 : 60
+                //                anchors.topMargin:
+                spacing: page_display.width < 1000 ? 10 : 40
 
                 Repeater{
                     id:show_film
                     model:recommendFilms.secondRecommends.resource
                     Rectangle{
+                        //                        color: "green"
                         width: page_display.width
                         height: page_display.width < 1000 ? 355 : 400
                         Text {
@@ -80,16 +81,16 @@ Rectangle {
                             anchors.top: recommend_title.bottom
                             anchors.topMargin: 15
                             anchors.left: parent.left
-                            spacing: mainWindow.width < 1200 ? 15 : 50
+                            spacing: /*mainWindow.width < 1200 ? 15 : 30*/15
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
-                                    width:  mainWindow.width < 1200 ? 175 : 197
+                                    width:  mainWindow.width < 1200 ? 175 : (mainWindow.width > 1400 ? 240 : 225)
                                     height:  page_display.width < 1000 ? 290 : 326
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
-                                        height:  page_display.width < 1000 ? 263 : 296
+                                        height:  page_display.width < 1000 ? 263 : 310
                                         color: "red"
 
                                         Image {
@@ -113,14 +114,27 @@ Rectangle {
                                                     console.log("true")
                                                 }
 
+                                                middleArea.playRtspUrl = modelData.rtspURL
                                                 play.rtspUrl = modelData.rtspURL
+
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+                                                if(play.datas.resource.esipode !== "1")
+                                                {
+                                                    play.rtspUrl += "/1.mkv";
+                                                }
+                                                else{
+                                                    play.rtspUrl += ".mkv;"
+                                                }
+
 
                                                 play.visible = true
                                                 play.name = modelData.name
                                                 play.image = modelData.post
-                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
 
-                                                console.log(play.datas.resource.videotype.type)
+
+                                                console.log("aaaaaa")
+                                                console.log(play.rtspUrl)
+                                                console.log(play.datas.resource.esipode)
 
                                                 if(modelData.name !== middleArea.playingName
                                                         && middleArea.playingName!==""){
