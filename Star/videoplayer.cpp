@@ -59,6 +59,7 @@ void VideoPlayer::stop(bool wait,int mwidth,int mheight)
     decoder->stop(wait,mwidth,mheight);
 }
 
+
 void VideoPlayer::endPlay()
 {
     QImage tmpImg(mWidth,mHeight,QImage::Format_RGB32);

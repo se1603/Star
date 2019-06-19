@@ -21,6 +21,7 @@ Rectangle{
         anchors.topMargin: 10
         anchors.left: parent.left
         anchors.leftMargin: 10
+
         text: play.name ? "正在播放":"暂无播放"
         color: "white"
         font.pixelSize: 24
@@ -66,6 +67,7 @@ Rectangle{
                 font.pixelSize: 14
                 color: "white"
                 text: play.datas.resource.esipode + "集全"
+
             }
         }
     }

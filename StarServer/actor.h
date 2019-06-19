@@ -22,7 +22,8 @@ public:
 
     //查找演员信息
     bool findByName(std::string name);
-    void searchActorInfo(std::vector<std::string> &s_searchactors);
+
+    void searchInfo(std::vector<std::string> &vec);
 
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
 

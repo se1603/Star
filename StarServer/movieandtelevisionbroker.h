@@ -80,6 +80,7 @@ public:
      std::vector<Drame *> SearchDrama(std::string name);
      std::vector<Actor *> SearchActor(std::string name);
      std::vector<Director *> SearchDirector(std::string name);
+
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;

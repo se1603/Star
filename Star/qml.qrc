@@ -28,6 +28,7 @@
         <file>image/play/download.png</file>
         <file>image/play/share.jpg</file>
         <file>image/TopArea/back.jpg</file>
+        <file>image/TopArea/close.png</file>
         <file>image/TopArea/history.png</file>
         <file>image/TopArea/list.png</file>
         <file>image/TopArea/person.png</file>
@@ -61,6 +62,7 @@
         <file>MiddleArea/MovieType.qml</file>
         <file>MiddleArea/Search.qml</file>
         <file>MiddleArea/SearchActor.qml</file>
+        <file>MiddleArea/SearchCharacter.qml</file>
         <file>MiddleArea/SearchDirector.qml</file>
         <file>MiddleArea/SearchDrama.qml</file>
         <file>MiddleArea/SearchMovie.qml</file>

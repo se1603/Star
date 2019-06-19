@@ -33,6 +33,7 @@ public:
 
     std::string getVideoInfo(std::string name);//获取播放界面中的片库信息
     std::string getActorInfo(std::string name);//获取演员和导演信息
+
      std::string SearchKey(std::string name); //搜索关键字
 
 private:

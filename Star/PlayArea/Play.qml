@@ -25,6 +25,7 @@ Rectangle {
 
     property alias playwidth: play.width
     property bool xflag: play.name ? true :false
+
     property bool xRflag: true
     property string name:""
     property string type: ""
@@ -33,13 +34,11 @@ Rectangle {
 
     property var datas
     property var commentModel
-
     property int esipode: 1
 
     property string rtspUrl: ""
 //    property bool playing: false
     property alias playCommponent: playVideo
-
 
     Rectangle{
         id:center
@@ -152,7 +151,6 @@ Rectangle {
                 bottom: parent.bottom
                 top: toolBar.bottom
             }
-
             id:right_stack
             initialItem: comment_page
             MouseArea{
@@ -173,8 +171,6 @@ Rectangle {
             }
         }
     }
-
-
 
     Rectangle{
         id:leftRect

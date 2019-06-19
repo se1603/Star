@@ -11,7 +11,8 @@ Item {
     id:search111
     width: page_display.width
     height: page_display.height
-//    property alias search: searchmovie
+    property alias search: search_stack
+
 
 
     StackView{
@@ -19,30 +20,39 @@ Item {
         anchors {
             fill: parent
         }
-        initialItem: searchdirector
+        initialItem: searchcharacter
+
     }
     Component{
         id:searchmovie
         SearchMovie{
-            id:search1
         }
     }
     Component{
         id:searchdrama
         SearchDrama{
-            id:search2
+
         }
     }
     Component{
-        id:searchactor
-        SearchActor{
-            id:search3
+        id:searchcharacter
+        SearchCharacter{
+
         }
     }
-    Component{
-        id:searchdirector
-        SearchDirector{
-            id:search4
+
+    function searchPage(page){
+        switch(page){
+        case "Film":
+            search_stack.push(searchmovie, StackView.Immediate)
+            break;
+        case "Drama":
+            search_stack.push(searchdrama, StackView.Immediate)
+            break;
+
+        default:
+            search_stack.push(searchcharacter, StackView.Immediate)
+            break;
         }
     }
 

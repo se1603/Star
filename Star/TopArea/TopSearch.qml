@@ -14,6 +14,9 @@ Item{
     property var searchtext
     property var searchcount
     property string text: searchEdit.text
+
+    property var temp
+
     //search输入框
 
     Rectangle{
@@ -44,12 +47,27 @@ Item{
                 }
             }
             onAccepted: {
-                middleArea.middleface.searchMovie = JSON.parse(client.search(text)) //text为搜索框的输入内容
-                middleArea.middleface.searchDrama = JSON.parse(client.search(text))
-                middleArea.middleface.searchActor = JSON.parse(client.search(text))
-                middleArea.middleface.searchDirector = JSON.parse(client.search(text))
-                middleArea.middleface.middlemenu.load_page(1)
-                console.log(middleArea.middleface.searchDirector)
+                temp = JSON.parse(client.search(text))
+                if(temp[0].type === "Film"){
+                    middleArea.middleface.searchMovie = temp
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
+                else if(temp[0].type === "Drama"){
+                    middleArea.middleface.searchDrama = temp
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
+                else if(temp[0].type === "Actor"){
+                    middleArea.middleface.searchCharacter = temp;
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
+                else if(temp[0].type === "Director"){
+                    middleArea.middleface.searchCharacter = temp;
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
             }
         }
 
@@ -68,12 +86,27 @@ Item{
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 hoverEnabled: true
                 onClicked: {
-                    middleArea.middleface.searchMovie = JSON.parse(client.search(searchEdit.text))
-                    middleArea.middleface.searchDrama = JSON.parse(client.search(searchEdit.text))
-                    middleArea.middleface.searchActor = JSON.parse(client.search(searchEdit.text))
-                    middleArea.middleface.searchDirector = JSON.parse(client.search(searchEdit.text))
-                    middleArea.middleface.middlemenu.load_page(1)
-                    console.log(middleArea.middleface.searchDirector)
+                    temp = JSON.parse(client.search(text))
+                    if(temp[0].type === "Film"){
+                        middleArea.middleface.searchMovie = temp
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
+                    else if(temp[0].type === "Drama"){
+                        middleArea.middleface.searchDrama = temp
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
+                    else if(temp[0].type === "Actor"){
+                        middleArea.middleface.searchCharacter = temp;
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
+                    else if(temp[0].type === "Director"){
+                        middleArea.middleface.searchCharacter = temp;
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
                 }
             }
         }

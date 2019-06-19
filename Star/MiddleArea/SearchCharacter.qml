@@ -1,13 +1,14 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 
 Rectangle {
-    id: drama
+    id: actor
     height: parent.height
     width: parent.width
     anchors.fill: parent
-    property var searchDrama: middleArea.middleface.searchDrama
+    property var searchCharacter: middleArea.middleface.searchCharacter
 
     //顶部提示栏
     Rectangle{
@@ -73,7 +74,7 @@ Rectangle {
                 }
             }
         }
-    }
+    } //toprectangle
 
     //显示信息栏
     Rectangle{
@@ -135,8 +136,8 @@ Rectangle {
                 }
             }
         }
-        Rectangle{   //将搜索的内容以列表的形式显示
-            id:showlist
+        Rectangle{ //显示搜索内容
+            id:showdetails
             width: 4/5 * parent.width
             height: parent.height-40
             anchors.top: relation.bottom
@@ -146,36 +147,51 @@ Rectangle {
                 anchors.left: parent.left
                 spacing: 10
                 Repeater{
-                    model: searchDrama
+                    model: searchCharacter
                     Rectangle{
-                        width: showlist.width
-                        height: 0
-                        border.width: 1
-                        border.color: "lightgray"
+                        id:actordetail
+                        width: parent.width
+                        height: 300
+                        anchors.top: parent.top
+                        anchors.left: parent.left
                         Rectangle{
-                            id:showposter
+                            id:actorpost
                             width: 150
-                            height: 240
+                            height: 150
+                            radius: 75
                             anchors.left: parent.left
-                            anchors.leftMargin: 25
-                            anchors.top: parent.top
-                            anchors.topMargin: 20
-                            border.width: 2
-                            border.color: "gray"
-
-                            Image {   //显示海报
+                            anchors.leftMargin: 30
+                            anchors.verticalCenter: parent.verticalCenter
+                            Image {
                                 id: poster
-                                width:150
-                                height: 240
                                 anchors.fill: parent
-                                source: "file:" + modelData.post
+                                sourceSize: Qt.size(parent.width, parent.height)
+                                smooth: true
+                                visible: false
+                                source: "file:" + modelData.photo
+                            }
+                            Rectangle{
+                                id: mask
+                                anchors.fill: parent
+                                radius: width / 2
+                                visible: false
+                                antialiasing: true
+                                smooth: true
+                            }
+
+                            OpacityMask{
+                                anchors.fill: poster
+                                source: poster
+                                maskSource: mask
+                                visible: true
+                                antialiasing: true
                             }
                         }
-                        Text{   //显示影视节目名称
-                            id: movietitle
+                        Text{   //显示姓名
+                            id: actorname
                             width: 100
                             height: 35
-                            anchors.left: showposter.right
+                            anchors.left: actorpost.right
                             anchors.leftMargin: 20
                             anchors.top: parent.top
                             anchors.topMargin: 20
@@ -183,62 +199,49 @@ Rectangle {
                             color: "lightblue"
                             text: modelData.name
                         }
-                        Text{     //显示简介
+                        Text{  //显示生日
+                            id: birthday
+                            width: 100
+                            height: 35
+                            anchors.left: actorpost.right
+                            anchors.leftMargin: 20
+                            anchors.top: actorname.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 16
+//                            color: "lightblue"
+                            text: modelData.birthday
+                        }
+
+                        Text{  //显示地区
+                            id: region
+                            width: 100
+                            height: 35
+                            anchors.left: birthday.right
+                            anchors.leftMargin: 100
+                            anchors.top: actorname.bottom
+                            anchors.topMargin: 20
+                            font.pixelSize: 16
+//                            color: "lightblue"
+                            text: modelData.region
+                        }
+
+                        Text{  //显示简介
                             id: intro
                             width: parent.width - 240
-                            height: 90
+                            height: 120
                             anchors.left: showposter.right
                             anchors.leftMargin: 20
-                            anchors.top: movietitle.bottom
-                            anchors.topMargin: 20
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 20
                             font.pixelSize: 12
                             wrapMode: Text.WrapAnywhere
                             lineHeight: 1
                             text: modelData.introduction
                         }
-                        GridLayout{
-                            id:griddrame
-                            width: 560
-                            height: 100
-                            columns: 9
-                            columnSpacing: 2
-                            rowSpacing: 5
-                            anchors.left: showposter.right
-                            anchors.leftMargin: 20
-                            anchors.top: intro.bottom
-                            anchors.topMargin: 10
-                            Repeater{
-                                model:modelData.episode
-
-                                Rectangle{   //播放按钮
-                                    id: playbutton
-                                    width: 20
-                                    height: 20
-                                    color: "#8b8378"
-                                    MouseArea{
-                                        id:playmousearea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        onClicked: {
-                                            playbutton.color = "red"
-                                        }
-                                    }
-
-                                    Text {
-                                        id: drametitle
-                                        anchors.horizontalCenter: playbutton.horizontalCenter
-                                        anchors.verticalCenter: playbutton.verticalCenter
-                                        font.pixelSize: 12
-                                        color: "lightblue"
-                                        text: modelData + 1
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
+        }
+    }
+}  //actor
 
-        }  //showlist
-    }//showrectangle
-}//searchpage

@@ -22,6 +22,7 @@ Rectangle {
     property bool firstPlay: false
     property bool stopVideo: false
     property bool isFullScreen: false
+
     property bool end: false
 
     property alias noteRectangle: note
@@ -153,6 +154,7 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 end = false
+
                 //get
                 var year = date.getFullYear()
                 var month = date.getMonth()+1
@@ -169,11 +171,12 @@ Rectangle {
                 if(!firstPlay)
                 {
                     console.log("path:"+path)
+
                     player.startPlay(path)
                     playing = true
                     firstPlay = true
                     stopVideo = false
-                    console.log("aaaaaa")
+
                 }
             }
         }
@@ -188,6 +191,7 @@ Rectangle {
         }
     }
 
+
     Connections{
         target: player
         onSigShowTotalTime:
@@ -199,6 +203,7 @@ Rectangle {
         {
             if(end)
                 timing.text = "00:00:00"
+
             timing.text = player.showCurrentTime()
         }
         onSigSliderTotalValue:{
@@ -212,6 +217,7 @@ Rectangle {
                 wait.start()
                 end = true
             }
+
         }
         onNoResource:{
             console.log("收到信号")
@@ -329,6 +335,7 @@ Rectangle {
                     onClicked: {
 
                         end = false
+
                         //get
                         var year = date.getFullYear()
                         var month = date.getMonth()+1
@@ -597,6 +604,7 @@ Rectangle {
         timing.text = "00:00:00"
         noResurce = false
     }
+
 
     function stopPlay(){
         note.visible = false

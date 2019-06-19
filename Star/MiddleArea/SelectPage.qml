@@ -127,7 +127,6 @@ Rectangle {
                                                     play.rtspUrl += ".mkv;"
                                                 }
 
-
                                                 play.visible = true
                                                 play.name = modelData.name
                                                 console.log("select"+play.name)

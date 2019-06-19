@@ -40,10 +40,44 @@ bool Director::findByName(std::string name)
     }
 }
 
-void Director::searchDirectorInfo(std::vector<std::string> &d_searchdirectors)
+void Director::searchInfo(std::vector<std::string> &vec)
 {
-    d_searchdirectors.push_back(m_name);
-    d_searchdirectors.push_back(m_photo);
+    vec.push_back(m_name);
+    vec.push_back(m_birthday);
+    vec.push_back(m_introduction);
+    vec.push_back(m_photo);
+    auto regin = m_region;
+    switch(regin){
+    case Region::American:{
+        vec.push_back("美国");
+        break;
+    }
+    case Region::Britain:{
+        vec.push_back("英国");
+        break;
+    }
+    case Region::China:{
+        vec.push_back("中国");
+        break;
+    }
+    case Region::India:{
+        vec.push_back("印度");
+        break;
+    }
+    case Region::Korea:{
+        vec.push_back("韩国");
+        break;
+    }
+    case Region::THailand:{
+        vec.push_back("泰国");
+        break;
+    }
+    case Region::Japan:{
+        vec.push_back("日本");
+        break;
+    }
+    default:break;
+    }
 }
 
 void Director::addMovieAndTelevision(MovieAndTelevision *movieAndTelevision)

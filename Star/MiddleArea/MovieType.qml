@@ -79,6 +79,7 @@ Rectangle {
 
                                 play.rtspUrl = modelData.rtspURL + ".mkv"
 
+
                                 play.visible = true
                                 play.name = modelData.name
                                 play.image = modelData.post

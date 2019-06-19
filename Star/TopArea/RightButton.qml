@@ -22,13 +22,13 @@ Item {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         color: "#F5F5F5"
-
         AboutPop{
             id:about
         }
         Help{
             id:help
         }
+
 
         Image {
             id: listicon

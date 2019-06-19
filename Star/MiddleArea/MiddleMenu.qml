@@ -77,6 +77,7 @@ Rectangle {
         default:
             middle_stack.push(search_page, StackView.Immediate)
             break;
+
         }
     }
 }

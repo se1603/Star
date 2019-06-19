@@ -29,6 +29,7 @@ Rectangle {
     property alias refersh: refersh
     property alias startTimer: startTimer
 
+
     MiddleInterface{
         id:middle_face
     }

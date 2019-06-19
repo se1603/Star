@@ -23,7 +23,7 @@ public:
     void addMovieAndTelevision(MovieAndTelevision *movieAndTelevision);
     //查找导演信息
      bool findByName(std::string name);
-     void searchDirectorInfo(std::vector<std::string> &d_searchdirectors);
+     void searchInfo(std::vector<std::string> &vec);
 
     void directorInfo(std::vector<std::string> &v);//导演信息
 private:
