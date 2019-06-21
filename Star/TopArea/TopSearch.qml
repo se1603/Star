@@ -73,6 +73,11 @@ Item{
                     middleArea.middleface.search.visible = true
                     middleArea.middleface.search.searchPage(temp[0].type)
                 }
+                else if(temp[0].type === "None"){
+                    middleArea.middleface.searchNone = temp;
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
             }
         }
 
@@ -114,6 +119,11 @@ Item{
                     }
                     else if(temp[0].type === "Director"){
                         middleArea.middleface.searchCharacter = temp;
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
+                    else if(temp[0].type === "None"){
+                        middleArea.middleface.searchNone = temp;
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }

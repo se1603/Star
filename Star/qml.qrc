@@ -89,5 +89,6 @@
         <file>main.qml</file>
         <file>MainItem.qml</file>
         <file>MiddleArea/BrowseRecord.qml</file>
+        <file>MiddleArea/SearchNone.qml</file>
     </qresource>
 </RCC>

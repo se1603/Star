@@ -40,6 +40,12 @@ Item {
 
         }
     }
+    Component{
+        id:searchnone
+        SearchNone{
+
+        }
+    }
 
     function searchPage(page){
         switch(page){
@@ -52,7 +58,9 @@ Item {
         case "Comic":
             search_stack.push(searchdrama, StackView.Immediate)
             break;
-
+        case "None":
+            search_stack.push(searchnone, StackView.Immediate)
+            break;
         default:
             search_stack.push(searchcharacter, StackView.Immediate)
             break;

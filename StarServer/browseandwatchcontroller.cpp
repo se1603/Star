@@ -574,6 +574,11 @@ std::string BrowseAndWatchController::SearchKey(std::string name)
         search["region"] = searchInfo[4];
         searchs.append(search);
     }
+    else{
+        Json::Value search;
+        search["type"] = "None";
+        searchs.append(search);
+    }
     root["searchResult"] = searchs;
     std::string out = root.toStyledString();
     std::cout << "aaa" << out << std::endl;

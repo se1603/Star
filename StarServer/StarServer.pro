@@ -28,7 +28,8 @@ SOURCES += \
     drame.cpp \
     comment.cpp \
     commentbroker.cpp \
-    commentcontroller.cpp
+    commentcontroller.cpp \
+    searchcontroller.cpp
 
 HEADERS += \
     server.h \
@@ -54,6 +55,7 @@ HEADERS += \
     drame.h \
     comment.h \
     commentbroker.h \
-    commentcontroller.h
+    commentcontroller.h \
+    searchcontroller.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient

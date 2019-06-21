@@ -12,14 +12,12 @@ Rectangle {
 
     property var searchMovie
     property var searchDrama
+    property var searchCharacter
+    property var searchNone
 
-    property var searchActor
-    property var searchDirector
     property alias middlemenu: middle_Menu
 
     property alias showPage: page_display
-
-    property var searchCharacter
 
     property alias search: searchfunction
 
