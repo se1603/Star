@@ -72,7 +72,7 @@ Rectangle {
             }
 
             ColumnLayout{
-                anchors.top:slideImage.bottom
+                anchors.top: row_image.bottom
                 anchors.topMargin: 20
                 spacing: page_display.width < 1000 ? 10 : 60
 
@@ -98,12 +98,15 @@ Rectangle {
                             Repeater {
                                 model: modelData.films
                                 Rectangle {
+//                                    width:  mainWindow.width < 1200 ? 175 : 225
+//                                    height:  page_display.width < 1000 ? 290 : 370
                                     width:  mainWindow.width < 1200 ? 175 : 197
                                     height:  page_display.width < 1000 ? 290 : 326
 //                                    border.color: "red"
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
+//                                        height:  page_display.width < 1000 ? 263 : 340
                                         height:  page_display.width < 1000 ? 263 : 296
 //                                        border.color : "green"
                                         Image {
@@ -126,7 +129,8 @@ Rectangle {
                                                     console.log("true")
                                                 }
 
-                                                play.rtspUrl = modelData.rtspURL
+                                                play.rtspUrl = modelData.rtspURL + ".mkv"
+
 
                                                 play.visible = true
                                                 play.name = modelData.name
@@ -135,9 +139,14 @@ Rectangle {
 //                                                play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                                 console.log(play.datas.resource.videotype.type)
 
+                                                //自动生成记录
                                                 if(modelData.name !== middleArea.playingName
                                                         && middleArea.playingName!==""){
-                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    if(audienceInterface.audienceName === ""){
+                                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }else{
+                                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }
                                                     middleArea.playingName = ""
                                                 }
                                             }

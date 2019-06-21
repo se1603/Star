@@ -13,8 +13,19 @@ Rectangle {
     property var searchMovie
     property var searchDrama
     property var searchCharacter
-    property alias search: searchfunction
+    property var searchNone
+
     property alias middlemenu: middle_Menu
+
+    property alias showPage: page_display
+
+    property alias search: searchfunction
+
+    property alias middleStack:middle_stack
+    property alias recordPage:browserecord_page
+
+    property var browse_records
+
 
     Row {
         width: parent.width
@@ -29,6 +40,7 @@ Rectangle {
             id: searchfunction
             visible: false
         }
+
 
         Rectangle {
             id: page_display
@@ -80,6 +92,13 @@ Rectangle {
             Component{
                 id:search_page
                 Search{
+                }
+            }
+
+            Component{
+                id:browserecord_page
+                BrowseRecord{
+
                 }
             }
         }

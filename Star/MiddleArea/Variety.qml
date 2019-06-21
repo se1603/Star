@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 
 Rectangle {
-    id: variety
+    id: zongYi
     width: page_display.width
     height: page_display.height
 

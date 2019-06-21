@@ -14,17 +14,18 @@ Item {
     property alias search: search_stack
 
 
+
     StackView{
         id: search_stack
         anchors {
             fill: parent
         }
         initialItem: searchcharacter
+
     }
     Component{
         id:searchmovie
         SearchMovie{
-
         }
     }
     Component{
@@ -39,6 +40,12 @@ Item {
 
         }
     }
+    Component{
+        id:searchnone
+        SearchNone{
+
+        }
+    }
 
     function searchPage(page){
         switch(page){
@@ -48,7 +55,12 @@ Item {
         case "Drama":
             search_stack.push(searchdrama, StackView.Immediate)
             break;
-
+        case "Comic":
+            search_stack.push(searchdrama, StackView.Immediate)
+            break;
+        case "None":
+            search_stack.push(searchnone, StackView.Immediate)
+            break;
         default:
             search_stack.push(searchcharacter, StackView.Immediate)
             break;

@@ -86,11 +86,14 @@ Rectangle {
                             Repeater {
                                 model: modelData.varieties
                                 Rectangle {
-                                    width: mainWindow.width < 1200 ? 175 : 197
+                                    width:  mainWindow.width < 1200 ? 175 :225
+//                                    height:  page_display.width < 1000 ? 290 : 370
+//                                    width: mainWindow.width < 1200 ? 175 : 197
                                     height: page_display.width < 1000 ? 290 : 326
                                     Rectangle {
                                         id: collection_img
                                         width: parent.width
+//                                        height:  page_display.width < 1000 ? 263 : 340
                                         height:  page_display.width < 1000 ? 263 : 296
                                         Image {
                                             anchors.fill: parent
@@ -114,18 +117,29 @@ Rectangle {
                                                     console.log("true")
                                                 }
 
-                                                play.rtspUrl = modelData.rtspURL
+//                                                play.rtspUrl = modelData.rtspURL
+
+                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                               middleArea.playRtspUrl = modelData.rtspURL
+                                               play.esipode = Number(play.datas.resource.esipode)
+                                               play.rtspUrl = modelData.rtspURL + "/1.mkv"
 
                                                 play.visible = true
-//                                                play.name = modelData.name
-//                                                play.image = modelData.post
-                                                play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+                                                play.name = modelData.name
+                                                play.image = modelData.post
+
                                                 console.log(play.datas.resource.videotype.type)
 
 
+                                                //自动生成记录
                                                 if(modelData.name !== middleArea.playingName
                                                         && middleArea.playingName!==""){
-                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    if(audienceInterface.audienceName === ""){
+                                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }else{
+                                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                    }
                                                     middleArea.playingName = ""
                                                 }
                                             }
@@ -184,20 +198,21 @@ Rectangle {
                         parent.color = "#808080"
                     }
                     onClicked: {
+
                         if(category.text === "真人秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
                         else if(category.text === "选秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
                         else if(category.text === "美食")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
                         else if(category.text === "旅游")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
                         else if(category.text === "纪实")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
                         else if(category.text === "搞笑")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
                         else if(category.text === "访谈")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
                         load_page(category.text)
                     }
                 }

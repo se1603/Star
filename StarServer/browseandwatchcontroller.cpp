@@ -12,7 +12,7 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "10.253.133.196";
+    m_rtspAddress = "192.168.31.13";
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
@@ -167,7 +167,8 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = films[i].show(true);
             film["name"] = resource[0];
             film["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             film["rtspURL"] = url;
             selectarray.append(film);
         }
@@ -179,7 +180,9 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = drames[i].show(true);
             drame["name"] = resource[0];
             drame["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             drame["rtspURL"] = url;
             selectarray.append(drame);
         }
@@ -191,7 +194,9 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = comics[i].show(true);
             comic["name"] = resource[0];
             comic["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             comic["rtspURL"] = url;
             selectarray.append(comic);
         }
@@ -203,7 +208,9 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = varieties[i].show(true);
             varietie["name"] = resource[0];
             varietie["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             varietie["rtspURL"] = url;
             selectarray.append(varietie);
         }
@@ -214,17 +221,19 @@ std::string BrowseAndWatchController::recommend(int category)
         std::vector<Film> film1s = m_movieAndTelevisionBroker->getRecommendFilms(99);
         Json::Value arry;
         Json::Value item;
-        for(int a = 10; a != 0;a=a-2)
+        for(int a = 0;a != 5;a++)
         {
             std::vector<std::string> resource;
             Json::Value film;
             resource = film1s[a].show(false);
             film["name"] = resource[0];
             film["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             film["rtspURL"] = url;
             arry.append(film); //存小图电影
-            a++;
+//            a++;
         }
         item["title"] = title[0];
         item["films"] = arry;
@@ -238,7 +247,8 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = drame1[a].show(false);
             drame["name"] = resource[0];
             drame["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             drame["rtspURL"] = url;
             arryd.append(drame);
         }
@@ -255,7 +265,8 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = comic2s[a].show(false);
             film["name"] = resource[0];
             film["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             film["rtspURL"] = url;
             arry1.append(film); //存小图电影
         }
@@ -272,7 +283,8 @@ std::string BrowseAndWatchController::recommend(int category)
             resource = vas[a].show(false);
             film["name"] = resource[0];
             film["post"] = resource[1];
-            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+            std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
             film["rtspURL"] = url;
             arry2.append(film); //存小图电影
         }
@@ -303,7 +315,8 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = films[a].show(true);
                     film["name"] = resource[0];
                     film["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
                     film["rtspURL"] = url;
                     filmarry.append(film);   //存大图电影
                 }
@@ -311,7 +324,8 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = films[a].show(false);
                     film["name"] = resource[0];
                     film["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
                     film["rtspURL"] = url;
                     arry.append(film); //存小图电影
                 }
@@ -347,7 +361,7 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = drames[a].show(true);
                     drame["name"] = resource[0];
                     drame["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
                     drame["rtspURL"] = url;
                     dramearry.append(drame);   //存大图
                 }
@@ -355,7 +369,7 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = drames[a].show(false);
                     drame["name"] = resource[0];
                     drame["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
                     drame["rtspURL"] = url;
                     arry.append(drame); //存小图
                 }
@@ -388,7 +402,7 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = comics[a].show(true);
                     comic["name"] = resource[0];
                     comic["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
                     comic["rtspURL"] = url;
                     comicarray.append(comic);  //存大图电影
                 }
@@ -396,7 +410,7 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = comics[a].show(false);
                     comic["name"] = resource[0];
                     comic["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
                     comic["rtspURL"] = url;
                     array.append(comic); //存小图电影
                 }
@@ -430,14 +444,16 @@ std::string BrowseAndWatchController::recommend(int category)
                     resource = varieties[a].show(true);
                     variety["name"] = resource[0];
                     variety["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
                     variety["rtspURL"] = url;
                     varietyarry.append(variety);
                 }else{
                     resource = varieties[a].show(false);
                     variety["name"] = resource[0];
                     variety["post"] = resource[1];
-                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+                    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
                     variety["rtspURL"] = url;
                     arry.append(variety);
                 }
@@ -488,16 +504,16 @@ std::string BrowseAndWatchController::getActorInfo(std::string name)
 
 std::string BrowseAndWatchController::SearchKey(std::string name)
 {
-
     Json::Value root;
     Json::Value searchs;
     root["request"] = "SEARCH";
 
     std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
     std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
+    std::vector<Comic *> comic = m_movieAndTelevisionBroker->SearchComic(name);
     std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
     std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
-//    std::vector<Comic *> comics = m_movieAndTelevisionBrokec
+
 
     if(film.size() != 0)
     {
@@ -516,6 +532,17 @@ std::string BrowseAndWatchController::SearchKey(std::string name)
         std::vector<std::string> searchInfo;
         drame[0]->searchInfo(searchInfo);
         search["type"] = "Drama";
+        search["name"] = searchInfo[0];
+        search["post"] = searchInfo[1];
+        search["introduction"] = searchInfo[2];
+        search["episode"] = searchInfo[3];
+        searchs.append(search);
+    }
+    else if (comic.size() != 0) {
+        Json::Value search;
+        std::vector<std::string> searchInfo;
+        comic[0]->searchInfo(searchInfo);
+        search["type"] = "Comic";
         search["name"] = searchInfo[0];
         search["post"] = searchInfo[1];
         search["introduction"] = searchInfo[2];
@@ -545,6 +572,11 @@ std::string BrowseAndWatchController::SearchKey(std::string name)
         search["introduction"] = searchInfo[2];
         search["photo"] = searchInfo[3];
         search["region"] = searchInfo[4];
+        searchs.append(search);
+    }
+    else{
+        Json::Value search;
+        search["type"] = "None";
         searchs.append(search);
     }
     root["searchResult"] = searchs;
@@ -600,7 +632,8 @@ std::string BrowseAndWatchController::filmInterface(int type)
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];
-        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
         item["rtspURL"] = url;
         arryObj.append(item);
     }
@@ -654,7 +687,7 @@ std::string BrowseAndWatchController::varietyInterface(int type)
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];
-        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
         item["rtspURL"] = url;
         arryObj.append(item);
     }
@@ -711,7 +744,7 @@ std::string BrowseAndWatchController::drameInterface(int type)
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];
-        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
         item["rtspURL"] = url;
         arryObj.append(item);
     }
@@ -765,7 +798,9 @@ std::string BrowseAndWatchController::comicInterface(int type)
         Json::Value item;
         item["name"] = resource[0];
         item["post"] = resource[1];
-        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] + ".mkv";
+
+        std::string url = "rtsp://" + m_rtspAddress + "/movies/" + resource[0] ;
+
         item["rtspURL"] = url;
         arryObj.append(item);
     }
@@ -775,6 +810,17 @@ std::string BrowseAndWatchController::comicInterface(int type)
     return out;
 }
 
+bool BrowseAndWatchController::addBrowseRecord(std::string recordName, std::string startTime, std::string duration, std::string type)
+{
+    if(m_movieAndTelevisionBroker->addBrowseRecord(recordName, startTime, duration, type)
+            == true){
+        return true;
+    } else {
+        return false;
+    }
+}
 
-
-
+std::string BrowseAndWatchController::getBrowseRecord()
+{
+   return m_movieAndTelevisionBroker->getBrowseRecord();
+}

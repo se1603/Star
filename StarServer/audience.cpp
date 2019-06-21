@@ -83,3 +83,24 @@ void Audience::showname(std::vector<std::string> &a)
 {
     a.push_back(m_name);
 }
+
+bool Audience::judgeRecord(std::string recordname)
+{
+    for(auto &r:m_records){
+        if(r.verifyName(recordname) == true){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Audience::changeRecord(std::string recordname, std::string startPlayTime,
+                            std::string duration)
+{
+    for(auto &r:m_records) {
+        if(r.verifyName(recordname) == true) {
+            r.changeInfo(startPlayTime, duration);
+        }
+    }
+}

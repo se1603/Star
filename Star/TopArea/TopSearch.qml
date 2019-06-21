@@ -14,7 +14,9 @@ Item{
     property var searchtext
     property var searchcount
     property string text: searchEdit.text
+
     property var temp
+
     //search输入框
 
     Rectangle{
@@ -56,6 +58,11 @@ Item{
                     middleArea.middleface.search.visible = true
                     middleArea.middleface.search.searchPage(temp[0].type)
                 }
+                else if(temp[0].type === "Comic"){
+                    middleArea.middleface.searchDrama = temp
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
                 else if(temp[0].type === "Actor"){
                     middleArea.middleface.searchCharacter = temp;
                     middleArea.middleface.search.visible = true
@@ -63,6 +70,11 @@ Item{
                 }
                 else if(temp[0].type === "Director"){
                     middleArea.middleface.searchCharacter = temp;
+                    middleArea.middleface.search.visible = true
+                    middleArea.middleface.search.searchPage(temp[0].type)
+                }
+                else if(temp[0].type === "None"){
+                    middleArea.middleface.searchNone = temp;
                     middleArea.middleface.search.visible = true
                     middleArea.middleface.search.searchPage(temp[0].type)
                 }
@@ -95,6 +107,11 @@ Item{
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
+                    else if(temp[0].type === "Comic"){
+                        middleArea.middleface.searchDrame = temp
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
                     else if(temp[0].type === "Actor"){
                         middleArea.middleface.searchCharacter = temp;
                         middleArea.middleface.search.visible = true
@@ -102,6 +119,11 @@ Item{
                     }
                     else if(temp[0].type === "Director"){
                         middleArea.middleface.searchCharacter = temp;
+                        middleArea.middleface.search.visible = true
+                        middleArea.middleface.search.searchPage(temp[0].type)
+                    }
+                    else if(temp[0].type === "None"){
+                        middleArea.middleface.searchNone = temp;
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
@@ -120,8 +142,8 @@ Item{
         color: "#F5F5F5"
         Image {
             id: recordicon
-            height: 20
-            width: 20
+            height: 25
+            width: 25
             opacity: recordmousearea.containsMouse ? 1.0 : 0.5
             anchors.horizontalCenter: record.horizontalCenter
             anchors.verticalCenter: record.verticalCenter
@@ -131,7 +153,17 @@ Item{
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                    RecordPage.visible = true
+                    if(middleArea.audienceInterface.audienceName !== ""){
+                        middleArea.middleface.browse_records = JSON.parse(
+                                    client.audienceRecord(middleArea.audienceInterface.audienceName))
+                    }else{
+                        middleArea.middleface.browse_records = JSON.parse(
+                                    client.browseRecord())
+                    }
+                    middleArea.middleface.middleStack.push(middleArea.middleface.recordPage)
+                    middleArea.playInterface.visible = false
+                    middleArea.audienceInterface.visible = false
+                    middleArea.middleface.visible = true
                 }
             }
         }

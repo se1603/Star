@@ -8,6 +8,7 @@
 #include <iostream>
 #include "film.h"
 #include "variety.h"
+#include "json/json.h"
 
 using std::cout;    using std::endl;
 using std::vector;  using std::string;
@@ -929,6 +930,18 @@ std::vector<Drame *> MovieAndTelevisionBroker::SearchDrama(std::string name)
         return p;
 }
 
+std::vector<Comic *> MovieAndTelevisionBroker::SearchComic(std::string name)
+{
+    std::vector<Comic *> p;
+    for(auto it = m_comics.begin(); it != m_comics.end(); it++){
+        if(it->second.findByName(name)){
+            p.push_back(&it->second);
+        }
+    }
+    return p;
+}
+
+
 std::vector<Actor *> MovieAndTelevisionBroker::SearchActor(std::string name)
 {
     std::vector<Actor *> p;
@@ -950,6 +963,7 @@ std::vector<Director *> MovieAndTelevisionBroker::SearchDirector(std::string nam
     }
     return p;
 }
+
 
 void MovieAndTelevisionBroker::initFilms()
 {
@@ -1228,4 +1242,97 @@ void MovieAndTelevisionBroker::showCollection(MovieAndTelevision *m, std::vector
 void MovieAndTelevisionBroker::showRecord(MovieAndTelevision *m, std::vector<std::string> &records)
 {
     m->showInfo(records);
+}
+
+bool MovieAndTelevisionBroker::addBrowseRecord(std::string recordName, std::string startTime, std::string duration, std::string type)
+{
+    for(auto item = browse_records.begin();item != browse_records.end();++item) {
+        if(item->verifyName(recordName) == true){
+            browse_records.erase(item);
+        }
+        if(browse_records.size()==0)
+            break;
+    }
+
+    MovieAndTelevision* m = new MovieAndTelevision();
+
+    auto n = atoi(type.c_str());
+    switch(n) {
+    case 1:{
+        for(auto item = m_films.begin();item != m_films.end();item++){
+            if(item->first == recordName){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 2:{
+        for(auto item = m_drames.begin();item != m_drames.end();item++){
+            if(item->first == recordName){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 3:{
+        for(auto item = m_comics.begin();item != m_comics.end();item++){
+            if(item->first == recordName){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    case 4:{
+        for(auto item = m_varieties.begin();item != m_varieties.end();item++){
+            if(item->first == recordName){
+                *m = item->second;
+            }
+        }
+    }
+        break;
+    }
+
+    if(m != nullptr) {
+        Record br = Record(startTime,duration,nullptr,m);
+        browse_records.push_back(br);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+std::string MovieAndTelevisionBroker::getBrowseRecord()
+{
+    Json::Value root;
+    Json::Value arry;
+    root["request"] = "GETBROWSERECORD";
+
+    if(browse_records.size() != 0){
+        std::vector<std::string> r;
+
+        for(auto &item:browse_records){
+            Json::Value value;
+            item.showAllInfo(r);
+            value["name"] = r[0];
+            value["post"] = r[1];
+            value["startPlayTime"] = r[2];
+            value["duration"] = r[3];
+            arry.append(value);
+            r.clear();
+        }
+    }
+    else
+    {
+        Json::Value value;
+        value["name"] = " ";
+        value["post"] = " ";
+        value["startPlayTime"] = " ";
+        value["duration"] = " ";
+        arry.append(value);
+    }
+    root["browserecord"] = arry;
+
+    root.toStyledString();
+    std::string res = root.toStyledString();
+    return res;
 }

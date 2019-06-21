@@ -41,8 +41,8 @@ Rectangle {
                         model: comics_type
                         Rectangle {
                             id:comicImage
-                            width: 220
-                            height: 330
+                            width: page_display.width < 1000 ? 220 :230 //220
+                            height: page_display.width < 1000 ? 330 : 340
 //                            border.color: "red"
                             Image {
                                 anchors.fill: parent
@@ -78,20 +78,29 @@ Rectangle {
                                         console.log("true")
                                     }
 
-                                    play.rtspUrl = modelData.rtspURL
+                                     play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                    middleArea.playRtspUrl = modelData.rtspURL
+                                    play.esipode = Number(play.datas.resource.esipode)
+                                    play.rtspUrl = modelData.rtspURL + "/1.mkv"
 
                                     play.visible = true
                                     play.name = modelData.name
                                     play.image = modelData.post
                                     console.log(modelData.name)
                                     console.log(modelData.post)
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
 //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                     console.log(play.datas.resource.videotype.type)
 
+                                    //自动生成记录
                                     if(modelData.name !== middleArea.playingName
                                             && middleArea.playingName!==""){
-                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        if(audienceInterface.audienceName === ""){
+                                            client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }else{
+                                            client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }
                                         middleArea.playingName = ""
                                     }
                                 }

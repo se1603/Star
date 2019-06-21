@@ -6,7 +6,7 @@ Rectangle {
     width: page_display.width
     height: page_display.height
 
-    property var myvariety:variety.varieties
+    property var myvariety:zongYi.varieties
 
     ScrollView {
             anchors.fill: parent
@@ -74,21 +74,27 @@ Rectangle {
                                         console.log("true")
                                     }
 
-                                    play.rtspUrl = modelData.rtspURL
+                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+
+                                   middleArea.playRtspUrl = modelData.rtspURL
+                                   play.esipode = Number(play.datas.resource.esipode)
+                                   play.rtspUrl = modelData.rtspURL + "/1.mkv"
 
                                     play.visible = true
                                     play.name = modelData.name
                                     play.image = modelData.post
-                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
-                                    console.log(play.datas.resource.videotype.type)
 
 
+                                    //自动生成记录
                                     if(modelData.name !== middleArea.playingName
                                             && middleArea.playingName!==""){
-                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        if(audienceInterface.audienceName === ""){
+                                            client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }else{
+                                            client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }
                                         middleArea.playingName = ""
                                     }
-
                                 }
                             }
                         }
@@ -123,19 +129,19 @@ Rectangle {
                     }
                     onClicked: {
                         if(category.text === "真人秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,1))
                         else if(category.text == "选秀")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,2))
                         else if(category.text == "美食")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,3))
                         else if(category.text == "旅游")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,4))
                         else if(category.text == "纪实")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,5))
                         else if(category.text == "搞笑")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,6))
                         else if(category.text == "访谈")
-                            variety.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
+                            zongYi.varieties = JSON.parse(client.browseMovieAndTelevision(4,7))
                         load_page(category.text)
                     }
                 }

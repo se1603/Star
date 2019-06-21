@@ -39,7 +39,12 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        search_stack.pop()
+                        if(search_stack.depth > 2) {
+                            search_stack.pop()
+                        } else {
+                            middle_stack.pop(select_page)
+                            middleArea.middleface.search.visible = false
+                        }
                     }
                 }
             }
@@ -67,8 +72,8 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked: {
-                        search_stack.clear()
-                        middle_Menu.visible = true
+                        middle_stack.pop(select_page)
+                        middleArea.middleface.search.visible = false
                     }
                 }
             }

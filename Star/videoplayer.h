@@ -26,6 +26,7 @@ public:
     Q_INVOKABLE void pause();
     Q_INVOKABLE void play();
     Q_INVOKABLE void stop(bool wait, int mwidth, int mheight);
+    Q_INVOKABLE void endPlay();
 
     Q_INVOKABLE void sliderMoved(int position);
 

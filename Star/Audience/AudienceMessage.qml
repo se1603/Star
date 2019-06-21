@@ -8,8 +8,8 @@ Rectangle {
     height: 59 / 60 * audienceDisplay.height
     border.color: "gray"
 
-    property var receiveM: ["...","123","666","999","lovelovelove","123","111","9","10","11","12","13","14","15"]
-    property var sendM: ["hhhhhh","??????"]
+    property var receiveM
+    property var sendM
 
 
     Row {

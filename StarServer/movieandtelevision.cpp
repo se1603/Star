@@ -26,4 +26,3 @@ void MovieAndTelevision::searchInfo(std::vector<std::string> &vec)
     vec.push_back(m_introduction);
     vec.push_back(std::to_string(m_episode));
 }
-

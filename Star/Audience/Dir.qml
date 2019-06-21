@@ -129,6 +129,7 @@ Popup {
         onUpdateAvatarSucceed: {
             choose_title.text = "上传成功"
             audienceInterface.audienceAvatar = newsource
+            topArea.rightButton.loginPic.loginIcon.source = newsource
         }
     }
 }

@@ -74,6 +74,10 @@ Rectangle {
         case '精选':
             middle_stack.push(select_page,StackView.Immediate)
             break;
+        default:
+            middle_stack.push(search_page, StackView.Immediate)
+            break;
+
         }
     }
 }

@@ -119,18 +119,12 @@ Rectangle{
                         anchors.fill: parent
                         onClicked: {
                             vect = JSON.parse(client.showCommentInfo(play.name))
-
                             allcom.color = "#1E90FF"
                             selectcom.color = "#8B8378"
+                        }
+                    }
 
-                        }
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            vect = JSON.parse(client.showCommentInfo(play.name))
-                        }
-                    }
+
                 }
                 Rectangle{
                     id:selectcom
@@ -149,18 +143,12 @@ Rectangle{
                         anchors.fill: parent
                         onClicked: {
                             vect = JSON.parse(client.showGoodComment(play.name))
-
                             allcom.color = "#8B8378"
                             selectcom.color = "#1E90FF"
+                        }
+                    }
 
-                        }
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            vect = JSON.parse(client.showGoodComment(play.name))
-                        }
-                    }
+
                 }
             }
         }

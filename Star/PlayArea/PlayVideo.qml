@@ -23,6 +23,8 @@ Rectangle {
     property bool stopVideo: false
     property bool isFullScreen: false
 
+    property bool end: false
+
     property alias noteRectangle: note
 
     property var previousWidth: 1075
@@ -151,6 +153,8 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                end = false
+
                 //get
                 var year = date.getFullYear()
                 var month = date.getMonth()+1
@@ -162,36 +166,54 @@ Rectangle {
                 middleArea.videoType = middleArea.playInterface.datas.resource.category
                 middleArea.startTime = starttime
                 middleArea.duration = player.showCurrentTime()
-                console.log("---"+middleArea.playInterface.datas.resource.category)
 
                 if(!firstPlay)
                 {
+                    console.log("path:"+path)
                     player.startPlay(path)
                     playing = true
                     firstPlay = true
                     stopVideo = false
+
                 }
             }
         }
     }
 
+    Timer{
+        id:wait
+        interval: 1000
+        running: fasle
+        onTriggered: {
+            endPlay()
+        }
+    }
+
+
     Connections{
         target: player
         onSigShowTotalTime:
         {
-            console.log(player.showTotalTime())
             duation.text = player.showTotalTime()
         }
         onSigShowCurrentTime:
         {
+            if(end)
+                timing.text = "00:00:00"
+
             timing.text = player.showCurrentTime()
         }
         onSigSliderTotalValue:{
             progressBar.to = value
-            console.log(progressBar.to)
         }
         onSigSliderValue:{
             progressBar.value = currentvalue
+            if(progressBar.value === progressBar.to && !end)
+            {
+                wait.start()
+                end = true
+            }
+
         }
         onNoResource:{
             console.log("收到信号")
@@ -308,6 +330,8 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
 
+                        end = false
+
                         //get
                         var year = date.getFullYear()
                         var month = date.getMonth()+1
@@ -316,10 +340,9 @@ Rectangle {
                         var minutes = date.getMinutes()
                         var starttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
                         middleArea.playingName = middleArea.playInterface.name
+
                         middleArea.videoType = middleArea.playInterface.datas.resource.category
                         middleArea.startTime = starttime
-//                        middleArea.duration = player.showCurrentTime()
-                        console.log("---"+middleArea.playInterface.datas.resource.category)
 
                         if(!firstPlay)
                         {
@@ -384,6 +407,23 @@ Rectangle {
                     height: parent.height
                     anchors.fill: parent
                     source: "../image/videoController/next.png"
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        esipode += 1
+                        if(esipode ===  Number(datas.resource.esipode) + 1)
+                        {
+                            esipode = 1
+                        }
+                        path = middleArea.playRtspUrl + "/" + esipode + ".mkv"
+
+                        if(!stopVideo)
+                        {
+                            stopPlay()
+                        }
+                        player.startPlay(path)
+                    }
                 }
             }
 
@@ -547,6 +587,19 @@ Rectangle {
             }
         }
     }
+
+    function endPlay(){
+        player.endPlay()
+        note.visible = false
+        stopVideo = true
+        firstPlay = false
+        playing = false
+        progressBar.value = 0
+        duation.text = "00:00:00"
+        timing.text = "00:00:00"
+        noResurce = false
+    }
+
 
     function stopPlay(){
         note.visible = false

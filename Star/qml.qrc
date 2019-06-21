@@ -28,6 +28,7 @@
         <file>image/play/download.png</file>
         <file>image/play/share.jpg</file>
         <file>image/TopArea/back.jpg</file>
+        <file>image/TopArea/close.png</file>
         <file>image/TopArea/history.png</file>
         <file>image/TopArea/list.png</file>
         <file>image/TopArea/person.png</file>
@@ -59,6 +60,10 @@
         <file>MiddleArea/Movie.qml</file>
         <file>MiddleArea/MovieRecommend.qml</file>
         <file>MiddleArea/MovieType.qml</file>
+        <file>MiddleArea/Search.qml</file>
+        <file>MiddleArea/SearchCharacter.qml</file>
+        <file>MiddleArea/SearchDrama.qml</file>
+        <file>MiddleArea/SearchMovie.qml</file>
         <file>MiddleArea/SelectPage.qml</file>
         <file>MiddleArea/Variety.qml</file>
         <file>MiddleArea/VarietyRecommend.qml</file>
@@ -76,15 +81,14 @@
         <file>PlayArea/PlayVideo.qml</file>
         <file>PlayArea/Program.qml</file>
         <file>PlayArea/Record.qml</file>
+        <file>TopArea/AboutPop.qml</file>
+        <file>TopArea/Help.qml</file>
         <file>TopArea/RightButton.qml</file>
         <file>TopArea/TopArea.qml</file>
         <file>TopArea/TopSearch.qml</file>
         <file>main.qml</file>
         <file>MainItem.qml</file>
-        <file>MiddleArea/Search.qml</file>
-        <file>MiddleArea/SearchDrama.qml</file>
-        <file>MiddleArea/SearchMovie.qml</file>
-        <file>image/TopArea/close.png</file>
-        <file>MiddleArea/SearchCharacter.qml</file>
+        <file>MiddleArea/BrowseRecord.qml</file>
+        <file>MiddleArea/SearchNone.qml</file>
     </qresource>
 </RCC>

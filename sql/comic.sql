@@ -60,7 +60,7 @@ insert into Comic(name,type,region,epilide,director,actor,post,introduction,reco
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('Clannad','4,5,7','7','25','石原立也','中村悠一','./recommend/clannad.jpg','作为日本著名游戏品牌Key最著名的四季四部曲之一的《CLANNAD》第二部作品。 在某个小镇，主角冈崎朋也因为家庭的因素成为不良少年。某一天，他在学校坡道前发现了一个止步不前的女孩，在朋也认识了这个名为古河渚的女孩后，他的生活开始有了重大的变化。','99');
 
-insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('人鱼之森','4','7','13','奥胁雅晴','山寺宏一','./recommend/renYuZhiSen.jpg','涌太，曾经只是一个平凡的渔夫，原本和许多人一样，平平凡凡的过日子。但是有一天，他的两位捕鱼的同伴带回了一块奇怪的肉——人鱼的肉。相传人鱼的肉是不老不死的灵药，也正出于此，三人试探性的分吃了这快肉。但是不幸的是一人变成了怪物，暴毙而亡，另一人则在隔日吐血而死。目睹了这一切的涌太也害怕自己会象他们一样突然而亡……上天对涌太是残忍的吧，它并没有赐予涌太死亡，反而给了他永生（孤单）。','99');
+insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('人鱼之森','4','7','5','奥胁雅晴','山寺宏一','./recommend/renYuZhiSen.jpg','涌太，曾经只是一个平凡的渔夫，原本和许多人一样，平平凡凡的过日子。但是有一天，他的两位捕鱼的同伴带回了一块奇怪的肉——人鱼的肉。相传人鱼的肉是不老不死的灵药，也正出于此，三人试探性的分吃了这快肉。但是不幸的是一人变成了怪物，暴毙而亡，另一人则在隔日吐血而死。目睹了这一切的涌太也害怕自己会象他们一样突然而亡……上天对涌太是残忍的吧，它并没有赐予涌太死亡，反而给了他永生（孤单）。','99');
 
 
 insert into Comic(name,type,region,epilide,director,actor,post,introduction,recommend) values('守护甜心','5','7','25','安田贤司','中村悠一','./comics/shouHuTianXin.jpg','圣夜学园的亚梦被谣传为很棘手的小学生，外表酷酷的她实际上是个不善言辞的女孩，为了掩饰自己还经常以过分的行为来掩盖自己的怯弱。终于亚梦决定正视自己并祈求守护灵能赐给她改变自己的勇气，令她感到惊讶的是第二天床上出现了三只彩蛋，而这三只彩蛋到底能不能帮上亚梦呢？','99');

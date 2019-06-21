@@ -77,7 +77,8 @@ Rectangle {
                                     console.log("true")
                                 }
 
-                                play.rtspUrl = modelData.rtspURL
+                                play.rtspUrl = modelData.rtspURL + ".mkv"
+
 
                                 play.visible = true
                                 play.name = modelData.name
@@ -87,9 +88,14 @@ Rectangle {
                                 //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
                                 console.log(play.datas.resource.videotype.type)
 
+                                //自动生成记录
                                 if(modelData.name !== middleArea.playingName
                                         && middleArea.playingName!==""){
-                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    if(audienceInterface.audienceName === ""){
+                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }else{
+                                        client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                    }
                                     middleArea.playingName = ""
                                 }
                             }
