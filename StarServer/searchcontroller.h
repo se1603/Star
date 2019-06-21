@@ -16,7 +16,7 @@ public:
     }
 
     ~SearchController();
-    std::string SearchKeywords(std::string name); //搜索关键字
+    std::string searchKeywords(std::string name); //搜索关键字
 
 private:
     SearchController();

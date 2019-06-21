@@ -18,6 +18,7 @@ Server::Server()
     m_BrowseAndWatchController = controlFactory->createBrowseAndWatchController();
     m_AudienceController = controlFactory->createAudienceController();
     m_commentController = controlFactory->createCommentController();
+    m_searchController = controlFactory->creatSearchController();
 }
 
 void Server::acceptMessage()
@@ -405,7 +406,8 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
         return reply;
     }
     else if(request == "SEARCH"){
-        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);  //[1]为传入的json对象的下标，第一个元素，request[0]，name[1]
+//        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);  //[1]为传入的json对象的下标，第一个元素，request[0]，name[1]
+        reply = m_searchController->searchKeywords(parameters[1]);
         sendMessage(reply, ep);
         return reply;
     }

@@ -20,7 +20,7 @@ SearchController::~SearchController()
     delete m_instance;
 }
 
-std::string SearchController::SearchKeywords(std::string name)
+std::string SearchController::searchKeywords(std::string name)
 {
     Json::Value root;
     Json::Value searchs;

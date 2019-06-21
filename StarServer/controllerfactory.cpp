@@ -26,3 +26,8 @@ CommentController *ControllerFactory::createCommentController()
 {
     return CommentController::getInstance();
 }
+
+SearchController *ControllerFactory::creatSearchController()
+{
+    return SearchController::getInstace();
+}
