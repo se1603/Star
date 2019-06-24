@@ -44,6 +44,8 @@ public:
     Q_INVOKABLE void sendLoginInfo(QString n,QString p);
     //注册
     Q_INVOKABLE void sendRegisterInfo(QString n,QString p);
+    //判断非法字符
+    Q_INVOKABLE bool judgeRegisterInfo(std::string str);
     //退出
     Q_INVOKABLE void loginOut(QString n);
     //修改头像
@@ -61,8 +63,14 @@ public:
     void getAudienceInfo(std::string name);
 
     //非用户历史记录
-    Q_INVOKABLE void addBrowseRecord(QString recordName,QString startTime,QString duration,
-                               QString type);
+    //初始化
+    void initBrowseRecord();
+    //保存在本地文件
+    void addRecordToFile(std::string recordName, std::string startTime, std::string duration, std::string post);
+    //添加
+    Q_INVOKABLE void addBrowseRecord(QString recordName, QString startTime, QString duration,
+                               QString post);
+    //读取
     Q_INVOKABLE QString browseRecord();
 
     //获取评论信息
@@ -88,6 +96,7 @@ signals:
     void loginfailed();
     void registesucceed();
     void registefailed();
+    void registerInfoWrong();
     void loginout();
     void haslogined();
     void updateAvatarFailed();
@@ -107,6 +116,7 @@ private:
     std::map<int,std::map<int,std::string>> interfaceBuffer;
     std::map<int,std::string> categoryBuffer;
     std::map<int,std::string> recommendBuffer;
+    std::string browseRecordBuffer;
 };
 
 #endif // CLIENT_H

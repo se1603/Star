@@ -98,7 +98,7 @@ Rectangle {
             Component{
                 id:browserecord_page
                 BrowseRecord{
-
+                    browseRecord: browse_records
                 }
             }
         }

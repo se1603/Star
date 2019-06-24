@@ -168,16 +168,6 @@ std::vector<std::string> Server::jsonParse(char message[])
             parameter.push_back(value["request"].asString());
             parameter.push_back(value["name"].asString());
         }
-        else if(request == "ADDBROWSERECORD") {
-            parameter.push_back(value["request"].asString());
-            parameter.push_back(value["recordName"].asString());
-            parameter.push_back(value["startTime"].asString());
-            parameter.push_back(value["duration"].asString());
-            parameter.push_back(value["type"].asString());
-        }
-        else if(request == "GETBROWSERECORD") {
-            parameter.push_back(value["request"].asString());
-        }
         else
         {
             parameter.push_back("invalidMessage");
@@ -384,26 +374,6 @@ std::string Server::processRequest(std::string request, std::vector<std::string>
             sendMessage(reply,ep);
             return reply;
         }
-    }
-    else if(request == "ADDBROWSERECORD")
-    {
-        if(m_BrowseAndWatchController->addBrowseRecord(parameters[1],parameters[2],parameters[3],
-                                                       parameters[4]) == true)
-        {
-            reply = "Succeed";
-            sendMessage(reply,ep);
-            return reply;
-        }else{
-            reply = "Failed";
-            sendMessage(reply,ep);
-            return reply;
-        }
-    }
-    else if(request == "GETBROWSERECORD")
-    {
-        reply = m_BrowseAndWatchController->getBrowseRecord();
-        sendMessage(reply,ep);
-        return reply;
     }
     else if(request == "SEARCH"){
 //        reply = m_BrowseAndWatchController->SearchKey(parameters[1]);  //[1]为传入的json对象的下标，第一个元素，request[0]，name[1]

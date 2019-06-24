@@ -15,11 +15,14 @@ Page {
         onRegistefailed: {
             noticeText.text = "用户名重复，请重新注册"
         }
+        onRegisterInfoWrong: {
+            noticeText.text = "用户名或密码包含非法字符，请重新输入"
+        }
     }
 
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 1 / 12 * register.height
+        spacing: 1 / 24 * register.height
 
         Text {
             id:titleText
@@ -35,7 +38,7 @@ Page {
             Column {
                 anchors.top: parent.top
                 anchors.topMargin: 5
-                spacing: 1 / 5 * login.height
+                spacing: 1 / 9 * login.height
 
                 Text {
                     text: "用户名："
@@ -46,10 +49,15 @@ Page {
                     text: "密码："
                     font.pixelSize: 20
                 }
+
+                Text {
+                    text: "确认密码："
+                    font.pixelSize: 20
+                }
             }
 
             Column {
-                spacing: 1 / 6 * register.height
+                spacing: 1 / 9 * register.height
 
                 TextField {
                     id:nameInput
@@ -57,6 +65,11 @@ Page {
 
                 TextField {
                     id:passwordInput
+                    echoMode: TextInput.Password
+                }
+
+                TextField {
+                    id:passwordReInput
                     echoMode: TextInput.Password
                 }
             }
@@ -77,15 +90,23 @@ Page {
             Button {
                 text: "注册"
                 onClicked: {
-                    if(nameInput.text === "" || passwordInput.text === ""){
+                    if(nameInput.text === "" || passwordInput.text === "" || passwordReInput.text === ""){
                         noticeText.text = "the content is empty,please input again"
-                    }else{
+                    }else if(passwordInput.text !== passwordReInput.text){
+                        noticeText.text = "两次密码不一致"
+                    }else if(passwordInput.text.length < 6 || passwordInput.length > 12){
+                        noticeText.text = "密码位数小于6位或大于12位，请重新输入"
+                    }else if(nameInput.text.length < 1 || nameInput.text.length > 12){
+                        noticeText.text = "名字位数小于12位，请重新输入"
+                    }
+                    else{
                         noticeText.text = " "
                         console.log(nameInput.text,passwordInput.text)
                         client.sendRegisterInfo(nameInput.text,passwordInput.text)
                     }
                     nameInput.text=""
                     passwordInput.text=""
+                    passwordReInput.text=""
                 }
             }
 

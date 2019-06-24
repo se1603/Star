@@ -6,7 +6,7 @@ Rectangle {
     width: page_display.width
     height: page_display.height
 
-    property var browseRecord:middleArea.middleface.browse_records
+    property var browseRecord: middleArea.middleface.browse_records
 
     ScrollView {
         anchors.fill: parent
@@ -53,6 +53,7 @@ Rectangle {
                             wrapMode: Text.Wrap
                             anchors.top: browseRecord_img.bottom
                         }
+
                         Text {
                             id: browseRecord_info
                             text: modelData.startPlayTime+"   "+modelData.duration

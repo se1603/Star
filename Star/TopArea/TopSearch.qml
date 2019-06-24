@@ -108,7 +108,7 @@ Item{
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
                     else if(temp[0].type === "Comic"){
-                        middleArea.middleface.searchDrama = temp
+                        middleArea.middleface.searchDrame = temp
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
@@ -157,10 +157,11 @@ Item{
                         middleArea.middleface.browse_records = JSON.parse(
                                     client.audienceRecord(middleArea.audienceInterface.audienceName))
                     }else{
-                        middleArea.middleface.browse_records = JSON.parse(
-                                    client.browseRecord())
+                        middleArea.middleface.browse_records = JSON.parse(client.browseRecord())
                     }
+
                     middleArea.middleface.middleStack.push(middleArea.middleface.recordPage)
+
                     middleArea.playInterface.visible = false
                     middleArea.audienceInterface.visible = false
                     middleArea.middleface.visible = true

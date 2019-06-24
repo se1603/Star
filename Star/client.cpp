@@ -8,9 +8,11 @@
 #include "film.h"
 #include <dirent.h>
 #include <thread>
+#include <fstream>
+#include <ostream>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.31.13"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.30.41"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
@@ -19,6 +21,7 @@ Client::Client(QObject *p) :
 {
     connectServer();
     _audience = new Audience();
+    initBrowseRecord();
 }
 
 void Client::splictString(std::string &s, std::vector<std::string> &v, const std::string &c)
@@ -400,26 +403,61 @@ void Client::sendRegisterInfo(QString n, QString p)
     std::string rN = n.toStdString();
     std::string rPW = p.toStdString();
 
-    Json::Value registor;
-    registor["request"] = "REGISTEACCOUNT";
-    registor["name"] = rN;
-    registor["password"] = rPW;
-    registor.toStyledString();
-    std::string message = registor.toStyledString();
-
-    socket_ptr udpsockptr;
-    udpsockptr = sendMessage(message);
-
-    NetWork sock(udpsockptr);
-    std::string m;
-
-    m = sock.receive();
-    std::cout << m << std::endl;
-    if(m == "REGISTESUCCEED"){
-        emit registesucceed();
+    bool nameResult = judgeRegisterInfo(rN);
+    bool passwordResult = judgeRegisterInfo(rPW);
+    if(nameResult == false || passwordResult == false){
+        emit registerInfoWrong();
     }else{
-        emit registefailed();
+        Json::Value registor;
+        registor["request"] = "REGISTEACCOUNT";
+        registor["name"] = rN;
+        registor["password"] = rPW;
+        registor.toStyledString();
+        std::string message = registor.toStyledString();
+
+        socket_ptr udpsockptr;
+        udpsockptr = sendMessage(message);
+
+        NetWork sock(udpsockptr);
+        std::string m;
+
+        m = sock.receive();
+        std::cout << m << std::endl;
+        if(m == "REGISTESUCCEED"){
+            emit registesucceed();
+        }else{
+            emit registefailed();
+        }
     }
+}
+
+bool Client::judgeRegisterInfo(std::string str)
+{
+    int badNum = 0;
+
+    int size = str.length();
+    if (size <= 0)
+        return false;
+
+    char* pStr = new char[size];
+
+    strcpy(pStr, str.c_str());
+    for (int i = 0; i < size; i++)
+    {
+        if (!(pStr[i]>=0 && pStr[i]<=127))
+            continue;
+        if (ispunct(pStr[i]))
+        {
+            badNum ++;
+        }
+    }
+    delete[] pStr;
+    bool res = true;
+    if (badNum > 0)
+    {
+        res = false;
+    }
+    return res;
 }
 
 void Client::loginOut(QString n)
@@ -604,57 +642,138 @@ void Client::getAudienceInfo(std::string name)
 
     QString n = QString::fromStdString(p[0]);
     QString a = QString::fromStdString(p[1]);
-    //    qDebug() << n << "------" << a;
     emit loginsucceed(n,a);
-
 }
 
-void Client::addBrowseRecord(QString recordName, QString startTime, QString duration, QString type)
+void Client::initBrowseRecord()
 {
+    std::string str = "";
+    Json::Value qmlvalue;
+    std::ifstream inf("browseRecord.txt",std::ifstream::app);
+
+    if (inf.is_open())
+        std::cout << "browseRecord.txt is open" << std::endl;
+
+    getline(inf,str);
+    inf.close();
+
+    if(str.size() != 0) {
+        std::vector<std::string> records;
+        splictString(str,records,"#");
+        for(auto &r:records) {
+            std::vector<std::string> tmp;
+            splictString(r,tmp," ");
+            Json::Value value;
+            value["name"] = tmp[0];
+            value["startPlayTime"] = tmp[1];
+            value["duration"] = tmp[2];
+            value["post"] = tmp[3];
+            qmlvalue.append(value);
+        }
+        browseRecordBuffer = qmlvalue.toStyledString();
+    }else{
+        browseRecordBuffer = "";
+    }
+}
+
+void Client::addRecordToFile(std::string recordName, std::string startTime, std::string duration, std::string post)
+{
+    std::ofstream OpenFile("browseRecord.txt",std::ofstream::app);
+
+    if (OpenFile.fail())
+    {
+        std::cout << "打开文件错误!" << std::endl;
+        exit(0);
+    }
+
+    OpenFile << recordName + " " + startTime + " " + duration + " " + post + "#";
+    OpenFile.close();
+}
+
+void Client::addBrowseRecord(QString recordName, QString startTime, QString duration, QString post)
+{
+    std::string rN = recordName.toStdString();
+    std::string sT = startTime.toStdString();
+    std::string d = duration.toStdString();
+    std::string p = post.toStdString();
+
     Json::Value root;
-    root["request"] = "ADDBROWSERECORD";
-    root["recordName"] = recordName.toStdString();
-    root["startTime"] = startTime.toStdString();
-    root["duration"] = duration.toStdString();
-    root["type"] = type.toStdString();
 
-    std::string message = root.toStyledString();
+    root["name"] = rN;
+    root["startPlayTime"] = sT;
+    root["duration"] = d;
+    root["post"] = p;
 
-    socket_ptr udpsockptr;
-    udpsockptr = sendMessage(message);
+    std::ifstream inf("browseRecord.txt",std::ifstream::app);
+    std::string str;
+    getline(inf,str);
+    inf.close();
 
-    NetWork sock(udpsockptr);
+    Json::Reader reader;
+    Json::Value value;
+    Json::Value qmlvalue;
 
-    std::string m;
-    m = sock.receive();
+    int flag = 0;
+
+    if(browseRecordBuffer.size() == 0){
+        qmlvalue.append(root);
+        browseRecordBuffer = qmlvalue.toStyledString();
+        addRecordToFile(rN,sT,d,p);
+    }else{
+        if(!reader.parse(browseRecordBuffer,value)){
+            std::cout << "failed" << std::endl;
+        }
+        else
+        {
+            std::vector<std::string> vec;
+            splictString(str,vec,"#");
+            for(auto item = vec.begin();item != vec.end(); item++) {
+                std::vector<std::string> tmp;
+                splictString(*item,tmp," ");
+                if(tmp[0] == rN){
+                    vec.erase(item);
+                    flag = 1;
+                }
+                if(vec.size() == 0)
+                    break;
+            }
+            std::string newstr = rN+" "+sT+" "+d+" "+p+"#";
+            vec.push_back(newstr);
+
+            if(flag = 0){
+                    value.append(root);
+                    browseRecordBuffer = value.toStyledString();
+                    addRecordToFile(rN,sT,d,p);
+            }else{
+                std::string newRecord;
+                for(auto &v:vec){
+                    std::cout << "??????" << v << std::endl;
+                    newRecord += v;
+                }
+                std::ofstream OpenFile("browseRecord.txt",std::ofstream::trunc);
+                OpenFile << newRecord;
+                OpenFile.close();
+                initBrowseRecord();
+            }
+        }
+    }
 }
 
 QString Client::browseRecord()
 {
-    Json::Value root;
-    root["request"] = "GETBROWSERECORD";
-
-    std::string message = root.toStyledString();
-
-    socket_ptr udpsockptr;
-    udpsockptr = sendMessage(message);
-
-    NetWork sock(udpsockptr);
-
-    std::string m;
-    m = sock.receive();
-
-    Json::Value value;
-    Json::Value qmlvalue;
-    Json::Reader reader;
-    if(!reader.parse(m,value)) {
-        std::cerr << "Receive records failed." << std::endl;
-    } else {
-        qmlvalue = value["browserecord"];
+    QString message;
+    if(browseRecordBuffer.size() == 0){
+        Json::Value root;
+        root["name"] = " ";
+        root["startPlayTime"] = " ";
+        root["duration"] = " ";
+        root["post"] = " ";
+        std::string s = root.toStyledString();
+        message = QString::fromStdString(s);
+    }else{
+        message = QString::fromStdString(browseRecordBuffer);
     }
-
-    QString str = QString::fromStdString(qmlvalue.toStyledString());
-    return str;
+    return message;
 }
 
 QString Client::showCommentInfo(QString name)

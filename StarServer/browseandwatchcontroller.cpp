@@ -12,7 +12,7 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 
 BrowseAndWatchController::BrowseAndWatchController()
 {
-    m_rtspAddress = "192.168.31.13";
+    m_rtspAddress = "192.168.30.41";
     m_actorbroker = ActorBroker::getInstance();
     m_directorbroker = DirectorBroker::getInstance();
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
@@ -810,21 +810,6 @@ std::string BrowseAndWatchController::comicInterface(int type)
     std::string out = root.toStyledString();
 
     return out;
-}
-
-bool BrowseAndWatchController::addBrowseRecord(std::string recordName, std::string startTime, std::string duration, std::string type)
-{
-    if(m_movieAndTelevisionBroker->addBrowseRecord(recordName, startTime, duration, type)
-            == true){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-std::string BrowseAndWatchController::getBrowseRecord()
-{
-    return m_movieAndTelevisionBroker->getBrowseRecord();
 }
 
 std::string BrowseAndWatchController::getUrl(std::string name)

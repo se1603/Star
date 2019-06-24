@@ -164,6 +164,7 @@ Rectangle {
                 var starttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
                 middleArea.playingName = middleArea.playInterface.name
                 middleArea.videoType = middleArea.playInterface.datas.resource.category
+                middleArea.videoPost = middleArea.playInterface.image
                 middleArea.startTime = starttime
                 middleArea.duration = player.showCurrentTime()
 
@@ -340,7 +341,7 @@ Rectangle {
                         var minutes = date.getMinutes()
                         var starttime = year+"-"+month+"-"+day+"-"+hours+":"+minutes
                         middleArea.playingName = middleArea.playInterface.name
-
+                        middleArea.videoPost = middleArea.playInterface.image
                         middleArea.videoType = middleArea.playInterface.datas.resource.category
                         middleArea.startTime = starttime
 

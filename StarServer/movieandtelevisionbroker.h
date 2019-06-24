@@ -74,11 +74,6 @@ public:
      std::vector<Film *> searchFilm(std::string name); //从map中读取数据，返回给controller
      std::vector<Drame *> searchDrama(std::string name);
      std::vector<Comic *> searchComic(std::string name);
-
-     //本地浏览记录
-     bool addBrowseRecord(std::string recordName, std::string startTime,
-                          std::string duration, std::string type);
-     std::string getBrowseRecord();
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;

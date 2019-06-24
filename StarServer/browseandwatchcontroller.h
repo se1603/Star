@@ -38,11 +38,6 @@ public:
 
     //    std::string SearchKey(std::string name); //搜索关键字
 
-    //本地浏览记录
-    bool addBrowseRecord(std::string recordName, std::string startTime,
-                         std::string duration, std::string type);
-    std::string getBrowseRecord();
-
     std::string getUrl(std::string name);//获取资源
 
 

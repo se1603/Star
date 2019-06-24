@@ -69,6 +69,7 @@ Rectangle {
                         MouseArea{
                             anchors.fill: parent
                             onClicked: {
+
                                 middleArea.middle = false
                                 middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
                                 if(playInterface.playCommponent.playing)
@@ -92,7 +93,7 @@ Rectangle {
                                 if(modelData.name !== middleArea.playingName
                                         && middleArea.playingName!==""){
                                     if(audienceInterface.audienceName === ""){
-                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoPost)
                                     }else{
                                         client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
                                     }

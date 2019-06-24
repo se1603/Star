@@ -22,6 +22,7 @@ Rectangle {
     property var playingName:""
     property var startTime:""
     property var duration:""
+    property var videoPost:""
     property var videoType:""
 
     property var playRtspUrl: ""
