@@ -8,6 +8,8 @@ Rectangle {
     width: parent.width
     anchors.fill: parent
     property var searchDrama: middleArea.middleface.searchDrama
+    property var post
+    property var url
 
     //顶部提示栏
     Rectangle{
@@ -201,6 +203,11 @@ Rectangle {
                             lineHeight: 1
                             text: modelData.introduction
                         }
+                        Component.onCompleted: {
+                            post = modelData.post
+                            url = modelData.rtspURL
+                        }
+
                         GridLayout{
                             id:griddrame
                             width: 560
@@ -220,15 +227,6 @@ Rectangle {
                                     width: 20
                                     height: 20
                                     color: "#8b8378"
-                                    MouseArea{
-                                        id:playmousearea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        onClicked: {
-                                            playbutton.color = "red"
-                                        }
-                                    }
-
                                     Text {
                                         id: drametitle
                                         anchors.horizontalCenter: playbutton.horizontalCenter
@@ -237,6 +235,46 @@ Rectangle {
                                         color: "lightblue"
                                         text: modelData + 1
                                     }
+                                    MouseArea{
+                                        id:playmousearea
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        onClicked: {
+                                            playbutton.color = "red"
+                                            middleArea.middle = false
+                                            middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+                                            if(playInterface.playCommponent.playing)
+                                            {
+                                                playInterface.playCommponent.stopPlay()
+                                                console.log("true")
+                                            }
+
+                                            play.datas = JSON.parse(client.getMovieInfo(movietitle.text))
+                                            middleArea.playRtspUrl = url
+                                            play.esipode = Number(play.datas.resource.esipode)
+
+                                            play.visible = true
+                                            play.name = movietitle.text
+                                            play.image = post
+
+                                            play.rtspUrl = url + "/" + drametitle.text + ".mkv"
+                                            //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+                                            console.log(play.datas.resource.videotype.type)
+
+                                            //自动生成记录
+                                            if(modelData.name !== middleArea.playingName
+                                                    && middleArea.playingName!==""){
+                                                if(audienceInterface.audienceName === ""){
+                                                    client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                }else{
+                                                    client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                                }
+                                                middleArea.playingName = ""
+                                            }
+                                        }
+                                    }
+
+
                                 }
                             }
                         }

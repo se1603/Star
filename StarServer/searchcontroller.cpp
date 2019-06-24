@@ -12,7 +12,10 @@
 SearchController* SearchController::m_instance = new SearchController();
 
 SearchController::SearchController(){
+    m_actorbroker = ActorBroker::getInstance();
+    m_directorbroker = DirectorBroker::getInstance();
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
+    m_browseAndWatchController = BrowseAndWatchController::getInstance();
 }
 
 SearchController::~SearchController()
@@ -26,11 +29,11 @@ std::string SearchController::searchKeywords(std::string name)
     Json::Value searchs;
     root["request"] = "SEARCH";
 
-    std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
-    std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
-    std::vector<Comic *> comic = m_movieAndTelevisionBroker->SearchComic(name);
-    std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
-    std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
+    std::vector<Film *> film = m_movieAndTelevisionBroker->searchFilm(name);
+    std::vector<Drame *> drame = m_movieAndTelevisionBroker->searchDrama(name);
+    std::vector<Comic *> comic = m_movieAndTelevisionBroker->searchComic(name);
+    std::vector<Actor *> actor = m_actorbroker->searchActor(name);
+    std::vector<Director *> director = m_directorbroker->searchDirector(name);
 
 
     if(film.size() != 0)
@@ -42,6 +45,7 @@ std::string SearchController::searchKeywords(std::string name)
         search["name"] = searchInfo[0];
         search["post"] = searchInfo[1];
         search["introduction"] = searchInfo[2];
+        search["rtspURL"] = m_browseAndWatchController->getUrl(searchInfo[0]);
 //        search["episode"] = searchInfo[3];
         searchs.append(search);
     }
@@ -53,6 +57,7 @@ std::string SearchController::searchKeywords(std::string name)
         search["name"] = searchInfo[0];
         search["post"] = searchInfo[1];
         search["introduction"] = searchInfo[2];
+        search["rtspURL"] = m_browseAndWatchController->getUrl(searchInfo[0]);
         search["episode"] = searchInfo[3];
         searchs.append(search);
     }
@@ -64,6 +69,7 @@ std::string SearchController::searchKeywords(std::string name)
         search["name"] = searchInfo[0];
         search["post"] = searchInfo[1];
         search["introduction"] = searchInfo[2];
+        search["rtspURL"] = m_browseAndWatchController->getUrl(searchInfo[0]);
         search["episode"] = searchInfo[3];
         searchs.append(search);
     }
