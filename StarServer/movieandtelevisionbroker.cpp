@@ -17,7 +17,9 @@ MovieAndTelevisionBroker* MovieAndTelevisionBroker::m_instance = new MovieAndTel
 
 MovieAndTelevisionBroker::MovieAndTelevisionBroker()
 {
-    initActors();
+    m_actorBroker = ActorBroker::getInstance();
+    m_directorBroker = DirectorBroker::getInstance();
+//    initActors();
     initFilms();
     initVarieties();
     initComics();
@@ -153,35 +155,37 @@ Drame MovieAndTelevisionBroker::handleDrame(std::vector<std::string> row)
     }
     splictString(row[3],drameDirector,",");
     std::vector<Director *> directors;
-    for(int i = 0; i != drameDirector.size();i++)
-    {
-        auto it = m_directors.find(drameDirector[i]);
-        if(it != m_directors.end())
-        {
-            directors.push_back(&it->second);
-        }
-        else {
-            Director d = Director(drameDirector[i]);
-            m_directors[drameDirector[i]] = d;
-            directors.push_back(&m_directors[drameDirector[i]]);
-        }
-    }
+    directors = m_directorBroker->findDirector(drameDirector);
+//    for(int i = 0; i != drameDirector.size();i++)
+//    {
+//        auto it = m_directors.find(drameDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            directors.push_back(&it->second);
+//        }
+//        else {
+//            Director d = Director(drameDirector[i]);
+//            m_directors[drameDirector[i]] = d;
+//            directors.push_back(&m_directors[drameDirector[i]]);
+//        }
+//    }
 
     splictString(row[4],drameActor,",");
     std::vector<Actor *> actors;
-    for(int i = 0; i != drameActor.size();i++)
-    {
-        auto it = m_actors.find(drameActor[i]);
-        if(it != m_actors.end())
-        {
-            actors.push_back(&it->second);
-        }
-        else {
-            Actor tmpActor(drameActor[i]);
-            m_actors[drameActor[i]] = tmpActor;
-            actors.push_back(&m_actors[drameActor[i]]);
-        }
-    }
+    actors = m_actorBroker->findActor(drameActor);
+//    for(int i = 0; i != drameActor.size();i++)
+//    {
+//        auto it = m_actors.find(drameActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            actors.push_back(&it->second);
+//        }
+//        else {
+//            Actor tmpActor(drameActor[i]);
+//            m_actors[drameActor[i]] = tmpActor;
+//            actors.push_back(&m_actors[drameActor[i]]);
+//        }
+//    }
 
     splictString(row[5],dramePost,",");
     splictString(row[7],recommend,",");
@@ -193,23 +197,25 @@ Drame MovieAndTelevisionBroker::handleDrame(std::vector<std::string> row)
 
     Drame drame(row[0],row[6],drameRegion,dramePost,actors,directors,drametype,atoi(row[8].c_str()),drameRecommends);
 
-    for (int i = 0;i != drameActor.size();i ++)
-    {
-        auto it = m_actors.find(drameActor[i]);
-        if(it != m_actors.end())
-        {
-            it->second.addMovieAndTelevision(&drame);
-        }
-    }
+    m_actorBroker->addMovieAndTelevision(drameActor,drame);
+//    for (int i = 0;i != drameActor.size();i ++)
+//    {
+//        auto it = m_actors.find(drameActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            it->second.addMovieAndTelevision(&drame);
+//        }
+//    }
 
-    for (int i = 0;i != drameDirector.size();i ++)
-    {
-        auto it = m_directors.find(drameDirector[i]);
-        if(it != m_directors.end())
-        {
-            it->second.addMovieAndTelevision(&drame);
-        }
-    }
+    m_directorBroker->addMovieAndTelevision(drameDirector, drame);
+//    for (int i = 0;i != drameDirector.size();i ++)
+//    {
+//        auto it = m_directors.find(drameDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            it->second.addMovieAndTelevision(&drame);
+//        }
+//    }
 
     return drame;
 }
@@ -336,34 +342,36 @@ Variety MovieAndTelevisionBroker::handleVariety(std::vector<std::string> row)
     }
     splictString(row[4],varietyDirector,",");
     std::vector<Director *> directors;
-    for(int i = 0; i != varietyDirector.size();i++)
-    {
-        auto it = m_directors.find(varietyDirector[i]);
-        if(it != m_directors.end())
-        {
-            directors.push_back(&it->second);
-        }
-        else {
-            Director d = Director(varietyDirector[i]);
-            m_directors[varietyDirector[i]] = d;
-            directors.push_back(&m_directors[varietyDirector[i]]);
-        }
-    }
+    directors = m_directorBroker->findDirector(varietyDirector);
+//    for(int i = 0; i != varietyDirector.size();i++)
+//    {
+//        auto it = m_directors.find(varietyDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            directors.push_back(&it->second);
+//        }
+//        else {
+//            Director d = Director(varietyDirector[i]);
+//            m_directors[varietyDirector[i]] = d;
+//            directors.push_back(&m_directors[varietyDirector[i]]);
+//        }
+//    }
     splictString(row[5],varietyActor,"/");
     std::vector<Actor *> actors;
-    for(int i = 0; i != varietyActor.size();i++)
-    {
-        auto it = m_actors.find(varietyActor[i]);
-        if(it != m_actors.end())
-        {
-            actors.push_back(&it->second);
-        }
-        else {
-            Actor tmpActor(varietyActor[i]);
-            m_actors[varietyActor[i]] = tmpActor;
-            actors.push_back(&m_actors[varietyActor[i]]);
-        }
-    }
+    actors = m_actorBroker->findActor(varietyActor);
+//    for(int i = 0; i != varietyActor.size();i++)
+//    {
+//        auto it = m_actors.find(varietyActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            actors.push_back(&it->second);
+//        }
+//        else {
+//            Actor tmpActor(varietyActor[i]);
+//            m_actors[varietyActor[i]] = tmpActor;
+//            actors.push_back(&m_actors[varietyActor[i]]);
+//        }
+//    }
 
     splictString(row[6],varietyPost,",");
 
@@ -375,23 +383,26 @@ Variety MovieAndTelevisionBroker::handleVariety(std::vector<std::string> row)
 
     Variety variety(row[0],row[7],varietyRegion,varietyPost,actors,directors,
             varietytype,varietyRecommends,varietyEpisodes);
-    for (int i = 0;i != varietyActor.size();i ++)
-    {
-        auto it = m_actors.find(varietyActor[i]);
-        if(it != m_actors.end())
-        {
-            it->second.addMovieAndTelevision(&variety);
-        }
-    }
 
-    for (int i = 0;i != varietyDirector.size();i ++)
-    {
-        auto it = m_directors.find(varietyDirector[i]);
-        if(it != m_directors.end())
-        {
-            it->second.addMovieAndTelevision(&variety);
-        }
-    }
+    m_actorBroker->addMovieAndTelevision(varietyActor,variety);
+//    for (int i = 0;i != varietyActor.size();i ++)
+//    {
+//        auto it = m_actors.find(varietyActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            it->second.addMovieAndTelevision(&variety);
+//        }
+//    }
+
+    m_directorBroker->addMovieAndTelevision(varietyDirector, variety);
+//    for (int i = 0;i != varietyDirector.size();i ++)
+//    {
+//        auto it = m_directors.find(varietyDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            it->second.addMovieAndTelevision(&variety);
+//        }
+//    }
     return variety;
 }
 
@@ -519,34 +530,36 @@ Comic MovieAndTelevisionBroker::handleComic(std::vector<std::string> row)
     }
     splictString(row[4],comicDirector,",");
     std::vector<Director *> directors;
-    for(int i = 0; i != comicDirector.size();i++)
-    {
-        auto it = m_directors.find(comicDirector[i]);
-        if(it != m_directors.end())
-        {
-            directors.push_back(&it->second);
-        }
-        else {
-            Director d = Director(comicDirector[i]);
-            m_directors[comicDirector[i]] = d;
-            directors.push_back(&m_directors[comicDirector[i]]);
-        }
-    }
+    directors = m_directorBroker->findDirector(comicDirector);
+//    for(int i = 0; i != comicDirector.size();i++)
+//    {
+//        auto it = m_directors.find(comicDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            directors.push_back(&it->second);
+//        }
+//        else {
+//            Director d = Director(comicDirector[i]);
+//            m_directors[comicDirector[i]] = d;
+//            directors.push_back(&m_directors[comicDirector[i]]);
+//        }
+//    }
     splictString(row[5],comicActor,",");
-    std::vector<Actor *> actors;
-    for(int i = 0; i != comicActor.size();i++)
-    {
-        auto it = m_actors.find(comicActor[i]);
-        if(it != m_actors.end())
-        {
-            actors.push_back(&it->second);
-        }
-        else {
-            Actor tmpActor(comicActor[i]);
-            m_actors[comicActor[i]] = tmpActor;
-            actors.push_back(&m_actors[comicActor[i]]);
-        }
-    }
+
+    std::vector<Actor *> actors = m_actorBroker->findActor(comicActor);
+//    for(int i = 0; i != comicActor.size();i++)
+//    {
+//        auto it = m_actors.find(comicActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            actors.push_back(&it->second);
+//        }
+//        else {
+//            Actor tmpActor(comicActor[i]);
+//            m_actors[comicActor[i]] = tmpActor;
+//            actors.push_back(&m_actors[comicActor[i]]);
+//        }
+//    }
 
     splictString(row[6],comicPost,",");
 
@@ -559,23 +572,25 @@ Comic MovieAndTelevisionBroker::handleComic(std::vector<std::string> row)
 
     Comic comic(row[0],row[7],comicRegion,comicPost,actors,directors,comictype,atoi(row[3].c_str()),comicRecommends);
 
-    for (int i = 0;i != comicActor.size();i ++)
-    {
-        auto it = m_actors.find(comicActor[i]);
-        if(it != m_actors.end())
-        {
-            it->second.addMovieAndTelevision(&comic);
-        }
-    }
+    m_actorBroker->addMovieAndTelevision(comicActor,comic);
+//    for (int i = 0;i != comicActor.size();i ++)
+//    {
+//        auto it = m_actors.find(comicActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            it->second.addMovieAndTelevision(&comic);
+//        }
+//    }
 
-    for (int i = 0;i != comicDirector.size();i ++)
-    {
-        auto it = m_directors.find(comicDirector[i]);
-        if(it != m_directors.end())
-        {
-            it->second.addMovieAndTelevision(&comic);
-        }
-    }
+    m_directorBroker->addMovieAndTelevision(comicDirector, comic);
+//    for (int i = 0;i != comicDirector.size();i ++)
+//    {
+//        auto it = m_directors.find(comicDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            it->second.addMovieAndTelevision(&comic);
+//        }
+//    }
 
     return comic;
 }
@@ -768,145 +783,7 @@ std::vector<std::string> MovieAndTelevisionBroker::getVideoInfo(std::string name
     return resource;
 }
 
-void MovieAndTelevisionBroker::initActors()
-{
-    if(!m_films.empty())
-        m_films.clear();
-
-    MYSQL *mysql;
-    mysql = new MYSQL;
-
-    MYSQL_RES *result;
-    MYSQL_ROW row;
-
-    mysql_init(mysql);
-    if(!mysql_real_connect(mysql,"localhost","root","root","Star",0,NULL,0))
-    {
-        cout << "Connect MYSQL failed." << endl;
-    }
-    else{
-        cout << "Connect MYSQL succed." << endl;
-    }
-
-    std::string sql = "select * from Actor;";
-    if(mysql_query(mysql,sql.data())){
-        cout << "获取目录失败" << endl;
-    }
-    else{
-        result = mysql_use_result(mysql);
-        while(1){
-            row = mysql_fetch_row(result);  //获取下一行
-            if(row == nullptr) break;
-            std::vector<std::string> res;
-            for(unsigned int i = 0;i < mysql_num_fields(result);++i){
-                //                std::cout << row[i] << std::endl;
-                res.push_back(row[i]);
-            }
-            Actor a = handleActor(res);
-            m_actors[row[0]] = a;
-        }
-        mysql_free_result(result);
-        result = nullptr;
-    }
-    if(mysql != nullptr)
-        mysql_close(mysql);
-    mysql_library_end();
-}
-
-Actor MovieAndTelevisionBroker::handleActor(std::vector<std::string> row)
-{
-    std::vector<std::string> paramters;
-    std::string name,birthday,introduction,photo;
-    
-    Region region;
-
-    name = row[0];
-    birthday = row[1];
-    introduction = row[3];
-    photo = row[4];
-    
-    switch (atoi(row[2].c_str())) {
-    case 1:
-        region = Region::China;
-        break;
-    case 2:
-        region = Region::American;
-        break;
-    case 3:
-        region = Region::Korea;
-        break;
-    case 4:
-        region = Region::India;
-        break;
-    case 5:
-        region = Region::THailand;
-        break;
-    case 6:
-        region = Region::Britain;
-        break;
-    case 7:
-        region = Region::Japan;
-        break;
-    default:
-        break;
-    }
-    paramters.push_back(name);
-    paramters.push_back(birthday);
-    paramters.push_back(photo);
-    paramters.push_back(introduction);
-
-    
-    Actor a = Actor(paramters,region);
-    return a;
-}
-
-Director MovieAndTelevisionBroker::handleDirector(std::vector<std::string> row)
-{
-    std::vector<std::string> paramters;
-    std::string name,birthday,introduction,photo;
-
-    Region region;
-
-    name = row[0];
-    birthday = row[1];
-    introduction = row[3];
-    photo = row[4];
-
-    switch (atoi(row[2].c_str())) {
-    case 1:
-        region = Region::China;
-        break;
-    case 2:
-        region = Region::American;
-        break;
-    case 3:
-        region = Region::Korea;
-        break;
-    case 4:
-        region = Region::India;
-        break;
-    case 5:
-        region = Region::THailand;
-        break;
-    case 6:
-        region = Region::Britain;
-        break;
-    case 7:
-        region = Region::Japan;
-        break;
-    default:
-        break;
-    }
-    paramters.push_back(name);
-    paramters.push_back(birthday);
-    paramters.push_back(photo);
-    paramters.push_back(introduction);
-
-    Director d = Director(paramters,region);
-    return d;
-}
-
-std::vector<Film *> MovieAndTelevisionBroker::SearchFilm(std::string name)
+std::vector<Film *> MovieAndTelevisionBroker::searchFilm(std::string name)
 {
         std::vector<Film *> p;
         for(auto it = m_films.begin(); it != m_films.end(); it++)
@@ -918,7 +795,7 @@ std::vector<Film *> MovieAndTelevisionBroker::SearchFilm(std::string name)
         return p;
 }
 
-std::vector<Drame *> MovieAndTelevisionBroker::SearchDrama(std::string name)
+std::vector<Drame *> MovieAndTelevisionBroker::searchDrama(std::string name)
 {
         std::vector<Drame *> p;
         for(auto it = m_drames.begin(); it != m_drames.end(); it++)
@@ -930,33 +807,10 @@ std::vector<Drame *> MovieAndTelevisionBroker::SearchDrama(std::string name)
         return p;
 }
 
-std::vector<Comic *> MovieAndTelevisionBroker::SearchComic(std::string name)
+std::vector<Comic *> MovieAndTelevisionBroker::searchComic(std::string name)
 {
     std::vector<Comic *> p;
     for(auto it = m_comics.begin(); it != m_comics.end(); it++){
-        if(it->second.findByName(name)){
-            p.push_back(&it->second);
-        }
-    }
-    return p;
-}
-
-
-std::vector<Actor *> MovieAndTelevisionBroker::SearchActor(std::string name)
-{
-    std::vector<Actor *> p;
-    for(auto it = m_actors.begin(); it != m_actors.end(); it++){
-        if(it->second.findByName(name)){
-            p.push_back(&it->second);
-        }
-    }
-    return p;
-}
-
-std::vector<Director *> MovieAndTelevisionBroker::SearchDirector(std::string name)
-{
-    std::vector<Director *> p;
-    for(auto it = m_directors.begin(); it != m_directors.end(); it++){
         if(it->second.findByName(name)){
             p.push_back(&it->second);
         }
@@ -1072,35 +926,25 @@ Film MovieAndTelevisionBroker::handleFilm(std::vector<std::string> row)
     }
     splictString(row[3],filmDirector,",");
     std::vector<Director *> directors;
-    for(int i = 0; i != filmDirector.size();i++)
-    {
-        auto it = m_directors.find(filmDirector[i]);
-        if(it != m_directors.end())
-        {
-            directors.push_back(&it->second);
-        }
-        else {
-            Director d = Director(filmDirector[i]);
-            m_directors[filmDirector[i]] = d;
-            directors.push_back(&m_directors[filmDirector[i]]);
-        }
-    }
+    directors = m_directorBroker->findDirector(filmDirector);
+//    for(int i = 0; i != filmDirector.size();i++)
+//    {
+//        auto it = m_directors.find(filmDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            directors.push_back(&it->second);
+//        }
+//        else {
+//            Director d = Director(filmDirector[i]);
+//            m_directors[filmDirector[i]] = d;
+//            directors.push_back(&m_directors[filmDirector[i]]);
+//        }
+//    }
 
     splictString(row[4],filmActor,",");
     std::vector<Actor *> actors;
-    for(int i = 0; i != filmActor.size();i++)
-    {
-        auto it = m_actors.find(filmActor[i]);
-        if(it != m_actors.end())
-        {
-            actors.push_back(&it->second);
-        }
-        else {
-            Actor tmpActor(filmActor[i]);
-            m_actors[filmActor[i]] = tmpActor;
-            actors.push_back(&m_actors[filmActor[i]]);
-        }
-    }
+
+    actors = m_actorBroker->findActor(filmActor);
 
     splictString(row[5],filmPost,",");
     splictString(row[7],recommend,",");
@@ -1112,23 +956,26 @@ Film MovieAndTelevisionBroker::handleFilm(std::vector<std::string> row)
 
     Film film(row[0],row[6],filmRegion,filmPost,
             actors,directors,filmtype,filmRecommends);
-    for (int i = 0;i != filmActor.size();i ++)
-    {
-        auto it = m_actors.find(filmActor[i]);
-        if(it != m_actors.end())
-        {
-            it->second.addMovieAndTelevision(&film);
-        }
-    }
 
-    for (int i = 0;i != filmDirector.size();i ++)
-    {
-        auto it = m_directors.find(filmDirector[i]);
-        if(it != m_directors.end())
-        {
-            it->second.addMovieAndTelevision(&film);
-        }
-    }
+    m_actorBroker->addMovieAndTelevision(filmActor,film);
+//    for (int i = 0;i != filmActor.size();i ++)
+//    {
+//        auto it = m_actors.find(filmActor[i]);
+//        if(it != m_actors.end())
+//        {
+//            it->second.addMovieAndTelevision(&film);
+//        }
+//    }
+
+    m_directorBroker->addMovieAndTelevision(filmDirector, film);
+//    for (int i = 0;i != filmDirector.size();i ++)
+//    {
+//        auto it = m_directors.find(filmDirector[i]);
+//        if(it != m_directors.end())
+//        {
+//            it->second.addMovieAndTelevision(&film);
+//        }
+//    }
 
     return film;
 }

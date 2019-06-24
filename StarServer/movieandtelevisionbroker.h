@@ -13,6 +13,8 @@
 #include "comic.h"
 #include "drame.h"
 #include "record.h"
+#include "actorbroker.h"
+#include "directorbroker.h"
 
 class MovieAndTelevisionBroker : public RelationalBroker
 {
@@ -45,7 +47,6 @@ public:
     std::vector<Variety> getVarieties(VarietyType type);
     std::vector<Variety> getRecommendVarieties(int type);
 
-
     //动漫
     void initComics();//获取所有动漫
     Comic handleComic(std::vector<std::string> row); //处理数据库数据
@@ -56,13 +57,6 @@ public:
 //    std::vector<std::string> getVideoInfo(std::string name);
     std::vector<std::string> getVideoInfo(std::string name);//获取影视内容
     
-    //演员
-    void initActors();
-    Actor handleActor(std::vector<std::string> row);
-    
-    //导演
-    void initDirectors();
-    Director handleDirector(std::vector<std::string> row);
 
     //用户操作
     //处理用户信息
@@ -77,11 +71,9 @@ public:
      void findMovieandTelevision(std::string name,MovieAndTelevision* m);
 
      //搜索
-     std::vector<Film *> SearchFilm(std::string name); //从map中读取数据，返回给controller
-     std::vector<Drame *> SearchDrama(std::string name);
-     std::vector<Actor *> SearchActor(std::string name);
-     std::vector<Director *> SearchDirector(std::string name);
-     std::vector<Comic *> SearchComic(std::string name);
+     std::vector<Film *> searchFilm(std::string name); //从map中读取数据，返回给controller
+     std::vector<Drame *> searchDrama(std::string name);
+     std::vector<Comic *> searchComic(std::string name);
 
      //本地浏览记录
      bool addBrowseRecord(std::string recordName, std::string startTime,
@@ -90,14 +82,12 @@ public:
 private:
     MovieAndTelevisionBroker();
     static MovieAndTelevisionBroker *m_instance;
+    ActorBroker *m_actorBroker;
+    DirectorBroker *m_directorBroker;
     std::map<std::string,Film> m_films;   //电影
     std::map<std::string,Drame> m_drames;  //剧集
     std::map<std::string,Variety> m_varieties; //综艺
     std::map<std::string,Comic> m_comics;  //动漫
-
-    std::map<std::string,Actor> m_actors; //演员
-    std::map<std::string,Director> m_directors; //导演
-
     std::vector<Record> browse_records;
 };
 

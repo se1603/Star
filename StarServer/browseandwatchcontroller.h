@@ -9,6 +9,8 @@
 
 #include "controller.h"
 #include "movieandtelevisionbroker.h"
+#include "actorbroker.h"
+#include "directorbroker.h"
 
 class BrowseAndWatchController : public Controller
 {
@@ -34,18 +36,23 @@ public:
     std::string getVideoInfo(std::string name);//获取播放界面中的片库信息
     std::string getActorInfo(std::string name);//获取演员和导演信息
 
-    std::string SearchKey(std::string name); //搜索关键字
+    //    std::string SearchKey(std::string name); //搜索关键字
 
     //本地浏览记录
     bool addBrowseRecord(std::string recordName, std::string startTime,
                          std::string duration, std::string type);
     std::string getBrowseRecord();
 
+    std::string getUrl(std::string name);//获取资源
+
 
 private:
     BrowseAndWatchController();
     static BrowseAndWatchController* m_instance;
+    ActorBroker* m_actorbroker;
+    DirectorBroker* m_directorbroker;
     MovieAndTelevisionBroker* m_movieAndTelevisionBroker;
+
     std::string m_rtspAddress;
 };
 

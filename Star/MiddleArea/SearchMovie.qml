@@ -230,6 +230,35 @@ Rectangle {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked: {
+                                    middleArea.middle = false
+                                    middleArea.duration = playInterface.playCommponent.player.showCurrentTime()
+                                    if(playInterface.playCommponent.playing)
+                                    {
+                                        playInterface.playCommponent.stopPlay()
+                                        console.log("true")
+                                    }
+
+                                    play.rtspUrl = modelData.rtspURL + ".mkv"
+
+
+                                    play.visible = true
+                                    play.name = modelData.name
+                                    play.image = modelData.post
+
+                                    play.datas = JSON.parse(client.getMovieInfo(modelData.name))
+                                    //                                    play.commentModel = JSON.parse(client.showCommentInfo(play.name))
+                                    console.log(play.datas.resource.videotype.type)
+
+                                    //自动生成记录
+                                    if(modelData.name !== middleArea.playingName
+                                            && middleArea.playingName!==""){
+                                        if(audienceInterface.audienceName === ""){
+                                            client.addBrowseRecord(middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }else{
+                                            client.addRecord(audienceInterface.audienceName,middleArea.playingName,middleArea.startTime,middleArea.duration,middleArea.videoType)
+                                        }
+                                        middleArea.playingName = ""
+                                    }
 
                                 }
                             }

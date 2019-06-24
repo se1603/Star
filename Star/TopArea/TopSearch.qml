@@ -108,7 +108,7 @@ Item{
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }
                     else if(temp[0].type === "Comic"){
-                        middleArea.middleface.searchDrame = temp
+                        middleArea.middleface.searchDrama = temp
                         middleArea.middleface.search.visible = true
                         middleArea.middleface.search.searchPage(temp[0].type)
                     }

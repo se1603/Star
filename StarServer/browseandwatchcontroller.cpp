@@ -13,6 +13,8 @@ BrowseAndWatchController* BrowseAndWatchController::m_instance = new BrowseAndWa
 BrowseAndWatchController::BrowseAndWatchController()
 {
     m_rtspAddress = "192.168.31.13";
+    m_actorbroker = ActorBroker::getInstance();
+    m_directorbroker = DirectorBroker::getInstance();
     m_movieAndTelevisionBroker = MovieAndTelevisionBroker::getInstance();
 }
 
@@ -50,29 +52,29 @@ std::string BrowseAndWatchController::getVideoInfo(std::string name)
     std::string out;
     root["request"] = "RECODE";
     root["name"] = name;
-        auto f = m_movieAndTelevisionBroker->getVideoInfo(name);
-        Json::Value value;
-        Json::Value types;
-        root["videotype"] = 1;
-        for(int i = 0;i != f.size();i++){
-            Json::Value type;
-            if(i == 0){
-                value["esipode"] = f[0];
-            }else if(i == 1){
-                value["introduction"] = f[1];
-            }else if(i == 2){
-                value["category"] = f[2];
-            }else if(i==3){
-                value["region"] = f[3];
-           }
-            else{
-                type["type"] = f[i];
-                types.append(type);
-            }
+    auto f = m_movieAndTelevisionBroker->getVideoInfo(name);
+    Json::Value value;
+    Json::Value types;
+    root["videotype"] = 1;
+    for(int i = 0;i != f.size();i++){
+        Json::Value type;
+        if(i == 0){
+            value["esipode"] = f[0];
+        }else if(i == 1){
+            value["introduction"] = f[1];
+        }else if(i == 2){
+            value["category"] = f[2];
+        }else if(i==3){
+            value["region"] = f[3];
         }
-        value["videotype"] = types;
-        root["resource"] = value;
-        out = root.toStyledString();
+        else{
+            type["type"] = f[i];
+            types.append(type);
+        }
+    }
+    value["videotype"] = types;
+    root["resource"] = value;
+    out = root.toStyledString();
 
     return out;
 }
@@ -233,7 +235,7 @@ std::string BrowseAndWatchController::recommend(int category)
 
             film["rtspURL"] = url;
             arry.append(film); //存小图电影
-//            a++;
+            //            a++;
         }
         item["title"] = title[0];
         item["films"] = arry;
@@ -488,7 +490,7 @@ std::string BrowseAndWatchController::getActorInfo(std::string name)
     auto info = m_movieAndTelevisionBroker->getActorInfo(name);
     Json::Value values;
 
-//    std::cout << "information"<<info.size() << std::endl;
+    //    std::cout << "information"<<info.size() << std::endl;
     for(int i = 0;i != info.size();i+=3){
         Json::Value value;
         value["name"] = info[i];
@@ -502,88 +504,88 @@ std::string BrowseAndWatchController::getActorInfo(std::string name)
     return out;
 }
 
-std::string BrowseAndWatchController::SearchKey(std::string name)
-{
-    Json::Value root;
-    Json::Value searchs;
-    root["request"] = "SEARCH";
+//std::string BrowseAndWatchController::SearchKey(std::string name)
+//{
+//    Json::Value root;
+//    Json::Value searchs;
+//    root["request"] = "SEARCH";
 
-    std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
-    std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
-    std::vector<Comic *> comic = m_movieAndTelevisionBroker->SearchComic(name);
-    std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
-    std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
+//    std::vector<Film *> film = m_movieAndTelevisionBroker->SearchFilm(name);
+//    std::vector<Drame *> drame = m_movieAndTelevisionBroker->SearchDrama(name);
+//    std::vector<Comic *> comic = m_movieAndTelevisionBroker->SearchComic(name);
+//    std::vector<Actor *> actor = m_movieAndTelevisionBroker->SearchActor(name);
+//    std::vector<Director *> director = m_movieAndTelevisionBroker->SearchDirector(name);
 
 
-    if(film.size() != 0)
-    {
-        Json::Value search;
-        std::vector<std::string> searchInfo;
-        film[0]->searchInfo(searchInfo);
-        search["type"] = "Film";
-        search["name"] = searchInfo[0];
-        search["post"] = searchInfo[1];
-        search["introduction"] = searchInfo[2];
+//    if(film.size() != 0)
+//    {
+//        Json::Value search;
+//        std::vector<std::string> searchInfo;
+//        film[0]->searchInfo(searchInfo);
+//        search["type"] = "Film";
+//        search["name"] = searchInfo[0];
+//        search["post"] = searchInfo[1];
+//        search["introduction"] = searchInfo[2];
+////        search["episode"] = searchInfo[3];
+//        searchs.append(search);
+//    }
+//    else if(drame.size() != 0){
+//        Json::Value search;
+//        std::vector<std::string> searchInfo;
+//        drame[0]->searchInfo(searchInfo);
+//        search["type"] = "Drama";
+//        search["name"] = searchInfo[0];
+//        search["post"] = searchInfo[1];
+//        search["introduction"] = searchInfo[2];
 //        search["episode"] = searchInfo[3];
-        searchs.append(search);
-    }
-    else if(drame.size() != 0){
-        Json::Value search;
-        std::vector<std::string> searchInfo;
-        drame[0]->searchInfo(searchInfo);
-        search["type"] = "Drama";
-        search["name"] = searchInfo[0];
-        search["post"] = searchInfo[1];
-        search["introduction"] = searchInfo[2];
-        search["episode"] = searchInfo[3];
-        searchs.append(search);
-    }
-    else if (comic.size() != 0) {
-        Json::Value search;
-        std::vector<std::string> searchInfo;
-        comic[0]->searchInfo(searchInfo);
-        search["type"] = "Comic";
-        search["name"] = searchInfo[0];
-        search["post"] = searchInfo[1];
-        search["introduction"] = searchInfo[2];
-        search["episode"] = searchInfo[3];
-        searchs.append(search);
-    }
-    else if(actor.size() != 0)
-    {
-        Json::Value search;
-        std::vector<std::string> searchInfo;
-        actor[0]->searchInfo(searchInfo);
-        search["type"] = "Actor";
-        search["name"] = searchInfo[0];
-        search["birthday"] = searchInfo[1];
-        search["introduction"] = searchInfo[2];
-        search["photo"] = searchInfo[3];
-        search["region"] = searchInfo[4];
-        searchs.append(search);
-    }
-    else if(director.size() != 0){
-        Json::Value search;
-        std::vector<std::string> searchInfo;
-        director[0]->searchInfo(searchInfo);
-        search["type"] = "Director";
-        search["name"] = searchInfo[0];
-        search["birthday"] = searchInfo[1];
-        search["introduction"] = searchInfo[2];
-        search["photo"] = searchInfo[3];
-        search["region"] = searchInfo[4];
-        searchs.append(search);
-    }
-    else{
-        Json::Value search;
-        search["type"] = "None";
-        searchs.append(search);
-    }
-    root["searchResult"] = searchs;
-    std::string out = root.toStyledString();
-    std::cout << "aaa" << out << std::endl;
-    return out;
-}
+//        searchs.append(search);
+//    }
+//    else if (comic.size() != 0) {
+//        Json::Value search;
+//        std::vector<std::string> searchInfo;
+//        comic[0]->searchInfo(searchInfo);
+//        search["type"] = "Comic";
+//        search["name"] = searchInfo[0];
+//        search["post"] = searchInfo[1];
+//        search["introduction"] = searchInfo[2];
+//        search["episode"] = searchInfo[3];
+//        searchs.append(search);
+//    }
+//    else if(actor.size() != 0)
+//    {
+//        Json::Value search;
+//        std::vector<std::string> searchInfo;
+//        actor[0]->searchInfo(searchInfo);
+//        search["type"] = "Actor";
+//        search["name"] = searchInfo[0];
+//        search["birthday"] = searchInfo[1];
+//        search["introduction"] = searchInfo[2];
+//        search["photo"] = searchInfo[3];
+//        search["region"] = searchInfo[4];
+//        searchs.append(search);
+//    }
+//    else if(director.size() != 0){
+//        Json::Value search;
+//        std::vector<std::string> searchInfo;
+//        director[0]->searchInfo(searchInfo);
+//        search["type"] = "Director";
+//        search["name"] = searchInfo[0];
+//        search["birthday"] = searchInfo[1];
+//        search["introduction"] = searchInfo[2];
+//        search["photo"] = searchInfo[3];
+//        search["region"] = searchInfo[4];
+//        searchs.append(search);
+//    }
+//    else{
+//        Json::Value search;
+//        search["type"] = "None";
+//        searchs.append(search);
+//    }
+//    root["searchResult"] = searchs;
+//    std::string out = root.toStyledString();
+//    std::cout << "aaa" << out << std::endl;
+//    return out;
+//}
 
 std::string BrowseAndWatchController::filmInterface(int type)
 {
@@ -822,5 +824,11 @@ bool BrowseAndWatchController::addBrowseRecord(std::string recordName, std::stri
 
 std::string BrowseAndWatchController::getBrowseRecord()
 {
-   return m_movieAndTelevisionBroker->getBrowseRecord();
+    return m_movieAndTelevisionBroker->getBrowseRecord();
+}
+
+std::string BrowseAndWatchController::getUrl(std::string name)
+{
+    std::string url = "rtsp://" + m_rtspAddress + "/movies/" + name;
+    return url;
 }

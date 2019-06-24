@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+    directorbroker.cpp \
         main.cpp \
     server.cpp \
     threadpool.cpp \
@@ -29,9 +30,11 @@ SOURCES += \
     comment.cpp \
     commentbroker.cpp \
     commentcontroller.cpp \
-    searchcontroller.cpp
+    searchcontroller.cpp \
+    actorbroker.cpp
 
 HEADERS += \
+    directorbroker.h \
     server.h \
     threadpool.h \
     network.h \
@@ -56,6 +59,7 @@ HEADERS += \
     comment.h \
     commentbroker.h \
     commentcontroller.h \
-    searchcontroller.h
+    searchcontroller.h \
+    actorbroker.h
 
 LIBS += -lboost_system -lpthread -lboost_thread -ljsoncpp -lmysqlclient

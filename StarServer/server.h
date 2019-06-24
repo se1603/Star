@@ -37,6 +37,7 @@ private:
     ThreadPool threadpool;  //线程池
     ControllerFactory* controlFactory;
     BrowseAndWatchController* m_BrowseAndWatchController;
+    SearchController *m_searchController;
 
     //观众控制器
     AudienceController* m_AudienceController;

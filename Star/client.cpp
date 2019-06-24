@@ -10,7 +10,7 @@
 #include <thread>
 
 boost::asio::io_service service;
-boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("10.253.23.50"),8001);
+boost::asio::ip::udp::endpoint serverep(boost::asio::ip::address::from_string("192.168.31.13"),8001);
 boost::asio::ip::udp::socket udpsock(service,boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(),7789));
 
 
