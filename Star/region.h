@@ -1,7 +1,3 @@
-/* Author:王梦娟
- * Date:2019-5-5
- * Note:地区
- * */
 #ifndef REGION_H
 #define REGION_H
 

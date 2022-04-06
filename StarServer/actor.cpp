@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:演员
- * author:古长蓉
- * data:2019-06-17 增加搜索演员信息函数
-*/
 #include "actor.h"
 
 Actor::Actor(std::vector<std::string> paramters, Region region)

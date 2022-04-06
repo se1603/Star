@@ -1,7 +1,3 @@
-//Author:徐丹
-//time：2019.4.28
-//节目界面
-
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 

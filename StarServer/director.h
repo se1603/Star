@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-26
- * Note:导演
- * author：古长蓉
- * data：2019-06-17 增加搜索导演函数
-*/
 #ifndef DIRECTOR_H
 #define DIRECTOR_H
 

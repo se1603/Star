@@ -1,5 +1,3 @@
-//董梦丹 5-08
-//最后修改于5-17
 #ifndef AUDIENCECONTROLLER_H
 #define AUDIENCECONTROLLER_H
 

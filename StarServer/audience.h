@@ -1,5 +1,3 @@
-//董梦丹 4-25
-//最后修改于 6-18
 #ifndef AUDIENCE_H
 #define AUDIENCE_H
 #include <iostream>

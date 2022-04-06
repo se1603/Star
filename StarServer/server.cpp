@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:用封装好的NetWork重写网络连接
- * author：古长蓉
- * data：2019-06-17 增加搜索标签
-*/
 #include "server.h"
 #include <iostream>
 #include <algorithm>

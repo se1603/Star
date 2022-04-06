@@ -1,7 +1,3 @@
-/*author:古长蓉
- *Data：2019-05-13
- *显示剧集推荐页面
- */
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3

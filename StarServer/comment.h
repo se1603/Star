@@ -1,6 +1,3 @@
-//内容：评论类
-//时间：2019.5.20
-//author：徐丹
 #ifndef COMMENT_H
 #define COMMENT_H
 

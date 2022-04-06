@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:影视代管者类
- * author：古长蓉
- * data：2019-06-17 增加处理搜索内容的函数
-*/
 #ifndef MOVIEANDTELEVISIONBROKER_H
 #define MOVIEANDTELEVISIONBROKER_H
 

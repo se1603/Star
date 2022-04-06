@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25 控制器，应用逻辑层。
- * Date:2019-5-8  去掉实体类的get set函数
- * author：古长蓉
- * data：2019-06-17  增加搜索关键字函数
-*/
 #include "browseandwatchcontroller.h"
 #include "json/json.h"
 #include <iostream>

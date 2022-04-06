@@ -1,7 +1,3 @@
-/*author:古长蓉
- *data:2019-05-12
- * 显示分类页面
- */
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3

@@ -1,6 +1,3 @@
-//time：2019.5.6
-//内容：动漫推荐界面填充post
-//Autor：徐丹
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3

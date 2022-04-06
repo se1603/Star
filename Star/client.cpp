@@ -1,7 +1,3 @@
-/*Author:王梦娟
- *Date:2019-10-14
- *Note:缓存客户端发送过来的消息
-*/
 #include "client.h"
 #include <iostream>
 #include <qdebug.h>

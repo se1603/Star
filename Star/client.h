@@ -1,7 +1,3 @@
-/*
- * author:古长蓉
- * data：2019-06-17 增加函数处理用户输入的关键字
- */
 #ifndef CLIENT_H
 #define CLIENT_H
 

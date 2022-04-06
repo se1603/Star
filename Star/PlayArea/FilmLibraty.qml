@@ -1,7 +1,3 @@
-//time:2019.4.30
-//author:xudan
-//内容：片库界面
-
 import QtQuick 2.0
 import QtQuick.Layouts 1.11
 

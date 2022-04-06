@@ -1,8 +1,3 @@
-//Author:徐丹
-//time：2019.5.5
-//内容：精选内容展示
-//修改：点击post跳转到播放界面
-
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3

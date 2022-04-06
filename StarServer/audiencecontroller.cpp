@@ -1,4 +1,3 @@
-//董梦丹 5-17
 #include "audiencecontroller.h"
 #include "json/json.h"
 #include "movieandtelevisionbroker.h"

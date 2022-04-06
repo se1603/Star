@@ -1,7 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:影视，抽象类。
-*/
 #ifndef MOVIEANDTELEVISION_H
 #define MOVIEANDTELEVISION_H
 

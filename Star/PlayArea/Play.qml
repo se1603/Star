@@ -1,16 +1,3 @@
-/*
- * Date :2019.4.27
- * Author:xudan
- *
- * Date :2019.4.27
- * Author:xudan
- * 内容：播放主界面
- *
- * Author:王梦娟
- * Date:2019-5-25
- * Note:修改MouseArea覆盖的问题
-*/
-
 import QtQuick 2.9
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3

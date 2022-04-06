@@ -1,6 +1,3 @@
-//内容：评论控制类
-//时间：2019.5.22
-//author：徐丹
 #ifndef COMMENTCONTROLLER_H
 #define COMMENTCONTROLLER_H
 

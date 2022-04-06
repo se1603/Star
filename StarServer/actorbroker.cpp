@@ -1,6 +1,3 @@
-/*author：古长蓉
- * data：2019-06-24   从movieandtelevisionbroker中分离actorbroker
- */
 #include "actorbroker.h"
 #include <iostream>
 

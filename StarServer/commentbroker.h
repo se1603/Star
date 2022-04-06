@@ -2,9 +2,6 @@
 #define COMMENTBROKER_H
 
 
-//内容：评论的代管者
-//时间：2019.5.20
-//author：徐丹
 #include <map>
 #include "comment.h"
 #include "relationalbroker.h"

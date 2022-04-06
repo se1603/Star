@@ -1,5 +1,3 @@
-//董梦丹 4-25
-//最后修改于 5-25
 #include "audiencebroker.h"
 #include "audience.h"
 #include "collection.h"

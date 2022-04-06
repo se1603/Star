@@ -1,7 +1,3 @@
-/*author:古长蓉
- *data:2019-05-13
- *生成推荐组件和类型组件
- */
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 

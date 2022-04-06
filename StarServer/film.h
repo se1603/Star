@@ -1,9 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:电影
- * Date:2019-5-8
- * Note:去掉get set函数
-*/
 #ifndef FILM_H
 #define FILM_H
 

@@ -1,7 +1,3 @@
-//time：2019.4.30
-//内容：页面跳转组件
-//author：徐丹
-
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 

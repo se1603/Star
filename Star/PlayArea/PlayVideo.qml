@@ -1,7 +1,3 @@
-/*
-  Author:王梦娟
-  Date:2019-5-25
-*/
 import QtQuick 2.0
 import Star 1.0
 import QtQuick.Controls.Styles 1.4

@@ -1,4 +1,3 @@
-//董梦丹 5-10
 #ifndef VARIETY_H
 #define VARIETY_H
 #include "movieandtelevision.h"

@@ -1,8 +1,3 @@
-//time：2019.4.30
-//内容：导航栏
-//author：xudan
-
-
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2

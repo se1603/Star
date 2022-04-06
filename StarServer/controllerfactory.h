@@ -1,7 +1,3 @@
-/* Author:王梦娟
- * Date:2019-4-25
- * Note:控制器工厂
-*/
 #ifndef CONTROLLERFACTORY_H
 #define CONTROLLERFACTORY_H
 

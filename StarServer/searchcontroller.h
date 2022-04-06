@@ -1,6 +1,3 @@
-/*Author:古长蓉
- * date： 2019-06-20 搜索控制器，从浏览影视控制器中分离
- */
 #ifndef SEARCHCONTROLLER_H
 #define SEARCHCONTROLLER_H
 #include <iostream>

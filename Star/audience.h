@@ -1,5 +1,3 @@
-//董梦丹 4-21
-//最后修改于 4-28
 #ifndef AUDIENCE_H
 #define AUDIENCE_H
 #include <QObject>

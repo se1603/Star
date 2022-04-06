@@ -1,7 +1,3 @@
-/*author:guchanrong
- *data:2019-05-21
- *显示搜索的电影
- */
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2

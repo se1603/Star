@@ -1,7 +1,5 @@
 #include "directorbroker.h"
-/*author：古长蓉
- * data：2019-06-24   从movieandtelevisionbroker中分离actorbroker
- */
+
 #include <iostream>
 
 DirectorBroker* DirectorBroker::m_instance = new DirectorBroker();
